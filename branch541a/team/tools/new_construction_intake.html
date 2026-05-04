@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Construction Intake — Branch 541-A</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1628;
+  --navy2:#0f2040;
+  --gold:#c8920a;
+  --gold2:#e8b030;
+  --gold-l:#fff8e8;
+  --cream:#f8f5f0;
+  --white:#ffffff;
+  --border:#e0d8cc;
+  --border2:#c8bfb0;
+  --text:#1a1a2e;
+  --muted:#6b6b7a;
+  --light:#9a9aaa;
+  --green:#1a6b3a;
+  --green-l:#e8f5ee;
+  --red:#8b1a1a;
+  --red-l:#fde8e8;
+  --section1:#0a1628;
+  --section2:#1a3a5c;
+  --section3:#0f3320;
+  --section4:#2a1a0a;
+  --section5:#1a0a2e;
+  --section6:#0a2a2a;
+  --section7:#1a1a08;
+}
+
+body{
+  font-family:'Jost',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  font-size:14px;
+  line-height:1.6;
+  min-height:100vh;
+}
+
+/* COVER HEADER */
+.cover{
+  background:var(--navy);
+  padding:40px 48px 36px;
+  position:relative;
+  overflow:hidden;
+}
+.cover::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold) 20%,var(--gold2) 50%,var(--gold) 80%,transparent 100%);
+}
+.cover::after{
+  content:'';
+  position:absolute;
+  bottom:-60px;right:-60px;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:rgba(200,146,10,.06);
+}
+.cover-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:20px;position:relative;z-index:1}
+.cover-left{}
+.cover-eyebrow{
+  font-family:'Fira Code',monospace;
+  font-size:10px;letter-spacing:.18em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.cover-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:38px;font-weight:600;
+  color:var(--white);
+  line-height:1.1;
+  letter-spacing:-.01em;
+  margin-bottom:8px;
+}
+.cover-subtitle{
+  font-size:13px;color:rgba(255,255,255,.5);
+  font-weight:300;letter-spacing:.04em;
+}
+.cover-right{text-align:right}
+.agent-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:500;
+  color:var(--white);
+  margin-bottom:3px;
+}
+.agent-title{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.06em}
+.agent-nmls{
+  font-family:'Fira Code',monospace;
+  font-size:10px;color:var(--gold);
+  margin-top:4px;letter-spacing:.08em;
+}
+
+/* CLIENT INFO BAR */
+.client-bar{
+  background:var(--navy2);
+  padding:16px 48px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;
+  border-bottom:1px solid rgba(200,146,10,.2);
+}
+.client-field label{
+  font-family:'Fira Code',monospace;
+  font-size:9px;letter-spacing:.14em;
+  color:var(--gold);
+  text-transform:uppercase;
+  display:block;margin-bottom:4px;
+}
+.client-field input{
+  background:transparent;
+  border:none;
+  border-bottom:1px solid rgba(255,255,255,.2);
+  color:var(--white);
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  padding:4px 0;
+  width:100%;
+  outline:none;
+}
+.client-field input:focus{border-bottom-color:var(--gold)}
+.client-field input::placeholder{color:rgba(255,255,255,.2)}
+
+/* SECTION WRAPPERS */
+.sections{max-width:960px;margin:0 auto;padding:32px 24px 48px}
+
+.section{
+  margin-bottom:28px;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 2px 16px rgba(0,0,0,.07);
+}
+
+.sec-header{
+  padding:14px 24px;
+  display:flex;align-items:center;gap:12px;
+}
+.s1 .sec-header{background:var(--section1)}
+.s2 .sec-header{background:var(--section2)}
+.s3 .sec-header{background:var(--section3)}
+.s4 .sec-header{background:var(--section4)}
+.s5 .sec-header{background:var(--section5)}
+.s6 .sec-header{background:var(--section6)}
+.s7 .sec-header{background:var(--section7)}
+
+.sec-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:600;
+  color:rgba(255,255,255,.2);
+  line-height:1;min-width:28px;
+}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:500;
+  color:var(--white);
+  letter-spacing:.02em;
+}
+.sec-subtitle{font-size:11px;color:rgba(255,255,255,.4);margin-top:1px;font-weight:300}
+
+.sec-body{
+  background:var(--white);
+  padding:20px 24px;
+}
+
+/* QUESTIONS */
+.q-group{margin-bottom:20px}
+.q-group:last-child{margin-bottom:0}
+.q-label{
+  font-family:'Fira Code',monospace;
+  font-size:9px;letter-spacing:.14em;
+  color:var(--gold);
+  text-transform:uppercase;
+  margin-bottom:10px;
+  padding-bottom:6px;
+  border-bottom:1px solid var(--border);
+}
+
+.q-item{
+  display:flex;align-items:flex-start;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid var(--cream);
+}
+.q-item:last-child{border-bottom:none}
+.q-num{
+  font-family:'Fira Code',monospace;
+  font-size:10px;color:var(--gold);
+  min-width:22px;
+  margin-top:2px;
+  font-weight:500;
+}
+.q-content{flex:1}
+.q-text{
+  font-size:13px;font-weight:500;
+  color:var(--text);
+  margin-bottom:6px;
+  line-height:1.5;
+}
+.q-hint{
+  font-size:11px;color:var(--muted);
+  font-style:italic;
+  margin-bottom:8px;
+  line-height:1.5;
+}
+.q-answer{
+  border:none;
+  border-bottom:1px solid var(--border);
+  background:transparent;
+  width:100%;
+  padding:6px 0;
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  color:var(--text);
+  outline:none;
+  resize:none;
+}
+.q-answer:focus{border-bottom-color:var(--gold)}
+.q-answer::placeholder{color:var(--light);font-style:italic}
+
+/* RADIO / CHECK OPTIONS */
+.options{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.opt{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  cursor:pointer;
+  font-size:12px;
+  color:var(--muted);
+  transition:all .15s;
+  user-select:none;
+}
+.opt:hover{border-color:var(--gold);color:var(--text)}
+.opt input{display:none}
+.opt.selected{background:var(--gold-l);border-color:var(--gold);color:var(--navy);font-weight:500}
+.opt-dot{
+  width:8px;height:8px;border-radius:50%;
+  border:1px solid var(--border2);
+  flex-shrink:0;
+  transition:all .15s;
+}
+.opt.selected .opt-dot{background:var(--gold);border-color:var(--gold)}
+
+/* GRID ANSWERS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:6px}
+.grid-field label{
+  font-size:10px;color:var(--muted);
+  display:block;margin-bottom:3px;
+  font-weight:500;letter-spacing:.04em;
+}
+.grid-field input{
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:7px 10px;
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  color:var(--text);
+  width:100%;outline:none;
+  background:var(--cream);
+  transition:border-color .15s;
+}
+.grid-field input:focus{border-color:var(--gold);background:var(--white)}
+
+/* ALERT NOTE */
+.alert-note{
+  background:var(--gold-l);
+  border-left:3px solid var(--gold);
+  border-radius:0 6px 6px 0;
+  padding:8px 12px;
+  font-size:11px;
+  color:#7a5800;
+  margin-top:8px;
+  line-height:1.6;
+}
+.alert-green{
+  background:var(--green-l);
+  border-left:3px solid var(--green);
+  color:#0a3a1a;
+}
+
+/* SCORE BAND */
+.score-band{
+  display:flex;gap:4px;margin-top:6px;
+}
+.sb{
+  flex:1;padding:6px 4px;
+  text-align:center;font-size:11px;font-weight:500;
+  border-radius:4px;cursor:pointer;
+  border:1px solid var(--border);
+  color:var(--muted);
+  transition:all .15s;
+}
+.sb:hover{border-color:var(--gold);color:var(--navy)}
+.sb.sel{background:var(--navy);color:var(--white);border-color:var(--navy)}
+
+/* SUMMARY BOX */
+.summary-box{
+  background:var(--navy);
+  border-radius:12px;
+  padding:24px;
+  margin-top:28px;
+}
+.sb-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:500;
+  color:var(--white);
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.sb-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sb-item{background:rgba(255,255,255,.05);border-radius:8px;padding:12px 14px}
+.sb-label{font-size:10px;color:var(--gold);font-family:'Fira Code',monospace;letter-spacing:.1em;margin-bottom:4px}
+.sb-value{font-size:13px;color:var(--white);font-weight:400;min-height:18px}
+
+/* PRODUCT SIGNAL */
+.signal-row{
+  background:rgba(255,255,255,.04);
+  border-radius:8px;
+  padding:12px 14px;
+  margin-top:12px;
+  border-left:2px solid var(--gold);
+}
+.sr-title{font-size:11px;color:var(--gold);font-family:'Fira Code',monospace;letter-spacing:.08em;margin-bottom:6px}
+.sr-products{display:flex;flex-wrap:wrap;gap:6px}
+.sr-prod{
+  font-size:11px;padding:3px 10px;
+  border-radius:20px;
+  background:rgba(200,146,10,.15);
+  color:var(--gold2);
+  border:1px solid rgba(200,146,10,.25);
+  font-family:'Fira Code',monospace;
+}
+
+/* PRINT */
+.print-btn{
+  display:block;
+  margin:0 auto 16px;
+  padding:10px 28px;
+  background:var(--navy);
+  color:var(--white);
+  border:none;
+  border-radius:6px;
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  letter-spacing:.04em;
+}
+.print-btn:hover{background:var(--section2)}
+
+@media print{
+  .print-btn{display:none}
+  body{background:white}
+  .cover{background:#0a1628 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sec-header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .summary-box{background:#0a1628 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+@media(max-width:600px){
+  .cover{padding:28px 20px}
+  .cover-title{font-size:28px}
+  .client-bar{padding:16px 20px}
+  .sections{padding:20px 12px 40px}
+  .sec-body{padding:16px}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .sb-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-left">
+      <div class="cover-eyebrow">Branch 541-A · PRMG Las Vegas · Client Intake</div>
+      <div class="cover-title">New Construction<br>Intake Interview</div>
+      <div class="cover-subtitle">Nevada · New Build Purchase Assessment · Confidential</div>
+    </div>
+    <div class="cover-right">
+      <div class="agent-name">Jose Del Valle</div>
+      <div class="agent-title">Branch Manager & Mortgage Loan Officer</div>
+      <div class="agent-nmls">NMLS# 2686066 · PRMG Branch 541-A</div>
+    </div>
+  </div>
+</div>
+
+<div class="client-bar">
+  <div class="client-field"><label>Client name</label><input type="text" placeholder="Last, First"></div>
+  <div class="client-field"><label>Phone</label><input type="text" placeholder="(702) ___-____"></div>
+  <div class="client-field"><label>Email</label><input type="text" placeholder="email@domain.com"></div>
+  <div class="client-field"><label>Interview date</label><input type="text" placeholder="April 16, 2026"></div>
+  <div class="client-field"><label>Referred by</label><input type="text" placeholder="APG / SmartBee / Direct"></div>
+</div>
+
+<div class="sections">
+
+<button class="print-btn" onclick="window.print()">Print / Save as PDF</button>
+
+<!-- SECTION 1 — BUILD TYPE -->
+<div class="section s1">
+  <div class="sec-header">
+    <div class="sec-num">1</div>
+    <div>
+      <div class="sec-title">Build Scenario</div>
+      <div class="sec-subtitle">Understanding what type of transaction this is shapes every product decision</div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <div class="q-item">
+      <div class="q-num">1.1</div>
+      <div class="q-content">
+        <div class="q-text">How would you describe your new construction situation?</div>
+        <div class="q-hint">This is the most important question — it determines which loan structure applies</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_type"><div class="opt-dot"></div>Buying from a builder who already owns the lot (production builder — Pulte, Lennar, Toll Brothers, etc.)</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_type"><div class="opt-dot"></div>Signed contract with a builder on a to-be-built home on a lot I will own</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_type"><div class="opt-dot"></div>I own land and want to build a custom home from scratch</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_type"><div class="opt-dot"></div>I need to purchase the land AND build — no land owned yet</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_type"><div class="opt-dot"></div>Still exploring — no builder or lot selected yet</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">1.2</div>
+      <div class="q-content">
+        <div class="q-text">Do you have a builder selected and a signed purchase/build contract?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="builder"><div class="opt-dot"></div>Yes — signed contract in hand</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="builder"><div class="opt-dot"></div>Builder selected, contract not signed yet</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="builder"><div class="opt-dot"></div>No builder selected yet — still shopping</label>
+        </div>
+        <textarea class="q-answer" rows="1" placeholder="Builder name (if known) _______________"></textarea>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">1.3</div>
+      <div class="q-content">
+        <div class="q-text">Where is the property located?</div>
+        <div class="grid-2">
+          <div class="grid-field"><label>City / Community</label><input type="text" placeholder="Henderson, Summerlin, North LV..."></div>
+          <div class="grid-field"><label>County</label><input type="text" placeholder="Clark County"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">1.4</div>
+      <div class="q-content">
+        <div class="q-text">What is the approximate purchase price or total build budget?</div>
+        <div class="grid-3">
+          <div class="grid-field"><label>Purchase / build price</label><input type="text" placeholder="$"></div>
+          <div class="grid-field"><label>Land value (if owned)</label><input type="text" placeholder="$"></div>
+          <div class="grid-field"><label>Lot owned free and clear?</label><input type="text" placeholder="Yes / No / Financed"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">1.5</div>
+      <div class="q-content">
+        <div class="q-text">What is the expected construction timeline and target move-in date?</div>
+        <div class="grid-2">
+          <div class="grid-field"><label>Expected build time</label><input type="text" placeholder="6 months / 12 months / TBD"></div>
+          <div class="grid-field"><label>Target move-in</label><input type="text" placeholder="Month / Year"></div>
+        </div>
+        <div class="alert-note">Construction timelines affect lock strategy and program eligibility. A build over 12 months requires specific product structures — important to know now.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 2 — PERSONAL PROFILE -->
+<div class="section s2">
+  <div class="sec-header">
+    <div class="sec-num">2</div>
+    <div>
+      <div class="sec-title">Borrower Profile</div>
+      <div class="sec-subtitle">Basic qualification inputs — these gate program eligibility immediately</div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <div class="q-item">
+      <div class="q-num">2.1</div>
+      <div class="q-content">
+        <div class="q-text">Are you a first-time homebuyer, or have you owned a home in the past 3 years?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="ftb"><div class="opt-dot"></div>First-time buyer — never owned a home</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="ftb"><div class="opt-dot"></div>First-time buyer — have not owned in past 3 years</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="ftb"><div class="opt-dot"></div>Currently own a home</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="ftb"><div class="opt-dot"></div>Owned previously, sold within last 3 years</label>
+        </div>
+        <div class="alert-note">NV HIP, FL Housing, TDHCA, and most DPA programs require first-time buyer status (3-year non-ownership rule). This single answer opens or closes the DPA door.</div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">2.2</div>
+      <div class="q-content">
+        <div class="q-text">Are you a U.S. veteran, active duty military, or surviving spouse?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="vet"><div class="opt-dot"></div>Yes — veteran with VA eligibility</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="vet"><div class="opt-dot"></div>Yes — active duty</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="vet"><div class="opt-dot"></div>Yes — surviving spouse</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="vet"><div class="opt-dot"></div>No</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">2.3</div>
+      <div class="q-content">
+        <div class="q-text">What is your occupation? Do you work in public service, education, healthcare, or law enforcement?</div>
+        <div class="q-hint">This determines eligibility for hero programs — FL Hometown Heroes, TX TSAHC Heroes, TVLB</div>
+        <textarea class="q-answer" rows="1" placeholder="Job title / employer / industry _______________"></textarea>
+        <div class="options" style="margin-top:8px">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Teacher / educator</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Nurse / healthcare</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Law enforcement</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Firefighter / EMS</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Government employee</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Self-employed</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Other private sector</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">2.4</div>
+      <div class="q-content">
+        <div class="q-text">Will there be a co-borrower on this loan?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="coborrow"><div class="opt-dot"></div>Yes — spouse / partner</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="coborrow"><div class="opt-dot"></div>Yes — family member</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="coborrow"><div class="opt-dot"></div>No — solo borrower</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">2.5</div>
+      <div class="q-content">
+        <div class="q-text">What is your current residency / citizenship status?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="citizenship"><div class="opt-dot"></div>U.S. citizen</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="citizenship"><div class="opt-dot"></div>Permanent resident (Green Card)</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="citizenship"><div class="opt-dot"></div>Non-permanent resident (work visa)</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="citizenship"><div class="opt-dot"></div>ITIN holder</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="citizenship"><div class="opt-dot"></div>Foreign national</label>
+        </div>
+        <div class="alert-note">ITIN and non-permanent resident borrowers open the Non-QM product lane — important to identify early as it changes the entire qualifying approach.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 3 — INCOME & EMPLOYMENT -->
+<div class="section s3">
+  <div class="sec-header">
+    <div class="sec-num">3</div>
+    <div>
+      <div class="sec-title">Income & Employment</div>
+      <div class="sec-subtitle">How income is documented determines which product lane we use</div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <div class="q-item">
+      <div class="q-num">3.1</div>
+      <div class="q-content">
+        <div class="q-text">How is your income documented?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income_doc"><div class="opt-dot"></div>W-2 employee — standard pay stubs and tax returns</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income_doc"><div class="opt-dot"></div>Self-employed — file business tax returns (Schedule C, 1120S, K-1)</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income_doc"><div class="opt-dot"></div>Self-employed — primarily bank deposits, limited tax returns</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income_doc"><div class="opt-dot"></div>1099 contractor — mix of W-2 and self-employment</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income_doc"><div class="opt-dot"></div>Retirement / Social Security / pension</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income_doc"><div class="opt-dot"></div>Investment / rental income</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">3.2</div>
+      <div class="q-content">
+        <div class="q-text">What is your combined gross annual household income (approximate)?</div>
+        <div class="q-hint">This gates DPA program eligibility — most programs have income limits between $80K–$160K</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income"><div class="opt-dot"></div>Under $60,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income"><div class="opt-dot"></div>$60,000 – $80,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income"><div class="opt-dot"></div>$80,000 – $105,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income"><div class="opt-dot"></div>$105,000 – $130,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="income"><div class="opt-dot"></div>Over $130,000</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">3.3</div>
+      <div class="q-content">
+        <div class="q-text">How long have you been with your current employer or in your current business?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="emp_length"><div class="opt-dot"></div>Less than 1 year</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="emp_length"><div class="opt-dot"></div>1–2 years</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="emp_length"><div class="opt-dot"></div>2–5 years</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="emp_length"><div class="opt-dot"></div>More than 5 years</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">3.4</div>
+      <div class="q-content">
+        <div class="q-text">Do you have any additional income sources we should consider?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Rental income from other properties</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Child support / alimony received</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Part-time / second job</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Bonus / commission</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>None of the above</label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 4 — CREDIT & ASSETS -->
+<div class="section s4">
+  <div class="sec-header">
+    <div class="sec-num">4</div>
+    <div>
+      <div class="sec-title">Credit & Assets</div>
+      <div class="sec-subtitle">Credit score bands and available funds determine which programs are accessible</div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <div class="q-item">
+      <div class="q-num">4.1</div>
+      <div class="q-content">
+        <div class="q-text">What is your approximate credit score? (middle score if you know all three)</div>
+        <div class="q-hint">620 opens government/Non-QM · 640 opens DPA programs · 660+ opens best pricing</div>
+        <div class="score-band">
+          <div class="sb" onclick="selectSB(this)">Below 580</div>
+          <div class="sb" onclick="selectSB(this)">580–619</div>
+          <div class="sb" onclick="selectSB(this)">620–639</div>
+          <div class="sb" onclick="selectSB(this)">640–659</div>
+          <div class="sb" onclick="selectSB(this)">660–679</div>
+          <div class="sb" onclick="selectSB(this)">680–699</div>
+          <div class="sb" onclick="selectSB(this)">700–719</div>
+          <div class="sb" onclick="selectSB(this)">720+</div>
+          <div class="sb" onclick="selectSB(this)">Unknown</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">4.2</div>
+      <div class="q-content">
+        <div class="q-text">Have you had any significant credit events in the past 3 years?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Bankruptcy</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Foreclosure</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Short sale</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Late mortgage / rent payments</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Collections or charge-offs</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>None — clean credit history</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">4.3</div>
+      <div class="q-content">
+        <div class="q-text">How much do you have available for down payment and closing costs?</div>
+        <div class="q-hint">If DPA is available, this may be significantly reduced — but we need to know what you have now</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="downpay"><div class="opt-dot"></div>Minimal — looking for maximum assistance</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="downpay"><div class="opt-dot"></div>$5,000 – $10,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="downpay"><div class="opt-dot"></div>$10,000 – $20,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="downpay"><div class="opt-dot"></div>$20,000 – $40,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="downpay"><div class="opt-dot"></div>$40,000 – $80,000</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="downpay"><div class="opt-dot"></div>More than $80,000</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">4.4</div>
+      <div class="q-content">
+        <div class="q-text">Where are your down payment funds coming from?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Personal savings / checking</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Retirement account (401k, IRA)</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Gift from family</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Equity from sale of current home</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Down payment assistance program</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="checkbox"><div class="opt-dot"></div>Business funds</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">4.5</div>
+      <div class="q-content">
+        <div class="q-text">Do you currently own any other real estate properties?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="other_re"><div class="opt-dot"></div>No — this will be my only property</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="other_re"><div class="opt-dot"></div>Yes — primary residence I am selling</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="other_re"><div class="opt-dot"></div>Yes — investment / rental property (keeping)</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="other_re"><div class="opt-dot"></div>Yes — multiple properties</label>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 5 — CONSTRUCTION SPECIFICS -->
+<div class="section s5">
+  <div class="sec-header">
+    <div class="sec-num">5</div>
+    <div>
+      <div class="sec-title">Construction Details</div>
+      <div class="sec-subtitle">Product selection for new builds requires specific construction information</div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <div class="q-item">
+      <div class="q-num">5.1</div>
+      <div class="q-content">
+        <div class="q-text">What type of home are you building or buying new?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="home_type"><div class="opt-dot"></div>Single-family detached — site-built</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="home_type"><div class="opt-dot"></div>Townhome / attached new construction</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="home_type"><div class="opt-dot"></div>Modular home</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="home_type"><div class="opt-dot"></div>Manufactured home on permanent foundation</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="home_type"><div class="opt-dot"></div>Condo — new construction project</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">5.2</div>
+      <div class="q-content">
+        <div class="q-text">What is the current status of the build?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_status"><div class="opt-dot"></div>Not started — pre-construction / planning phase</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_status"><div class="opt-dot"></div>Under construction — foundation or framing stage</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_status"><div class="opt-dot"></div>Nearly complete — 60–90 days to CO</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="build_status"><div class="opt-dot"></div>Complete — Certificate of Occupancy issued</label>
+        </div>
+        <div class="alert-note">Completed new builds (CO issued) are treated like standard purchases — DPA programs fully apply. Homes under construction require a construction or OTC product structure.</div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">5.3</div>
+      <div class="q-content">
+        <div class="q-text">If building custom — is the land owned free and clear, financed, or still to be purchased?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="land"><div class="opt-dot"></div>Owned free and clear — equity can be applied</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="land"><div class="opt-dot"></div>Owned with a mortgage balance</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="land"><div class="opt-dot"></div>Land still needs to be purchased</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="land"><div class="opt-dot"></div>Not applicable — buying from production builder</label>
+        </div>
+        <div class="grid-2" style="margin-top:10px">
+          <div class="grid-field"><label>Land value (if owned)</label><input type="text" placeholder="$"></div>
+          <div class="grid-field"><label>Remaining land mortgage (if any)</label><input type="text" placeholder="$"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">5.4</div>
+      <div class="q-content">
+        <div class="q-text">Does the builder have a preferred or required lender they are pushing?</div>
+        <div class="q-hint">Some builders offer incentives for using their preferred lender — important to know and compare</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="pref_lender"><div class="opt-dot"></div>Yes — builder has a preferred lender</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="pref_lender"><div class="opt-dot"></div>No — builder is lender-agnostic</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="pref_lender"><div class="opt-dot"></div>Unknown</label>
+        </div>
+        <textarea class="q-answer" rows="1" placeholder="Preferred lender name / incentive offered _______________"></textarea>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">5.5</div>
+      <div class="q-content">
+        <div class="q-text">Is this home intended as your primary residence or an investment property?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="occupancy"><div class="opt-dot"></div>Primary residence — I will live here</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="occupancy"><div class="opt-dot"></div>Second / vacation home</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="occupancy"><div class="opt-dot"></div>Investment / rental property</label>
+        </div>
+        <div class="alert-note">DPA programs require owner-occupied primary residence. Investment new construction uses a completely different product track (DSCR Non-QM).</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 6 — GOALS & PRIORITIES -->
+<div class="section s6">
+  <div class="sec-header">
+    <div class="sec-num">6</div>
+    <div>
+      <div class="sec-title">Financial Goals & Priorities</div>
+      <div class="sec-subtitle">Understanding what matters most shapes which product we recommend</div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <div class="q-item">
+      <div class="q-num">6.1</div>
+      <div class="q-content">
+        <div class="q-text">What is your primary financial goal for this transaction?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="goal"><div class="opt-dot"></div>Minimize cash out of pocket at closing</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="goal"><div class="opt-dot"></div>Get the lowest possible monthly payment</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="goal"><div class="opt-dot"></div>Get the lowest possible interest rate</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="goal"><div class="opt-dot"></div>Build equity as fast as possible</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="goal"><div class="opt-dot"></div>Balance of rate, payment, and cash to close</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">6.2</div>
+      <div class="q-content">
+        <div class="q-text">Have you heard about down payment assistance programs before this conversation?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="dpa_aware"><div class="opt-dot"></div>Yes — researched them already</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="dpa_aware"><div class="opt-dot"></div>Heard of them but don't know details</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="dpa_aware"><div class="opt-dot"></div>No — this is new to me</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">6.3</div>
+      <div class="q-content">
+        <div class="q-text">How long do you plan to stay in this home?</div>
+        <div class="q-hint">Affects whether forgivable DPA makes sense and which second lien structure is optimal</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="timeline"><div class="opt-dot"></div>Less than 3 years</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="timeline"><div class="opt-dot"></div>3–5 years</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="timeline"><div class="opt-dot"></div>5–10 years</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="timeline"><div class="opt-dot"></div>Long term — 10+ years or forever home</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">6.4</div>
+      <div class="q-content">
+        <div class="q-text">Is there anything about your financial situation we should know that you haven't mentioned?</div>
+        <div class="q-hint">Child support obligations, student loans, outstanding judgments, pending large purchases — anything that could affect qualification</div>
+        <textarea class="q-answer" rows="3" placeholder="Notes _______________"></textarea>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SECTION 7 — NEXT STEPS -->
+<div class="section s7">
+  <div class="sec-header">
+    <div class="sec-num">7</div>
+    <div>
+      <div class="sec-title">Next Steps & Authorization</div>
+      <div class="sec-subtitle">Confirming the path forward after this interview</div>
+    </div>
+  </div>
+  <div class="sec-body">
+
+    <div class="q-item">
+      <div class="q-num">7.1</div>
+      <div class="q-content">
+        <div class="q-text">Are you ready to proceed with a credit pull to begin formal pre-qualification?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="credit_auth"><div class="opt-dot"></div>Yes — authorize soft pull today</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="credit_auth"><div class="opt-dot"></div>Yes — authorize full tri-merge pull today</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="credit_auth"><div class="opt-dot"></div>Not yet — want to review options first</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">7.2</div>
+      <div class="q-content">
+        <div class="q-text">What is your timeline urgency?</div>
+        <div class="options">
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="urgency"><div class="opt-dot"></div>Urgent — contract signed, need to move fast</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="urgency"><div class="opt-dot"></div>Active — looking now, 30–60 days</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="urgency"><div class="opt-dot"></div>Planning — 3–6 months out</label>
+          <label class="opt" onclick="selectOpt(this, event)"><input type="radio" name="urgency"><div class="opt-dot"></div>Exploring — no firm timeline yet</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">7.3</div>
+      <div class="q-content">
+        <div class="q-text">LO notes — product signals and action items from this interview</div>
+        <textarea class="q-answer" rows="5" placeholder="Product fit observed · Program signals · Follow-up items · Outstanding questions for PRMG product desk _______________"></textarea>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PRODUCT SIGNAL SUMMARY -->
+<div class="summary-box">
+  <div class="sb-title">Product Signal Summary — LO Reference</div>
+  <div class="sb-grid">
+    <div class="sb-item"><div class="sb-label">Build scenario</div><div class="sb-value" id="sum-build">—</div></div>
+    <div class="sb-item"><div class="sb-label">First-time buyer</div><div class="sb-value" id="sum-ftb">—</div></div>
+    <div class="sb-item"><div class="sb-label">Veteran / hero</div><div class="sb-value" id="sum-vet">—</div></div>
+    <div class="sb-item"><div class="sb-label">Credit band</div><div class="sb-value" id="sum-credit">—</div></div>
+    <div class="sb-item"><div class="sb-label">Income type</div><div class="sb-value" id="sum-income">—</div></div>
+    <div class="sb-item"><div class="sb-label">Income range</div><div class="sb-value" id="sum-income-range">—</div></div>
+    <div class="sb-item"><div class="sb-label">Down payment available</div><div class="sb-value" id="sum-dp">—</div></div>
+    <div class="sb-item"><div class="sb-label">Build status / CO</div><div class="sb-value" id="sum-status">—</div></div>
+  </div>
+
+  <div class="signal-row">
+    <div class="sr-title">Likely product signals based on answers</div>
+    <div class="sr-products" id="signals">
+      <span class="sr-prod">Complete interview to generate signals</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ── CLICK HANDLER ──────────────────────────────────────────────────
+function selectOpt(el, event){
+  if(event) event.preventDefault();
+  const input = el.querySelector('input');
+  if(!input) return;
+  const isCheckbox = input.type === 'checkbox';
+  const name = input.name;
+
+  if(!isCheckbox && name){
+    // Radio group — clear all siblings, select this one
+    document.querySelectorAll('input[name="' + name + '"]').forEach(i=>{
+      i.closest('.opt').classList.remove('selected');
+      i.checked = false;
+    });
+    el.classList.add('selected');
+    input.checked = true;
+  } else {
+    // Checkbox — independent toggle
+    const isNowSelected = !el.classList.contains('selected');
+    el.classList.toggle('selected');
+    input.checked = isNowSelected;
+  }
+  updateSummary();
+}
+
+// Credit score band selector
+function selectSB(el){
+  document.querySelectorAll('.sb').forEach(s=>s.classList.remove('sel'));
+  el.classList.add('sel');
+  const el2 = document.getElementById('sum-credit');
+  if(el2) el2.textContent = el.textContent.trim();
+  updateSignals();
+}
+
+// ── HELPERS ────────────────────────────────────────────────────────
+// Get text of the selected .opt for a radio group by name
+function getRadio(name){
+  const input = document.querySelector('.opt.selected input[name="' + name + '"]');
+  if(!input) return '';
+  return input.closest('.opt').textContent.trim();
+}
+
+// Get text of ALL selected .opt checkboxes in a container (by nearby q-num or just all)
+function getCheckboxes(nameAttr){
+  const inputs = document.querySelectorAll('.opt.selected input[name="' + nameAttr + '"]');
+  if(!inputs.length) return '';
+  return Array.from(inputs).map(i=>i.closest('.opt').textContent.trim()).join(', ');
+}
+
+// ── SUMMARY UPDATE ─────────────────────────────────────────────────
+function updateSummary(){
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if(el && val) el.textContent = val;
+  };
+
+  const buildType  = getRadio('build_type');
+  const ftb        = getRadio('ftb');
+  const vet        = getRadio('vet');
+  const incomeDoc  = getRadio('income_doc');
+  const incomeRng  = getRadio('income');
+  const dp         = getRadio('downpay');
+  const status     = getRadio('build_status');
+
+  if(buildType)  set('sum-build',  buildType.substring(0,55));
+  if(ftb)        set('sum-ftb',    ftb.includes('First-time') || ftb.includes('3 years') ? 'Yes — DPA eligible' : 'No — check 3yr rule');
+  if(vet)        set('sum-vet',    vet.includes('No') ? 'No — not a veteran' : vet.substring(0,45));
+  if(incomeDoc)  set('sum-income', incomeDoc.substring(0,45));
+  if(incomeRng)  set('sum-income-range', incomeRng.substring(0,35));
+  if(dp)         set('sum-dp',    dp.substring(0,45));
+  if(status)     set('sum-status', status.substring(0,55));
+
+  updateSignals();
+}
+
+// ── PRODUCT SIGNALS ────────────────────────────────────────────────
+function updateSignals(){
+  const signals = [];
+
+  const buildText   = getRadio('build_type');
+  const statusText  = getRadio('build_status');
+  const ftbText     = getRadio('ftb');
+  const vetText     = getRadio('vet');
+  const incomeText  = getRadio('income_doc');
+  const citizenText = getRadio('citizenship');
+  const incomeRng   = getRadio('income');
+
+  const creditEl   = document.querySelector('.sb.sel');
+  const creditText = creditEl ? creditEl.textContent.trim() : '';
+
+  // Build type signals
+  if(buildText.includes('already owns') || buildText.includes('production builder')){
+    signals.push('Standard purchase — DPA programs fully apply');
+  }
+  if(buildText.includes('custom') || buildText.includes('own land') || buildText.includes('land AND build')){
+    signals.push('OTC / C2P needed — confirm PRMG availability');
+  }
+  if(buildText.includes('to-be-built')){
+    signals.push('New build contract — verify CO timeline');
+  }
+
+  // Build status signals
+  if(statusText.includes('Certificate of Occupancy') || statusText.includes('Complete')){
+    signals.push('CO issued — treat as standard purchase');
+    signals.push('DPA programs fully applicable');
+  }
+  if(statusText.includes('60–90 days')){
+    signals.push('Nearly complete — begin DPA pre-qual now');
+  }
+
+  // FTB signals
+  if(ftbText.includes('First-time') || ftbText.includes('3 years')){
+    signals.push('NV HIP eligible — eHP reservation required');
+    signals.push('NHF National grant eligible');
+    signals.push('Chenoa Fund eligible');
+  }
+
+  // Veteran signals
+  if(vetText && !vetText.includes('No')){
+    signals.push('VA eligible — VA OTC if custom build');
+    signals.push('FL Housing VA / TSAHC VA eligible');
+  }
+
+  // Citizenship signals
+  if(citizenText.includes('ITIN')){
+    signals.push('Non-QM Non-Prime — ITIN lane');
+    signals.push('No standard DPA programs');
+  }
+  if(citizenText.includes('Non-permanent')){
+    signals.push('Non-QM Expanded Prime possible');
+  }
+  if(citizenText.includes('Foreign national')){
+    signals.push('Non-QM DSCR only (investment)');
+  }
+
+  // Income signals
+  if(incomeText.includes('bank deposits') || incomeText.includes('limited tax')){
+    signals.push('Non-QM bank statement income — product lane change');
+  }
+  if(incomeText.includes('business tax returns') || incomeText.includes('Self-employed')){
+    signals.push('Self-employed — 2yr returns required');
+  }
+
+  // Credit score signals
+  if(creditText){
+    if(creditText.includes('Below 580') || creditText.includes('580')){
+      signals.push('Below 620 — credit work needed before any program');
+    } else if(creditText.includes('620') || creditText.includes('619')){
+      signals.push('620–639: Chenoa eligible · HIP requires 640');
+    } else if(creditText.includes('640') || creditText.includes('659') || creditText.includes('660') || creditText.includes('679')){
+      signals.push('640+: All DPA programs open — full stack eligible');
+    } else if(creditText.includes('680') || creditText.includes('699') || creditText.includes('700') || creditText.includes('719') || creditText.includes('720')){
+      signals.push('700+: Conventional DPA eligible — best pricing tier');
+    }
+  }
+
+  // Income range signals
+  if(incomeRng.includes('105') || incomeRng.includes('130') || incomeRng.includes('Over 130')){
+    signals.push('Over HIP income limit — NHF or Chenoa repayable');
+  }
+
+  // Render
+  const container = document.getElementById('signals');
+  if(!container) return;
+  if(signals.length === 0){
+    container.innerHTML = '<span class="sr-prod">Complete interview to generate signals</span>';
+  } else {
+    container.innerHTML = signals.map(s=>'<span class="sr-prod">' + s + '</span>').join('');
+  }
+}
+</script>
+
+</body>
+</html>

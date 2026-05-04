@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referral Partner Strategy — Branch 541-A · PRMG</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0D1B2A;min-height:100vh}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:#0D1B2A}::-webkit-scrollbar-thumb{background:#1E3048;border-radius:2px}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState}=React;
+const NAVY="#0D1B2A",GOLD="#C8922A",BLUE="#2E6DA4",GREEN="#0A7A5A",PURPLE="#6B3FA0",RED="#C0392B",TEAL="#0891B2",ORANGE="#D4720A",CARD="#131F2E",BORDER="#1E3048",DIM="#7A8FA6",WHITE="#F0F4F8";
+
+const MOATS=[
+{id:"dpa",label:"DPA SPECIALIST",sub:"30+ programs · 5 states",color:BLUE,icon:"🏠",pitch:"Most LOs know 1-2 DPA programs. You know 30 across NV, FL, TX, AZ, CO. When an agent has a buyer who needs down payment help, you are the only call that always has an answer."},
+{id:"itin",label:"ITIN NON-QM",sub:"Bank statements · No W-2",color:PURPLE,icon:"📋",pitch:"CE Second Expanded Access closes ITIN homeowners with bank statement income. No bank in NV or FL offers this. You are the only option for a referral partner's self-employed ITIN clients."},
+{id:"heloc",label:"LIGHTNING HELOC",sub:"Fixed-lock draw · No bank offers this",color:TEAL,icon:"⚡",pitch:"Fixed-rate lock on individual draws. No bank in your market offers this feature. Contractors, investors, and financial advisors can use this as a differentiated funding solution."},
+{id:"va",label:"VA SPECIALIST",sub:"IRRRL · Hometown Heroes · TVLB",color:GREEN,icon:"🎖️",pitch:"VA IRRRL, FL Hometown Heroes VA, TX Veterans Land Board. Most LOs do VA basics. You do the full veteran financing stack including programs most VA agents have never heard of."},
+{id:"smartbee",label:"SMARTBEE ECOSYSTEM",sub:"Tax · Financial · DMV · Notary",color:GOLD,icon:"🐝",pitch:"Your tax prep and financial services business creates a warm referral loop no competitor can replicate. ITIN tax clients → mortgage leads. Mortgage clients → tax clients. Circular and proprietary."},
+];
+
+const PARTNERS=[
+{id:"agents",icon:"🤝",label:"Real Estate Agents",tier:1,color:BLUE,moats:["dpa","va"],why:"DPA expertise closes deals they couldn't close with their current lender. Every declined DPA file they lost is a direct conversation starter.",find:"Model Match — filter by FHA/Conv purchase volume, no dominant lender relationship, 10+ transactions/year. NV, FL, TX ZIPs.",states:["NV","FL","TX"],pitch:"'We specialize in the buyer profile you work with most — down payment assistance across NV HIP, FL Hometown Heroes, and TX TSAHC. When a buyer needs DPA, we have a program. Most lenders say no. We find the yes.'",firstContact:"Model Match → identify → Day 1 email with state-specific DPA guide → Day 7 text → Day 30 co-branded flyer offer",offer:"Co-branded DPA program flyer. Offer to run pre-quals for their buyers same day.",volume:"HIGH — primary volume driver",teJourney:"J2 Agent Activation → J3 Monthly Agent Nurture"},
+{id:"contractors",icon:"🔨",label:"Home Contractors & Remodelers",tier:1,color:TEAL,moats:["heloc"],why:"Clients who want renovations but don't have cash. Contractor loses the job. You fund it in 3 weeks with Lightning HELOC. Contractor gets the job. You get the origination.",find:"Google '[City] kitchen remodeling contractor', '[City] home renovation'. LinkedIn: 'general contractor Las Vegas'. HomeAdvisor and Angi top-rated contractors.",states:["NV","FL","TX"],pitch:"'We fund your clients' renovation projects in 3 weeks with a Lightning HELOC that lets them lock draws at a fixed rate. You stop losing jobs to budget constraints.'",firstContact:"Cold call or walk-in. Bring a one-page Lightning HELOC explainer. Lead with: 'How many renovation projects do you lose because clients don't have the cash?'",offer:"Co-marketing: your flyer in their showroom, their info in our post-close packet.",volume:"MEDIUM — high value per deal",teJourney:"J2 Contractor Activation — HELOC content monthly"},
+{id:"cpas",icon:"📊",label:"CPAs & Tax Preparers",tier:1,color:GOLD,moats:["itin","smartbee"],why:"Their ITIN and self-employed clients own homes but cannot get equity products at any bank. One referral from a CPA with 200 ITIN homeowner clients = years of pipeline.",find:"Google '[City] CPA Spanish speaking', '[City] tax preparation Hispanic'. LinkedIn: 'CPA Las Vegas bilingual'. SmartBee network first — warm internal referrals.",states:["NV","FL","TX"],pitch:"'Your ITIN homeowner clients who got declined at the bank for a second mortgage — we can close that with bank statement income. CE Second Expanded Access. Non-QM. No W-2 required.'",firstContact:"SmartBee network first — warm intro. External CPAs: call with a specific scenario: 'We have a product for your ITIN homeowner clients that no bank offers. 15-minute call?'",offer:"Spanish-language referral flyer. Offer a free lunch-and-learn on ITIN homeowner financing.",volume:"HIGH MOAT — competitors cannot match this product",teJourney:"J2 CPA Activation — ITIN Non-QM content, quarterly updates"},
+{id:"financial",icon:"📈",label:"Financial Advisors",tier:2,color:PURPLE,moats:["heloc","smartbee"],why:"Their clients need liquidity without selling investments. A HELOC at 7.2% vs. liquidating a portfolio and paying capital gains tax is a compelling math conversation.",find:"LinkedIn: 'financial advisor Las Vegas'. NAPFA.org directory. Local Chamber of Commerce. BNI networking groups.",states:["NV"],pitch:"'When your clients need liquidity, a Lightning HELOC is often cheaper than liquidating and paying capital gains. We can model the comparison for any client — takes 10 minutes.'",firstContact:"LinkedIn connection with note: 'We help financial advisors give clients a liquidity option that doesn't require selling positions. Quick call?'",offer:"Co-branded HELOC vs. Portfolio Liquidation comparison worksheet.",volume:"MEDIUM — lower volume, higher average loan value",teJourney:"J2 Financial Advisor Activation — HELOC equity content"},
+{id:"veterans",icon:"🎖️",label:"Veterans Organizations & Military Agents",tier:2,color:GREEN,moats:["va"],why:"VA IRRRL, FL Hometown Heroes VA, TX Veterans Land Board — most agents and organizations don't know all three programs exist. We do.",find:"Google 'veterans of foreign wars Las Vegas', 'American Legion Las Vegas'. LinkedIn: 'military relocation specialist'. VA hospital employee networks.",states:["NV","FL","TX"],pitch:"'We specialize in the full veteran financing stack — VA IRRRL for rate reduction, FL Hometown Heroes VA, and TX Veterans Land Board. Most lenders do basic VA. We know every veteran program available.'",firstContact:"Attend a local VFW or American Legion meeting. Offer a free 'Veteran Homebuying Programs' presentation — 20 minutes.",offer:"Veterans program reference card with all three programs explained.",volume:"MEDIUM — loyal referral base",teJourney:"J2 Veterans Partner Activation — VA program updates"},
+{id:"servicios",icon:"🌎",label:"Hispanic Servicios & Notarios",tier:1,color:ORANGE,moats:["itin","smartbee"],why:"Trusted community figures for ITIN clients. A notario or servicio owner who sends you one ITIN homeowner leads to their entire network.",find:"Yelp: 'servicios Las Vegas', 'notario Las Vegas'. Spanish-language radio. Hispanic Chamber of Commerce. Church boards. Spanish Facebook groups.",states:["NV","FL","TX"],pitch:"'Tenemos productos para sus clientes que son dueños de casa y no pueden conseguir una segunda hipoteca en el banco. Banco de estados, sin W-2 necesario.'",firstContact:"In-person visit. Bring Spanish-language ITIN Non-QM flyer. Approach as a community resource.",offer:"Spanish-language referral flyers. Offer to attend a community event as a bilingual homebuying resource.",volume:"HIGH MOAT — no competitor speaks this language AND has this product",teJourney:"J2 Community Partner Activation — Spanish content, ITIN education"},
+{id:"investors",icon:"🏢",label:"Real Estate Investors",tier:2,color:RED,moats:["heloc","dpa"],why:"Investors need down payment for their next rental without selling assets. Lightning HELOC on primary as a DP line = two originations: HELOC + DSCR purchase loan.",find:"BiggerPockets Las Vegas community. Local REIA. LinkedIn: 'real estate investor Las Vegas'. Real estate investment meetups.",states:["NV","FL"],pitch:"'Use your primary home equity as a revolving down payment line for your next rental. Lightning HELOC on primary, fund the DP, close the DSCR rental. Two originations, one conversation.'",firstContact:"BiggerPockets forum or local REIA. Lead with the HELOC-as-DP strategy.",offer:"HELOC + DSCR deal calculator showing the math on using equity to fund rental acquisitions.",volume:"MEDIUM — two originations per deal",teJourney:"J2 Investor Activation — HELOC equity content, DSCR updates"},
+{id:"hr",icon:"🏢",label:"HR Departments — Large Employers",tier:3,color:DIM,moats:["dpa"],why:"Large employers employ thousands of renters who are DPA-eligible. One HR partnership = access to hundreds of potential first-time buyers annually.",find:"Las Vegas: MGM, Wynn, Caesars, UNLV, Clark County School District. FL: Disney, Universal. TX: energy companies, school districts.",states:["NV","FL","TX"],pitch:"'We offer a free first-time homebuyer workshop for your employees. No cost to you. Covers down payment assistance programs — many of your employees qualify and don't know it.'",firstContact:"Email HR director. Subject: 'Free homebuying workshop for your team — DPA eligible employees.' Make it a benefit.",offer:"Free 45-minute 'First-Time Homebuyer' lunch-and-learn.",volume:"LOW velocity — HIGH volume when activated",teJourney:"J2 Employer Partner — quarterly education events"},
+];
+
+const TIERS=[
+{tier:1,label:"TIER 1 — ACTIVATE FIRST",sub:"Highest moat · Fastest to convert · Most volume",color:GOLD},
+{tier:2,label:"TIER 2 — BUILD IN PARALLEL",sub:"Strong moat · Longer cycle · High value",color:BLUE},
+{tier:3,label:"TIER 3 — PLANT SEEDS",sub:"Slow burn · Massive scale when it fires",color:DIM},
+];
+
+function Section({label,color,content}){return(<div><div style={{fontSize:10,color,letterSpacing:"1px",fontWeight:500,marginBottom:6}}>{label}</div><div style={{fontSize:12,color:"#C8D8E8",lineHeight:1.7,background:"#0D1B2A",borderRadius:6,padding:"10px 13px"}}>{content}</div></div>);}
+
+function PartnerStrategy(){
+  const[view,setView]=useState("ecosystem");
+  const[selected,setSelected]=useState(null);
+  const[filterMoat,setFilterMoat]=useState(null);
+  const filteredPartners=filterMoat?PARTNERS.filter(p=>p.moats.includes(filterMoat)):PARTNERS;
+  const sel=PARTNERS.find(p=>p.id===selected);
+  return(
+    <div style={{fontFamily:"'DM Mono','Courier New',monospace",background:NAVY,minHeight:"100vh",color:WHITE}}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0;}::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:#0D1B2A;}::-webkit-scrollbar-thumb{background:#1E3048;border-radius:2px;}.hov{transition:all .15s;cursor:pointer;border:none;}.hov:hover{transform:translateY(-2px);opacity:.9;}.card{transition:transform .15s,box-shadow .15s;cursor:pointer;}.card:hover{transform:translateY(-2px);}@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.fi{animation:fi .2s ease;}`}</style>
+      <div style={{background:CARD,borderBottom:`2px solid ${GOLD}`,padding:"13px 20px",display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
+        <div>
+          <div style={{fontFamily:"Syne",fontWeight:800,fontSize:18}}>REFERRAL PARTNER STRATEGY</div>
+          <div style={{fontSize:10,color:DIM,letterSpacing:"2px",marginTop:1}}>BRANCH 541-A · PRMG · 8 PARTNER TYPES · 5 COMPETITIVE MOATS</div>
+        </div>
+        <div style={{marginLeft:"auto",display:"flex",gap:8,flexWrap:"wrap"}}>
+          {[["ecosystem","ECOSYSTEM"],["partners","PARTNER PLAYBOOK"],["moats","YOUR 5 MOATS"]].map(([v,l])=>(
+            <button key={v} className="hov" onClick={()=>{setView(v);setSelected(null);}} style={{background:view===v?GOLD:BORDER,color:view===v?NAVY:DIM,borderRadius:6,padding:"7px 13px",fontSize:11,fontFamily:"DM Mono",fontWeight:500}}>{l}</button>
+          ))}
+        </div>
+      </div>
+
+      {view==="ecosystem"&&<div className="fi" style={{padding:"22px 18px"}}>
+        <div style={{marginBottom:14,fontSize:12,color:DIM,lineHeight:1.7}}>You have 5 competitive moats that unlock 8 referral partner categories your competitors cannot reach. <span style={{color:GOLD}}>Filter by moat to see which partners it unlocks.</span></div>
+        <div style={{display:"flex",gap:8,marginBottom:18,flexWrap:"wrap"}}>
+          <button className="hov" onClick={()=>setFilterMoat(null)} style={{background:!filterMoat?WHITE:BORDER,color:!filterMoat?NAVY:DIM,borderRadius:20,padding:"5px 13px",fontSize:11,fontFamily:"DM Mono"}}>ALL MOATS</button>
+          {MOATS.map(m=><button key={m.id} className="hov" onClick={()=>setFilterMoat(filterMoat===m.id?null:m.id)} style={{background:filterMoat===m.id?m.color:BORDER,color:filterMoat===m.id?NAVY:m.color,borderRadius:20,padding:"5px 13px",fontSize:11,fontFamily:"DM Mono",border:`1px solid ${m.color}`,whiteSpace:"nowrap"}}>{m.icon} {m.label}</button>)}
+        </div>
+        {TIERS.map(tier=>{const tp=filteredPartners.filter(p=>p.tier===tier.tier);if(tp.length===0)return null;return(
+          <div key={tier.tier} style={{marginBottom:18}}>
+            <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:11,paddingBottom:7,borderBottom:`1px solid ${BORDER}`}}>
+              <span style={{fontFamily:"Syne",fontWeight:700,fontSize:13,color:tier.color}}>{tier.label}</span>
+              <span style={{fontSize:11,color:DIM}}>{tier.sub}</span>
+              <span style={{marginLeft:"auto",background:`${tier.color}22`,color:tier.color,borderRadius:4,padding:"2px 7px",fontSize:10}}>{tp.length} types</span>
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:11}}>
+              {tp.map(p=>(
+                <div key={p.id} className="card" onClick={()=>{setSelected(p.id);setView("partners");}} style={{background:CARD,border:`1px solid ${p.color}33`,borderLeft:`3px solid ${p.color}`,borderRadius:10,padding:"13px 14px"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:7}}><span style={{fontSize:20}}>{p.icon}</span><div><div style={{fontFamily:"Syne",fontWeight:700,fontSize:12,color:p.color}}>{p.label}</div><div style={{fontSize:10,color:DIM,marginTop:1}}>{p.states.join(" · ")}</div></div><div style={{marginLeft:"auto",fontSize:9,color:p.color,background:`${p.color}18`,borderRadius:4,padding:"2px 5px",textAlign:"center",whiteSpace:"nowrap"}}>{p.volume.split(" — ")[0]}</div></div>
+                  <div style={{fontSize:11,color:DIM,lineHeight:1.6,marginBottom:9}}>{p.why.substring(0,110)}...</div>
+                  <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>{p.moats.map(mid=>{const m=MOATS.find(x=>x.id===mid);return m?<span key={mid} style={{fontSize:9,color:m.color,background:`${m.color}18`,borderRadius:4,padding:"2px 5px"}}>{m.icon} {m.label}</span>:null;})}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );})}
+      </div>}
+
+      {view==="partners"&&<div className="fi" style={{padding:"22px 18px"}}>
+        <div style={{display:"flex",gap:8,marginBottom:18,flexWrap:"wrap"}}>
+          {PARTNERS.map(p=><button key={p.id} className="hov" onClick={()=>setSelected(selected===p.id?null:p.id)} style={{background:selected===p.id?p.color:BORDER,color:selected===p.id?NAVY:p.color,borderRadius:6,padding:"6px 13px",fontSize:11,fontFamily:"DM Mono",border:`1px solid ${p.color}`,whiteSpace:"nowrap"}}>{p.icon} {p.label}</button>)}
+        </div>
+        {!selected&&<div style={{padding:36,textAlign:"center",color:DIM,fontSize:13}}>Select a partner type above to see the full recruitment playbook</div>}
+        {selected&&sel&&<div className="fi"><div style={{background:CARD,border:`1px solid ${sel.color}`,borderRadius:12,overflow:"hidden"}}>
+          <div style={{background:`${sel.color}18`,borderBottom:`2px solid ${sel.color}`,padding:"15px 18px",display:"flex",alignItems:"center",gap:13,flexWrap:"wrap"}}>
+            <span style={{fontSize:30}}>{sel.icon}</span>
+            <div><div style={{fontFamily:"Syne",fontWeight:800,fontSize:18,color:sel.color}}>{sel.label}</div><div style={{fontSize:11,color:DIM,marginTop:2}}>Markets: {sel.states.join(" · ")}  ·  {sel.volume}</div></div>
+            <div style={{marginLeft:"auto",display:"flex",gap:5,flexWrap:"wrap"}}>{sel.moats.map(mid=>{const m=MOATS.find(x=>x.id===mid);return m?<span key={mid} style={{background:`${m.color}22`,color:m.color,borderRadius:5,padding:"4px 9px",fontSize:10,border:`1px solid ${m.color}44`}}>{m.icon} {m.label}</span>:null;})}</div>
+          </div>
+          <div style={{padding:"18px",display:"flex",flexDirection:"column",gap:14}}>
+            <Section label="WHY THEY REFER TO US" color={sel.color} content={sel.why}/>
+            <div style={{background:`${sel.color}11`,border:`1px solid ${sel.color}44`,borderRadius:8,padding:"13px 15px"}}><div style={{fontSize:10,color:sel.color,letterSpacing:"1px",fontWeight:500,marginBottom:7}}>OUR PITCH</div><div style={{fontSize:13,color:WHITE,lineHeight:1.7,fontStyle:"italic"}}>{sel.pitch}</div></div>
+            <Section label="HOW TO FIND THEM" color={sel.color} content={sel.find}/>
+            <Section label="FIRST CONTACT APPROACH" color={sel.color} content={sel.firstContact}/>
+            <Section label="WHAT TO OFFER THEM" color={sel.color} content={sel.offer}/>
+            <Section label="TOTAL EXPERT JOURNEY" color={sel.color} content={sel.teJourney}/>
+          </div>
+        </div></div>}
+      </div>}
+
+      {view==="moats"&&<div className="fi" style={{padding:"22px 18px"}}>
+        <div style={{marginBottom:18,fontSize:12,color:DIM,lineHeight:1.7}}>These are the five things about your business that no competitor in your market can replicate. Lead every partner conversation with the relevant moat — never with rates, never with generic service promises.</div>
+        <div style={{display:"flex",flexDirection:"column",gap:13}}>
+          {MOATS.map((m,i)=>(
+            <div key={m.id} style={{background:CARD,border:`1px solid ${m.color}`,borderRadius:12,overflow:"hidden",display:"flex",gap:0}}>
+              <div style={{background:`${m.color}22`,borderRight:`2px solid ${m.color}`,padding:"18px 16px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",minWidth:80,gap:5}}>
+                <span style={{fontSize:26}}>{m.icon}</span>
+                <div style={{fontSize:9,color:m.color,letterSpacing:"1px",fontWeight:500,textAlign:"center"}}>{String(i+1).padStart(2,"0")}</div>
+              </div>
+              <div style={{flex:1,padding:"15px 18px"}}>
+                <div style={{fontFamily:"Syne",fontWeight:800,fontSize:15,color:m.color,marginBottom:3}}>{m.label}</div>
+                <div style={{fontSize:11,color:DIM,marginBottom:9,letterSpacing:"0.5px"}}>{m.sub}</div>
+                <div style={{fontSize:12,color:WHITE,lineHeight:1.7}}>{m.pitch}</div>
+                <div style={{marginTop:11,display:"flex",gap:5,flexWrap:"wrap"}}>{PARTNERS.filter(p=>p.moats.includes(m.id)).map(p=><span key={p.id} style={{background:BORDER,color:p.color,borderRadius:4,padding:"3px 7px",fontSize:10,border:`1px solid ${p.color}44`}}>{p.icon} {p.label}</span>)}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<PartnerStrategy/>);
+</script>
+</body>
+</html>

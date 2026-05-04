@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lock Variance Reference Guide — Branch 541-A · PRMG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0D1117;--bg-1:#161B22;--bg-2:#21262D;--border:#30363D;--border-soft:#21262D;
+    --text:#E6EDF3;--text-2:#8B949E;--text-3:#484F58;--text-4:#30363D;
+    --gold:#F5A623;--gold-bg:#2e2210;--blue:#4A90D9;--blue-bg:#1a2a3a;
+    --green:#06D6A0;--green-bg:#00281e;--red:#E85D75;--red-bg:#2e1520;
+    --purple:#BD65E8;--purple-bg:#261535;--yellow:#FFD166;--yellow-bg:#2e2800;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'DM Mono','Courier New',monospace;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;font-size:14px}
+  ::-webkit-scrollbar{width:8px;height:8px}
+  ::-webkit-scrollbar-track{background:var(--bg-1)}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+  .hdr{background:rgba(22,27,34,0.92);border-bottom:1px solid var(--border-soft);padding:18px 24px;position:sticky;top:0;z-index:50;backdrop-filter:blur(10px)}
+  .hdr-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .brand-mark{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;letter-spacing:-0.5px}
+  .brand-sub{font-size:9px;color:var(--text-3);letter-spacing:2.5px;margin-top:2px}
+  .hdr-meta{margin-left:auto;display:flex;gap:14px;font-size:10px;color:var(--text-3);letter-spacing:1.5px}
+  .hdr-meta span b{color:var(--gold);font-weight:500}
+  .hero{padding:64px 0 48px;border-bottom:1px solid var(--border-soft)}
+  .hero-eyebrow{font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:16px}
+  .hero-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(40px,6vw,64px);letter-spacing:-2px;line-height:1.02;margin-bottom:20px}
+  .hero-title .accent{color:var(--gold)}
+  .hero-sub{font-size:15px;color:var(--text-2);max-width:680px;line-height:1.7}
+  .hero-badges{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
+  .badge{font-size:10px;letter-spacing:1.5px;padding:6px 12px;border-radius:20px;border:1px solid var(--border);color:var(--text-2)}
+  .badge b{color:var(--gold);font-weight:500}
+  .toc{background:var(--bg-1);border:1px solid var(--border-soft);border-radius:12px;padding:24px;margin:40px 0}
+  .toc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:16px}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px}
+  .toc a{color:var(--text-2);text-decoration:none;font-size:12px;padding:7px 10px;border-radius:5px;display:flex;gap:10px;transition:all 0.15s}
+  .toc a:hover{background:var(--bg-2);color:var(--text)}
+  .toc a .num{color:var(--text-3);font-weight:500;min-width:20px}
+  .toc a:hover .num{color:var(--gold)}
+  section{padding:56px 0;border-bottom:1px solid var(--border-soft)}
+  .sec-num{font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:12px}
+  .sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(26px,3.5vw,38px);line-height:1.1;letter-spacing:-0.8px;margin-bottom:20px}
+  .sec-lede{font-size:14px;color:var(--text-2);max-width:740px;line-height:1.75;margin-bottom:32px}
+  h3.sub{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--text);letter-spacing:0.5px;margin:32px 0 14px;padding-top:4px}
+  p{color:var(--text-2);margin-bottom:14px;line-height:1.75;font-size:13px}
+  p b,li b{color:var(--text);font-weight:500}
+  ul,ol{color:var(--text-2);margin-left:20px;font-size:13px;line-height:1.85}
+  li{margin-bottom:6px}
+  .callout{background:var(--bg-1);border:1px solid var(--border-soft);border-left:3px solid var(--gold);border-radius:6px;padding:18px 20px;margin:22px 0;font-size:12.5px}
+  .callout.red{border-left-color:var(--red);background:linear-gradient(to right,var(--red-bg) 0%,var(--bg-1) 40%)}
+  .callout.green{border-left-color:var(--green);background:linear-gradient(to right,var(--green-bg) 0%,var(--bg-1) 40%)}
+  .callout.blue{border-left-color:var(--blue);background:linear-gradient(to right,var(--blue-bg) 0%,var(--bg-1) 40%)}
+  .callout.purple{border-left-color:var(--purple);background:linear-gradient(to right,var(--purple-bg) 0%,var(--bg-1) 40%)}
+  .callout-label{font-size:10px;letter-spacing:2.5px;font-weight:500;color:var(--gold);margin-bottom:8px}
+  .callout.red .callout-label{color:var(--red)}.callout.green .callout-label{color:var(--green)}.callout.blue .callout-label{color:var(--blue)}.callout.purple .callout-label{color:var(--purple)}
+  .callout p{margin-bottom:8px;color:var(--text);font-size:13px;line-height:1.7}.callout p:last-child{margin-bottom:0}
+  .tbl-wrap{overflow-x:auto;margin:18px 0;border-radius:8px;border:1px solid var(--border-soft)}
+  table{width:100%;border-collapse:collapse;font-size:12px;background:var(--bg-1)}
+  th{background:var(--bg-2);color:var(--gold);text-align:left;padding:12px 14px;font-weight:500;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border-bottom:2px solid var(--border)}
+  td{padding:11px 14px;color:var(--text-2);border-bottom:1px solid var(--border-soft)}
+  tr:last-child td{border-bottom:none}
+  td.accent{color:var(--gold);font-weight:500}
+  td b,td strong{color:var(--text);font-weight:500}
+  .gloss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin:20px 0}
+  .gloss-card{background:var(--bg-1);border:1px solid var(--border-soft);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all 0.15s}
+  .gloss-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.4)}
+  .gloss-term{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--text);letter-spacing:0.3px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+  .gloss-term .plus{color:var(--gold);font-size:14px;transition:transform 0.2s}
+  .gloss-card.open .plus{transform:rotate(45deg)}
+  .gloss-def{font-size:12px;color:var(--text-2);line-height:1.65;max-height:0;overflow:hidden;transition:max-height 0.3s,margin-top 0.2s}
+  .gloss-card.open .gloss-def{max-height:500px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border-soft)}
+  .steps{display:flex;flex-direction:column;gap:10px;margin:20px 0}
+  .step{background:var(--bg-1);border:1px solid var(--border-soft);border-radius:8px;padding:16px 18px;display:flex;gap:16px;align-items:flex-start}
+  .step-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--gold-bg);border:1px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px}
+  .step-body{flex:1}
+  .step-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--text);margin-bottom:4px;letter-spacing:0.2px}
+  .step-desc{font-size:12px;color:var(--text-2);line-height:1.7}
+  .step-desc code{background:var(--bg-2);color:var(--gold);padding:1px 6px;border-radius:3px;font-size:11px;font-family:'DM Mono',monospace}
+  .calc{background:var(--bg-1);border:1px solid var(--border);border-radius:10px;padding:24px;margin:24px 0}
+  .calc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--gold);letter-spacing:1.5px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .calc-title .dot{width:7px;height:7px;background:var(--gold);border-radius:50%;box-shadow:0 0 10px var(--gold)}
+  .calc-inputs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+  .calc-field label{display:block;font-size:10px;color:var(--text-3);letter-spacing:1.5px;margin-bottom:6px;font-weight:500}
+  .calc-field input,.calc-field select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:9px 12px;font-family:'DM Mono',monospace;font-size:13px}
+  .calc-field input:focus,.calc-field select:focus{outline:none;border-color:var(--gold)}
+  .calc-result{background:var(--bg);border:1px solid var(--border-soft);border-radius:8px;padding:18px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+  .calc-output{display:flex;flex-direction:column;gap:4px}
+  .calc-output .lbl{font-size:10px;color:var(--text-3);letter-spacing:1.5px}
+  .calc-output .val{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--text);letter-spacing:-0.5px}
+  .calc-output .val.gold{color:var(--gold)}.calc-output .val.red{color:var(--red)}.calc-output .val.green{color:var(--green)}
+  .calc-note{font-size:11px;color:var(--text-3);margin-top:14px;font-style:italic}
+  .tree{margin:24px 0}
+  .tree-q{background:var(--bg-1);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px}
+  .tree-q-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--text);margin-bottom:14px}
+  .tree-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+  .tree-opt{background:var(--bg);border:1px solid var(--border-soft);border-radius:6px;padding:12px 14px;cursor:pointer;transition:all 0.15s;color:var(--text-2);font-size:12px;text-align:left;font-family:'DM Mono',monospace}
+  .tree-opt:hover{border-color:var(--gold);color:var(--text);transform:translateY(-1px)}
+  .tree-opt.active{border-color:var(--gold);background:var(--gold-bg);color:var(--text)}
+  .tree-answer{display:none;background:var(--green-bg);border:1px solid var(--green);border-radius:8px;padding:16px 18px;margin-top:14px;font-size:12.5px;line-height:1.75;color:var(--text)}
+  .tree-answer.show{display:block}
+  .tree-answer b{color:var(--green)}
+  .role-tabs{display:flex;gap:8px;margin:20px 0 16px;border-bottom:1px solid var(--border-soft);padding-bottom:0;flex-wrap:wrap}
+  .role-tab{background:transparent;border:none;color:var(--text-3);padding:10px 16px;font-family:'DM Mono',monospace;font-size:12px;cursor:pointer;border-bottom:2px solid transparent;letter-spacing:1px;transition:all 0.15s}
+  .role-tab:hover{color:var(--text)}.role-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+  .role-panel{display:none}.role-panel.active{display:block}
+  .role-panel ul{list-style:none;margin-left:0}
+  .role-panel li{background:var(--bg-1);border:1px solid var(--border-soft);border-radius:6px;padding:11px 14px;margin-bottom:7px;font-size:12.5px;color:var(--text-2);line-height:1.6;display:flex;gap:12px;align-items:flex-start}
+  .role-panel li::before{content:"→";color:var(--gold);font-weight:500;flex-shrink:0}
+  .contacts{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:20px 0}
+  .contact-card{background:var(--bg-1);border:1px solid var(--border-soft);border-radius:10px;padding:18px 20px;border-top:2px solid var(--gold)}
+  .contact-card.blue{border-top-color:var(--blue)}.contact-card.green{border-top-color:var(--green)}.contact-card.purple{border-top-color:var(--purple)}
+  .contact-role{font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:4px;font-weight:500}
+  .contact-card.blue .contact-role{color:var(--blue)}.contact-card.green .contact-role{color:var(--green)}.contact-card.purple .contact-role{color:var(--purple)}
+  .contact-name{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--text);margin-bottom:8px}
+  .contact-email{font-size:12px;color:var(--text-2);margin-bottom:6px;word-break:break-all}
+  .contact-for{font-size:11px;color:var(--text-3);line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid var(--border-soft)}
+  .qref{background:linear-gradient(135deg,var(--bg-1) 0%,var(--gold-bg) 150%);border:1px solid var(--gold);border-radius:12px;padding:32px;margin:40px 0}
+  .qref-title{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--gold);letter-spacing:-0.3px;margin-bottom:20px}
+  .qref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  .qref-item{background:rgba(13,17,23,0.5);border:1px solid var(--border-soft);border-radius:6px;padding:12px 14px}
+  .qref-lbl{font-size:10px;color:var(--gold);letter-spacing:1.5px;margin-bottom:4px}
+  .qref-val{font-size:12.5px;color:var(--text);line-height:1.5}
+  footer{background:var(--bg-1);border-top:1px solid var(--border-soft);padding:40px 24px 32px;text-align:center;margin-top:60px}
+  footer .tag{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--text);margin-bottom:6px;letter-spacing:-0.3px}
+  footer .tag .gold{color:var(--gold)}
+  footer .line{font-size:10px;color:var(--text-3);letter-spacing:2px;margin:12px 0}
+  footer .meta{font-size:11px;color:var(--text-2);line-height:1.6}
+  footer .meta b{color:var(--text);font-weight:500}
+  .disclaimer{max-width:680px;margin:20px auto 0;padding:14px 18px;background:var(--bg);border:1px solid var(--border-soft);border-radius:6px;font-size:10px;color:var(--text-3);line-height:1.7;text-align:left}
+  @media(max-width:640px){.hdr-meta{display:none}.hero{padding:40px 0 32px}section{padding:40px 0}.toc-grid{grid-template-columns:1fr}}
+  .kbd{background:var(--bg-2);color:var(--gold);padding:2px 7px;border-radius:3px;font-size:11px;border:1px solid var(--border);font-family:'DM Mono',monospace}
+  .pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10px;letter-spacing:1px;font-weight:500}
+  .pill.gold{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold)}
+  .pill.red{background:var(--red-bg);color:var(--red);border:1px solid var(--red)}
+  .pill.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green)}
+  .pill.blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue)}
+  .prog{position:fixed;top:0;left:0;height:3px;background:var(--gold);width:0%;z-index:100;transition:width 0.1s}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+<header class="hdr">
+  <div class="hdr-inner">
+    <div>
+      <div class="brand-mark">LOCK VARIANCE</div>
+      <div class="brand-sub">BRANCH 541-A · PRMG · REFERENCE GUIDE</div>
+    </div>
+    <div class="hdr-meta">
+      <span>BRANCH <b>541-A</b></span>
+      <span>NMLS <b>2686066</b></span>
+      <span>v<b>1.0</b></span>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-eyebrow">INTERNAL TEAM USE ONLY</div>
+    <h1 class="hero-title">Handle every <span class="accent">lock situation</span> without waiting on PRMG.</h1>
+    <p class="hero-sub">Lock variances, extensions, relocks, float downs, validations, and intraday repricing — every rate-lock scenario you will face, with the exact process, the real cost, and the right person to call. Built from the FT360 v19.14 release notes, the PRMG Secondary desk, and the Optimal Blue change request workflow.</p>
+    <div class="hero-badges">
+      <div class="badge"><b>FT360</b> · OPTIMAL BLUE</div>
+      <div class="badge"><b>POLLY PPE</b> · STANDARD LOCKS</div>
+      <div class="badge"><b>CHENOA</b> · DPA LOCKS</div>
+      <div class="badge"><b>SECONDARY</b> · AMY MORSE</div>
+    </div>
+  </div>
+  <div class="toc">
+    <div class="toc-title">◆ TABLE OF CONTENTS</div>
+    <div class="toc-grid">
+      <a href="#s1"><span class="num">01</span> Lock Vocabulary</a>
+      <a href="#s2"><span class="num">02</span> What is a Lock Variance</a>
+      <a href="#s3"><span class="num">03</span> Lock Validation Process</a>
+      <a href="#s4"><span class="num">04</span> Lock Extensions + Calculator</a>
+      <a href="#s5"><span class="num">05</span> Lock Change Requests</a>
+      <a href="#s6"><span class="num">06</span> Float Down Options</a>
+      <a href="#s7"><span class="num">07</span> Lock Expiration · Relock</a>
+      <a href="#s8"><span class="num">08</span> Intraday Repricing</a>
+      <a href="#s9"><span class="num">09</span> Polly PPE Standard Lock Workflow</a>
+      <a href="#s10"><span class="num">10</span> Chenoa Lock Workflow</a>
+      <a href="#s11"><span class="num">11</span> Submitting to Secondary</a>
+      <a href="#s12"><span class="num">12</span> Who Handles What</a>
+      <a href="#s13"><span class="num">13</span> Decision Tree</a>
+      <a href="#s14"><span class="num">14</span> Key Contacts</a>
+      <a href="#s15"><span class="num">15</span> Quick Reference Card</a>
+    </div>
+  </div>
+
+  <section id="s1">
+    <div class="sec-num">01 / VOCABULARY</div>
+    <h2 class="sec-title">Learn the language first.</h2>
+    <p class="sec-lede">Every lock problem starts with a team member not being 100% sure what a term means. Tap any term to expand. Nothing else in this guide matters if your team is guessing at these.</p>
+    <div class="gloss-grid">
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Lock Variance <span class="plus">+</span></div><div class="gloss-def">When the loan data in the system no longer matches what was locked with Secondary. FT360 shows <span class="kbd">Lock Variance: YES</span> in the Borrower Ribbon until it is resolved.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Lock Validation <span class="plus">+</span></div><div class="gloss-def">The process of clearing a lock variance. Either the lock gets updated to match the new data, or the data is confirmed to still fit the locked pricing. Submitted through Optimal Blue via FT360. See Section 03.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Profile Change <span class="plus">+</span></div><div class="gloss-def">The Optimal Blue term for a lock validation / change request when loan attributes have changed. Triggered from the Lock Verification form or Services tab in FT360.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Relock <span class="plus">+</span></div><div class="gloss-def">A new lock issued after the original lock expired or was cancelled. Comes with a worse-case pricing policy — borrower gets the worse of the original lock or current market. Not a free reset.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Lock Extension <span class="plus">+</span></div><div class="gloss-def">Pushing the lock expiration date out before it expires. Cheaper than a relock. Priced in 5-day increments typically. See Section 04.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Float Down <span class="plus">+</span></div><div class="gloss-def">A one-time option to lower a locked rate if the market drops a qualifying amount after lock. Rules vary by program and are not automatic — must be requested in writing.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Worst-Case Pricing <span class="plus">+</span></div><div class="gloss-def">Applied when a lock expires and is relocked, or when a loan falls out and returns. Borrower is charged the worse of the original pricing or current market pricing on the day of relock.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">LLPA <span class="plus">+</span></div><div class="gloss-def">Loan-Level Price Adjustment. Pricing adjustments driven by FICO, LTV, occupancy, loan purpose, property type, DTI, and other risk factors. Changing any of these triggers a lock variance.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Intraday Reprice <span class="plus">+</span></div><div class="gloss-def">A mid-day rate sheet change. Happens when the market moves enough during the day that PRMG must update pricing before the next day's sheet. If you have a rate quoted but not locked, it can disappear. See Section 08.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Par / Above Par / Below Par <span class="plus">+</span></div><div class="gloss-def">Pricing of 100.000 is par (no cost, no credit). Above 100 = lender credit back to borrower. Below 100 = borrower pays discount points. Example: 99.799 = $402 cost on a $200K loan / 100.125 = $250 credit.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">BPS (Basis Points) <span class="plus">+</span></div><div class="gloss-def">1 basis point = 0.01% = $1 per $10,000 of loan amount. Extension and float-down fees are quoted in bps or price hits. 25 bps on a $300K loan = $750.</div></div>
+      <div class="gloss-card" onclick="this.classList.toggle('open')"><div class="gloss-term">Manual Lock <span class="plus">+</span></div><div class="gloss-def">A lock that was entered by Secondary directly, not through Optimal Blue's automated system. Validations on manual locks must be submitted by email to Secondary — the automated Change Request button does not work.</div></div>
+    </div>
+  </section>
+
+  <section id="s2">
+    <div class="sec-num">02 / WHAT IS A LOCK VARIANCE</div>
+    <h2 class="sec-title">The three-column comparison that drives everything.</h2>
+    <p class="sec-lede">FT360 compares three sets of loan data on every file: what was originally locked, what is in the loan file right now, and what the underwriter approved. Any mismatch on a pricing-sensitive field triggers <span class="pill gold">LOCK VARIANCE: YES</span> and the loan cannot close until it is cleared.</p>
+    <h3 class="sub">The three columns FT360 compares</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>What it shows</th><th>Who updates it</th></tr></thead><tbody>
+      <tr><td class="accent">Borrower — Current Loan Data</td><td>Live data from the 1003, URLA, and 2015 Itemization as of right now.</td><td>LO / Processor as the file evolves</td></tr>
+      <tr><td class="accent">Borrower — Locked Loan Data</td><td>The exact data frozen at time of lock. This is what Secondary priced against.</td><td>Locked once — never changes unless relocked</td></tr>
+      <tr><td class="accent">Borrower — UW Approved Loan Data</td><td>The data the underwriter based their approval on.</td><td>Underwriter on each decision</td></tr>
+    </tbody></table></div>
+    <h3 class="sub">Fields that commonly trigger a lock variance</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>Change</th><th>Triggers variance?</th><th>Why</th></tr></thead><tbody>
+      <tr><td><b>Loan amount</b> increases or decreases</td><td><span class="pill red">YES</span></td><td>Changes LTV tier — new LLPA</td></tr>
+      <tr><td><b>LTV / CLTV</b> moves into a new tier</td><td><span class="pill red">YES</span></td><td>LLPA table jump</td></tr>
+      <tr><td><b>DTI</b> crosses a threshold</td><td><span class="pill red">YES</span></td><td>DTI-based LLPA on Conv / FHA high-balance</td></tr>
+      <tr><td><b>FICO</b> drops into a worse tier</td><td><span class="pill red">YES</span></td><td>FICO-based LLPA</td></tr>
+      <tr><td><b>Loan program</b> changes (FHA → Conv, 30yr → 15yr)</td><td><span class="pill red">YES</span></td><td>Different product entirely — requires relock</td></tr>
+      <tr><td><b>Property type</b> changes (SFR → condo / 2-4 unit)</td><td><span class="pill red">YES</span></td><td>Property-type LLPA</td></tr>
+      <tr><td><b>Occupancy</b> changes (Primary → Investment)</td><td><span class="pill red">YES</span></td><td>Major LLPA shift</td></tr>
+      <tr><td><b>Purpose</b> changes (Purchase → Cash-out refi)</td><td><span class="pill red">YES</span></td><td>Cash-out LLPAs stack</td></tr>
+      <tr><td><b>Escrow waiver</b> added or removed</td><td><span class="pill red">YES</span></td><td>Waiver LLPA on Conv</td></tr>
+      <tr><td><b>Borrower name</b> spelling corrections</td><td><span class="pill green">NO</span></td><td>Cosmetic — not priced</td></tr>
+      <tr><td><b>Property address</b> correction, same property</td><td><span class="pill green">NO</span></td><td>Not pricing-relevant</td></tr>
+      <tr><td><b>Closing date</b> moved within lock period</td><td><span class="pill green">NO</span></td><td>No extension needed yet</td></tr>
+    </tbody></table></div>
+    <div class="callout red"><div class="callout-label">▲ COMMON MISTAKE</div><p>Loan amount goes up by $2,000 because taxes and insurance were re-escrowed. Team thinks it's too small to matter — it is not. If the new amount crosses an LTV tier, the lock must be validated or funding is blocked.</p></div>
+  </section>
+
+  <section id="s3">
+    <div class="sec-num">03 / LOCK VALIDATION PROCESS</div>
+    <h2 class="sec-title">The Optimal Blue Change Request — 8 steps.</h2>
+    <p class="sec-lede">This is the process introduced in FT360 v19.14. Before this, every lock validation required emailing Secondary. Now most validations go straight into Optimal Blue and update automatically in 2–3 minutes.</p>
+    <div class="callout blue"><div class="callout-label">◆ WHEN TO USE THIS</div><p>Use the Change Request button on the Lock Verification form whenever <span class="pill gold">LOCK VARIANCE: YES</span> appears on a file. For manual locks, the Change Request button will be replaced by a <span class="pill blue">MANUAL LOCK VALIDATION</span> button that auto-opens an email to Secondary — see Section 11.</p></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Open the loan → Lock Verification (PRMG) form</div><div class="step-desc">In FT360, open the loan. Find the <code>Lock Verification (PRMG)</code> form. Confirm <b>Lock Variance: YES</b> at top right. Look at the three columns to identify what changed.</div></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Click "Change Request" on the Lock Verification form</div><div class="step-desc">The <code>Change Request</code> button is in the "Enhancements and Training Material" section. This opens Optimal Blue directly. (Alternative: <b>Services tab → Search Product and Pricing → Optimal Blue Enhanced → Submit</b>.)</div></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Log into Optimal Blue (first time only)</div><div class="step-desc">Enter your Optimal Blue login and password. <b>Check "Save Login Information"</b> so you never have to enter it again.</div></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Click the Change Request icon (4th icon from the left)</div><div class="step-desc">In the Optimal Blue ribbon. Hover text: "Change Request". Loan status should show as <b>Locked</b>.</div></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Select "Profile Change" → First Lien → Profile Change</div><div class="step-desc">Select <b>Profile Change</b>. Under "Select Lien" choose <b>First Lien</b>. Then click the <code>Profile Change</code> button.</div></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Submit → select the product in BOLD → select the rate</div><div class="step-desc">Click <b>Submit</b>. <b>Always select the product shown in BOLD</b> — that is your originally-locked product. The current locked rate will be highlighted in <b>orange</b>. Click the lock icon next to the orange row.</div></div></div>
+      <div class="step"><div class="step-num">7</div><div class="step-body"><div class="step-title">Review the change summary → Apply Change → Submit</div><div class="step-desc">A before/after comparison table appears. Review carefully. Click <b>Apply Change</b>, then <b>Submit</b>.</div></div></div>
+      <div class="step"><div class="step-num">8</div><div class="step-body"><div class="step-title">Click OK → Logout → EXIT the loan</div><div class="step-desc">Click <b>OK</b>. Click <b>Logout</b>. <b>Then exit the loan entirely.</b> Optimal Blue cannot update the lock while the loan is open. Come back in 2–3 minutes — Lock Variance will read NO.</div></div></div>
+    </div>
+    <div class="callout red"><div class="callout-label">▲ MOST COMMON FAILURE</div><p>Team submits the Change Request and stays in the loan. Two hours later they come back confused because Lock Variance still says YES. <b>Exit the loan after clicking OK.</b> This single step breaks more lock validations than anything else.</p></div>
+  </section>
+
+  <section id="s4">
+    <div class="sec-num">04 / LOCK EXTENSIONS</div>
+    <h2 class="sec-title">Extend before you expire — every time.</h2>
+    <p class="sec-lede">An extension costs a fraction of a relock. If the lock will expire before the funded date, extend it the day you know. Not the day it expires.</p>
+    <h3 class="sub">Extension pricing by program (approximate)</h3>
+    <div class="tbl-wrap"><table><thead><tr><th>Program</th><th>Cost per 1–5 days</th><th>Cost per 6–15 days</th><th>Cost per 15+ days</th></tr></thead><tbody>
+      <tr><td><b>Standard PRMG</b> (Conv, FHA, VA)</td><td>~0.040 / day</td><td>~0.050 / day</td><td>Graduated — check with Secondary</td></tr>
+      <tr><td><b>Chenoa Fund</b> DPA FHA</td><td>0.175 / week (flat)</td><td>0.175 / week</td><td>Contact <code>locks@chenoafund.org</code></td></tr>
+      <tr><td><b>NHF Grant / NV HIP</b></td><td>Follows base PRMG schedule</td><td>Base PRMG + DPA overlay</td><td>Email Secondary</td></tr>
+      <tr><td><b>Jumbo / Non-QM</b></td><td>Varies by investor</td><td>Varies by investor</td><td>Lock desk rules</td></tr>
+    </tbody></table></div>
+    <p style="font-size:11px;color:var(--text-3);font-style:italic;">Prices above are approximations for training purposes only. Always verify the live number before quoting a borrower.</p>
+    <div class="calc">
+      <div class="calc-title"><span class="dot"></span>EXTENSION COST CALCULATOR</div>
+      <div class="calc-inputs">
+        <div class="calc-field"><label>LOAN AMOUNT ($)</label><input type="number" id="calc-loan" value="350000" oninput="calcExt()"></div>
+        <div class="calc-field"><label>PROGRAM</label><select id="calc-prog" onchange="calcExt()"><option value="prmg">Standard PRMG (Conv/FHA/VA)</option><option value="chenoa">Chenoa Fund</option><option value="nhf">NHF Grant / NV HIP</option></select></div>
+        <div class="calc-field"><label>DAYS TO EXTEND</label><input type="number" id="calc-days" value="7" min="1" max="30" oninput="calcExt()"></div>
+      </div>
+      <div class="calc-result">
+        <div class="calc-output"><span class="lbl">PRICE HIT</span><span class="val gold" id="calc-price">0.280</span></div>
+        <div class="calc-output"><span class="lbl">BPS</span><span class="val" id="calc-bps">28</span></div>
+        <div class="calc-output"><span class="lbl">DOLLAR COST</span><span class="val red" id="calc-dollars">$980</span></div>
+        <div class="calc-output"><span class="lbl">vs RELOCK (worst-case)</span><span class="val green" id="calc-vs">~5x cheaper</span></div>
+      </div>
+      <div class="calc-note">Dollar cost = (Price Hit / 100) × Loan Amount. Relock comparison assumes market moved 0.500 against the borrower.</div>
+    </div>
+    <div class="callout" style="border-left-color:var(--gold);background:linear-gradient(to right,var(--gold-bg) 0%,var(--bg-1) 40%)"><div class="callout-label" style="color:var(--gold)">◆ RULE OF THUMB</div><p>Extend the moment you know you will miss the lock expiration. The longer you wait, the more expensive an extension gets. Secondary's extension schedule <b>gets worse each day past day 5</b>.</p></div>
+  </section>
+
+  <section id="s5">
+    <div class="sec-num">05 / LOCK CHANGE REQUESTS</div>
+    <h2 class="sec-title">Three changes, three different processes.</h2>
+    <div class="tbl-wrap"><table><thead><tr><th>What changed</th><th>Classification</th><th>Process</th><th>Cost?</th></tr></thead><tbody>
+      <tr><td><b>Loan amount up/down</b> (LTV tier change)</td><td>Profile Change</td><td>OB Change Request → Profile Change</td><td>Possible price adjustment</td></tr>
+      <tr><td><b>DTI crossed threshold</b></td><td>Profile Change</td><td>OB Change Request → Profile Change</td><td>Possible LLPA add</td></tr>
+      <tr><td><b>FICO dropped a tier</b></td><td>Profile Change</td><td>OB Change Request → Profile Change</td><td>LLPA add</td></tr>
+      <tr><td><b>Program swap</b> (FHA → Conv, 30 → 15yr)</td><td>Full Relock</td><td>Email Secondary + new OB lock</td><td>Worse-case pricing</td></tr>
+      <tr><td><b>Closing date moved, still within lock</b></td><td>No change needed</td><td>Update FT360 estimated closing date only</td><td>None</td></tr>
+      <tr><td><b>Closing date moved past lock expiration</b></td><td>Extension</td><td>OB Change Request → Lock Extension</td><td>See Section 04</td></tr>
+      <tr><td><b>Added / Removed a co-borrower</b></td><td>Profile Change</td><td>OB Change Request — DTI/FICO recalc</td><td>Possible adjustment</td></tr>
+    </tbody></table></div>
+    <div class="callout red"><div class="callout-label">▲ PROGRAM SWAP = RELOCK</div><p>A program change (FHA to Conv, or 30-year to 15-year fixed) is <b>not a profile change</b>. It is a new product. Email Secondary — do not try to do it through the Change Request button.</p></div>
+  </section>
+
+  <section id="s6">
+    <div class="sec-num">06 / FLOAT DOWN</div>
+    <h2 class="sec-title">Lower the locked rate when the market drops.</h2>
+    <div class="tbl-wrap"><table><thead><tr><th>Rule</th><th>Detail</th></tr></thead><tbody>
+      <tr><td><b>When it triggers</b></td><td>Market must have dropped at least <b>0.250 in rate</b> (25 bps) since lock date.</td></tr>
+      <tr><td><b>One-time only</b></td><td>One float down per loan. Use it when confident the market has bottomed.</td></tr>
+      <tr><td><b>Requires Secondary approval</b></td><td>Email <code>lockrequests@prmg.net</code> with the loan number, borrower name, and reason.</td></tr>
+      <tr><td><b>Cost</b></td><td>A fee — typically the difference is split. Borrower gets a portion of the improvement, not the full amount.</td></tr>
+      <tr><td><b>Timing</b></td><td>Must have at least <b>7 days left on the lock</b> and cannot be within 48 hours of closing.</td></tr>
+      <tr><td><b>Eligibility</b></td><td>Some programs (certain Non-QM, Chenoa, investor-specific) are <b>not eligible</b>. Confirm before promising.</td></tr>
+    </tbody></table></div>
+    <div class="callout" style="border-left-color:var(--gold);background:linear-gradient(to right,var(--gold-bg) 0%,var(--bg-1) 40%)"><div class="callout-label" style="color:var(--gold)">◆ WHEN TO OFFER A FLOAT DOWN</div><p>Borrower calls nervous because a friend got quoted a lower rate. Before promising anything, check current pricing and call Secondary. Confirm there is room. <b>Then</b> offer it.</p></div>
+  </section>
+
+  <section id="s7">
+    <div class="sec-num">07 / LOCK EXPIRATION + RELOCK</div>
+    <h2 class="sec-title">What happens when a lock expires — and how to recover.</h2>
+    <div class="tbl-wrap"><table><thead><tr><th>Days past expiration</th><th>Status</th><th>Action</th></tr></thead><tbody>
+      <tr><td><b>T-5 days (still active)</b></td><td><span class="pill green">OK</span></td><td>Extend now if closing will slip.</td></tr>
+      <tr><td><b>T-1 day</b></td><td><span class="pill gold">LAST CHANCE</span></td><td>Extend today. Do not wait for morning.</td></tr>
+      <tr><td><b>Day 0 (expired)</b></td><td><span class="pill red">EXPIRED</span></td><td>Lock is dead. Must relock at worse-case pricing.</td></tr>
+      <tr><td><b>Day 1–29 past expiration</b></td><td><span class="pill red">RELOCK ELIGIBLE</span></td><td>Worse-case pricing — original lock or current market, whichever is worse.</td></tr>
+      <tr><td><b>Day 30+ past expiration</b></td><td><span class="pill red">NEW LOCK</span></td><td>Treated as a brand-new lock at current market.</td></tr>
+    </tbody></table></div>
+    <div class="callout red"><div class="callout-label">▲ PREVENTABLE</div><p>Every expired lock was avoidable. Build a 5-day-before-expiration alert in your pipeline. Review lock expiration dates every Monday morning. <b>No lock should ever expire on an active file.</b></p></div>
+  </section>
+
+  <section id="s8">
+    <div class="sec-num">08 / INTRADAY REPRICING</div>
+    <h2 class="sec-title">The mid-day rate sheet that kills deals.</h2>
+    <div class="tbl-wrap"><table><thead><tr><th>Situation</th><th>Defensive action</th></tr></thead><tbody>
+      <tr><td><b>Major economic data scheduled at 8:30 AM ET</b></td><td>Lock before 7 AM PT or wait until after 9:30 AM PT dust settles.</td></tr>
+      <tr><td><b>Fed day (FOMC statement at 11 AM PT)</b></td><td>Lock the day before or float through lunch. Never lock at 10:55 AM PT on a Fed day.</td></tr>
+      <tr><td><b>Rate sheet just dropped intraday</b></td><td>Do not send LEs quoting the old rate. Wait for new sheet.</td></tr>
+      <tr><td><b>Lock submitted before reprice but not confirmed</b></td><td>If you have a timestamp before the reprice time, you are usually protected. Confirm with Secondary in writing.</td></tr>
+    </tbody></table></div>
+    <div class="callout purple"><div class="callout-label">◆ LANGUAGE TO USE WITH BORROWERS</div><p style="font-style:italic">"I want to be clear about how this works — rates are tied to the bond market and they move throughout the day. I can quote you where they are right now, but the rate is not yours until we lock it in writing. If you tell me to lock, I can do it within the hour."</p></div>
+  </section>
+
+  <section id="s9">
+    <div class="sec-num">09 / POLLY PPE STANDARD LOCK WORKFLOW</div>
+    <h2 class="sec-title">The full standard lock — 14 steps, start to confirmation.</h2>
+    <div class="callout blue"><div class="callout-label">◆ BEFORE YOU OPEN POLLY</div><p>✓ Borrower Summary URLA (PRMG) form is accurate.<br>✓ All pages of the 1003 are complete.<br>✓ Credit report is pulled and middle FICO is documented.<br>✓ AUS findings (DU or LP) are in the file.<br>✓ Property address and loan amount match the purchase contract.</p></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Open loan in FT360</div></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Click "Not Locked" icon in Borrower Ribbon</div></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Select "Search for Product and Pricing"</div></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Select PollyEx → Submit</div><div class="step-desc">My Providers tab → select PollyEx → click Submit.</div></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Fill every required field (red radio buttons)</div></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Click "Get Pricing"</div><div class="step-desc">Eligible products appear at the top. The star icon marks the rate closest to par.</div></div></div>
+      <div class="step"><div class="step-num">7</div><div class="step-body"><div class="step-title">Read the price: above / below / at par</div><div class="step-desc"><b>Below 100</b> = borrower pays points. <b>Above 100</b> = lender credit back to borrower.</div></div></div>
+      <div class="step"><div class="step-num">8</div><div class="step-body"><div class="step-title">Check the box next to the selected rate → click Request</div></div></div>
+      <div class="step"><div class="step-num">9</div><div class="step-body"><div class="step-title">Click Lock → Request Lock on the confirmation screen</div></div></div>
+      <div class="step"><div class="step-num">10</div><div class="step-body"><div class="step-title">EXIT the loan</div><div class="step-desc"><b>Critical step.</b> Secondary cannot process the lock while you are inside the loan.</div></div></div>
+      <div class="step"><div class="step-num">11</div><div class="step-body"><div class="step-title">Confirmation email within 30 minutes</div><div class="step-desc">If no confirmation: email <code>lockrequests@prmg.net</code> with the loan number.</div></div></div>
+      <div class="step"><div class="step-num">12</div><div class="step-body"><div class="step-title">Lock icon in FT360 turns blue + days remaining show</div></div></div>
+      <div class="step"><div class="step-num">13</div><div class="step-body"><div class="step-title">Pricing auto-populates to 2015 Itemization 802 lines</div><div class="step-desc"><b>Do not manually override</b> without Secondary or Branch Manager approval.</div></div></div>
+    </div>
+    <div class="callout red"><div class="callout-label">▲ TWO MISTAKES THAT WILL GET YOU CALLED BY SECONDARY</div><p>1. Clicking Request Lock and staying in the loan — the lock never processes.<br>2. Manually overriding the 802 Itemization lines after lock — creates reconciliation errors.</p></div>
+  </section>
+
+  <section id="s10">
+    <div class="sec-num">10 / CHENOA LOCK WORKFLOW</div>
+    <h2 class="sec-title">Chenoa is a different animal — respect the workflow.</h2>
+    <p class="sec-lede">Chenoa Fund DPA loans are locked through Polly like any other loan, but <b>changes after lock go through Chenoa's lock desk directly</b>, not through PRMG Optimal Blue.</p>
+    <div class="tbl-wrap"><table><thead><tr><th>Event</th><th>Where to handle it</th><th>Who to contact</th></tr></thead><tbody>
+      <tr><td><b>Initial lock</b></td><td>PRMG Polly PPE — standard workflow</td><td>PRMG Secondary</td></tr>
+      <tr><td><b>Lock variance (profile change)</b></td><td>Optimal Blue Change Request</td><td>PRMG Secondary</td></tr>
+      <tr><td><b>Extension on the first lien</b></td><td>PRMG Optimal Blue</td><td>PRMG Secondary</td></tr>
+      <tr><td><b>Extension / change on the Chenoa 2nd</b></td><td>Email Chenoa directly</td><td><code>locks@chenoafund.org</code></td></tr>
+      <tr><td><b>Program change (3.5% vs Repayable)</b></td><td>Cancel and relock both liens</td><td>PRMG Secondary + Chenoa</td></tr>
+    </tbody></table></div>
+    <div class="callout" style="border-left-color:var(--gold);background:linear-gradient(to right,var(--gold-bg) 0%,var(--bg-1) 40%)"><div class="callout-label" style="color:var(--gold)">◆ CHENOA EXTENSION EMAIL — TO: locks@chenoafund.org</div><p style="font-family:'DM Mono',monospace;white-space:pre-wrap;font-size:12px;color:var(--text)">Subject: Chenoa Lock Extension Request — [Borrower Last Name] — PRMG Loan # [XXXXXXX]
+
+Hi Chenoa Lock Desk,
+
+Please extend the lock on the following Chenoa second lien:
+
+Borrower: [First Last]
+PRMG Loan Number: [XXXXXXX]
+Current Lock Expiration: [MM/DD/YYYY]
+Requested Extension: [N] days → New Expiration [MM/DD/YYYY]
+Reason: [Appraisal delay / UW conditions / etc.]
+
+First lien extension is being requested through PRMG Optimal Blue concurrently.
+
+Jose Del Valle-Figueroa · Branch 541-A · PRMG · NMLS #2686066</p></div>
+  </section>
+
+  <section id="s11">
+    <div class="sec-num">11 / SUBMITTING TO SECONDARY</div>
+    <h2 class="sec-title">When Change Request won't work, email Secondary.</h2>
+    <h3 class="sub">When to email Secondary instead of using Change Request</h3>
+    <ul>
+      <li>The lock is a <b>manual lock</b></li>
+      <li>You need a <b>price exception</b></li>
+      <li>Full <b>program change</b> (FHA ↔ Conv, 30yr ↔ 15yr)</li>
+      <li>Lock has been <b>expired more than 30 days</b></li>
+      <li>Something broke in Optimal Blue and Change Request won't go through</li>
+      <li><b>Jumbo</b> or <b>Non-QM</b> loans where the investor does not live in Polly</li>
+    </ul>
+    <div class="callout blue" style="margin-top:20px"><div class="callout-label">◆ EMAIL TEMPLATE — TO: lockrequests@prmg.net</div><p style="font-family:'DM Mono',monospace;white-space:pre-wrap;font-size:12px;color:var(--text)">Subject: [Request Type] — Loan # [XXXXXXX] — [Borrower Last Name]
+
+Borrower Name:
+Loan Number:
+Property Address:
+Current Locked Rate / Price / Expiration:
+Requested Change:
+Reason:
+Closing date:
+
+Jose Del Valle-Figueroa · Branch 541-A · PRMG · NMLS #2686066 · JDelValle@prmg.net</p></div>
+    <div class="callout green"><div class="callout-label">◆ EXPECTED RESPONSE TIMES</div><p>Lock validations via Change Request: <b>2–3 minutes</b> (automated).<br>Email to <code>lockrequests@prmg.net</code>: <b>same business day</b>, typically within 2 hours during East Coast trading hours.<br>Price exceptions over 0.500: expect <b>4–24 hour</b> turnaround.</p></div>
+  </section>
+
+  <section id="s12">
+    <div class="sec-num">12 / WHO HANDLES WHAT</div>
+    <h2 class="sec-title">Role clarity. Every lock task has one owner.</h2>
+    <div class="role-tabs">
+      <button class="role-tab active" onclick="showRole('lo',event)">LOAN OFFICER</button>
+      <button class="role-tab" onclick="showRole('proc',event)">PROCESSOR</button>
+      <button class="role-tab" onclick="showRole('sec',event)">SECONDARY</button>
+      <button class="role-tab" onclick="showRole('bm',event)">BRANCH MANAGER</button>
+    </div>
+    <div class="role-panel active" id="role-lo"><ul>
+      <li>Initial lock decision — when to lock, what rate, what term.</li>
+      <li>Communicating rate and lock terms to the borrower in writing.</li>
+      <li>Running Polly pricing and submitting the initial lock request.</li>
+      <li>Deciding whether to float down, extend, or accept a worse-case relock.</li>
+      <li>Approving any price exception requests before they are sent to Secondary.</li>
+      <li>Owning the rate conversation with the borrower — processor does not quote rates.</li>
+      <li>Monitoring MBS Highway alerts and reacting to intraday repricing.</li>
+    </ul></div>
+    <div class="role-panel" id="role-proc"><ul>
+      <li>Running the Change Request on routine profile changes after LO confirms.</li>
+      <li>Flagging lock variances in the pipeline as soon as they appear.</li>
+      <li>Monitoring lock expiration dates weekly — flagging any file within 10 days of expiration to the LO.</li>
+      <li>Verifying the three-column comparison on the Lock Verification form.</li>
+      <li>Uploading lock confirmations to the file.</li>
+      <li>Responsible for exiting the loan after any Change Request submission.</li>
+    </ul></div>
+    <div class="role-panel" id="role-sec"><ul>
+      <li>Processing all lock requests submitted through Polly / Optimal Blue.</li>
+      <li>Reviewing and approving / declining price exception requests.</li>
+      <li>Handling manual locks outside the Optimal Blue workflow.</li>
+      <li>Owning the <code>lockrequests@prmg.net</code> inbox — Amy Morse is the primary contact.</li>
+      <li>Issuing guidance when market conditions trigger intraday repricing.</li>
+    </ul></div>
+    <div class="role-panel" id="role-bm"><ul>
+      <li>Approving price exceptions over 0.500 before submission to Secondary.</li>
+      <li>Approving manual overrides to 2015 Itemization 802 lines.</li>
+      <li>Final call on whether to absorb branch-level lock extension costs to save a deal.</li>
+      <li>Weekly pipeline review — every file with Lock Variance YES and every file within 10 days of expiration.</li>
+    </ul></div>
+  </section>
+
+  <section id="s13">
+    <div class="sec-num">13 / DECISION TREE</div>
+    <h2 class="sec-title">"My lock situation is ___." Click your answer.</h2>
+    <div class="tree"><div class="tree-q">
+      <div class="tree-q-title">What is happening with the lock?</div>
+      <div class="tree-opts">
+        <button class="tree-opt" onclick="showAnswer('a1',this)">FT360 shows Lock Variance: YES</button>
+        <button class="tree-opt" onclick="showAnswer('a2',this)">Lock expires before closing date</button>
+        <button class="tree-opt" onclick="showAnswer('a3',this)">Lock already expired</button>
+        <button class="tree-opt" onclick="showAnswer('a4',this)">Market dropped — borrower wants a lower rate</button>
+        <button class="tree-opt" onclick="showAnswer('a5',this)">Program is changing (FHA to Conv, etc.)</button>
+        <button class="tree-opt" onclick="showAnswer('a6',this)">Intraday reprice just hit</button>
+        <button class="tree-opt" onclick="showAnswer('a7',this)">No lock confirmation 30+ min after submit</button>
+        <button class="tree-opt" onclick="showAnswer('a8',this)">Chenoa 2nd needs extension</button>
+      </div>
+      <div class="tree-answer" id="a1"><b>Lock Variance Clearance:</b> Open loan → Lock Verification (PRMG) form → check 3-column comparison → click Change Request → log into OB → 4th icon → Profile Change → First Lien → select bold product → select orange highlighted rate → Apply Change → Submit → OK → Logout → <b>EXIT THE LOAN</b>. Variance will clear in 2–3 minutes. See Section 03.</div>
+      <div class="tree-answer" id="a2"><b>Extension Needed:</b> Open loan → Change Request → Lock Extension → First Lien → choose days (5-day increments, add 5-day buffer) → Select Extension → Request → Submit → Logout → Exit. See Section 04 calculator.</div>
+      <div class="tree-answer" id="a3"><b>Relock Required:</b> Change Request → Relock → First Lien → accept worse-case pricing. Talk to the borrower before submitting. Document in file notes. See Section 07.</div>
+      <div class="tree-answer" id="a4"><b>Float Down:</b> Verify market has moved 0.250+ since lock. Confirm program is float-down-eligible. Email <code>lockrequests@prmg.net</code>: "Float Down Request — Loan # X — Borrower". Wait for written confirmation before telling the borrower. See Section 06.</div>
+      <div class="tree-answer" id="a5"><b>Full Relock:</b> NOT a Profile Change. Email <code>lockrequests@prmg.net</code>: "Program Change Lock — Loan # X — Borrower". Old lock cancels, new lock at current market pricing. See Section 05.</div>
+      <div class="tree-answer" id="a6"><b>Triage Every Unlocked File:</b> Check MBS Highway alert. Call every borrower with a quoted-but-not-locked rate within 1 hour. Be honest about the rate movement. Document every conversation. See Section 08.</div>
+      <div class="tree-answer" id="a7"><b>Missing Confirmation:</b> Email <code>lockrequests@prmg.net</code> with loan number and timestamp. Do not resubmit — that can create duplicate lock requests.</div>
+      <div class="tree-answer" id="a8"><b>Chenoa Second Lien:</b> Email <code>locks@chenoafund.org</code> — "Chenoa Lock Extension Request — [Borrower] — PRMG Loan #". Email PRMG Secondary the same day for the first lien extension. See Section 10.</div>
+    </div></div>
+  </section>
+
+  <section id="s14">
+    <div class="sec-num">14 / KEY CONTACTS</div>
+    <h2 class="sec-title">Who to call. And when.</h2>
+    <div class="contacts">
+      <div class="contact-card"><div class="contact-role">PRMG SECONDARY — LOCK DESK</div><div class="contact-name">Amy Morse</div><div class="contact-email">lockrequests@prmg.net</div><div class="contact-for">Primary inbox for all lock requests, extensions, validations, relocks, price exceptions, float downs. First point of contact for all standard PRMG lock issues.</div></div>
+      <div class="contact-card blue"><div class="contact-role">PRMG SECONDARY — PPE SPECIALIST</div><div class="contact-name">Christina Hart</div><div class="contact-email">CHart@prmg.net</div><div class="contact-for">PPE (Polly / Optimal Blue) specialist. Contact for credential issues, OB system errors, and lock validation confirmations.</div></div>
+      <div class="contact-card green"><div class="contact-role">CHENOA FUND — LOCK DESK</div><div class="contact-name">Chenoa Fund Lock Desk</div><div class="contact-email">locks@chenoafund.org</div><div class="contact-for">All changes to the Chenoa second lien: extensions, amount changes, program swaps. Does NOT handle the first-lien FHA side — that stays with PRMG Secondary.</div></div>
+      <div class="contact-card purple"><div class="contact-role">BRANCH MANAGER</div><div class="contact-name">Jose Del Valle-Figueroa</div><div class="contact-email">JDelValle@prmg.net</div><div class="contact-for">Final approval for price exceptions over 0.500, manual overrides to 802 Itemization lines, any worse-case relock where borrower is at risk of walking.</div></div>
+    </div>
+  </section>
+
+  <section id="s15">
+    <div class="sec-num">15 / QUICK REFERENCE</div>
+    <h2 class="sec-title">The one-page cheat sheet.</h2>
+    <div class="qref">
+      <div class="qref-title">◆ LOCK VARIANCE QUICK REFERENCE CARD</div>
+      <div class="qref-grid">
+        <div class="qref-item"><div class="qref-lbl">CLEAR A VARIANCE</div><div class="qref-val">Loan → Lock Verification form → Change Request → Profile Change → BOLD product → orange rate → Submit → <b>EXIT LOAN</b></div></div>
+        <div class="qref-item"><div class="qref-lbl">EXTEND A LOCK</div><div class="qref-val">Change Request → Lock Extension → 5-day increments → 5-day buffer → Submit → Exit</div></div>
+        <div class="qref-item"><div class="qref-lbl">RELOCK (EXPIRED)</div><div class="qref-val">Change Request → Relock → worse-case pricing applies. Talk to borrower first.</div></div>
+        <div class="qref-item"><div class="qref-lbl">FLOAT DOWN</div><div class="qref-val">Market dropped 0.250+ · program eligible · 7+ days left · email <b>lockrequests@prmg.net</b></div></div>
+        <div class="qref-item"><div class="qref-lbl">PROGRAM CHANGE</div><div class="qref-val">NOT a Change Request — email <b>lockrequests@prmg.net</b>. New lock at current market.</div></div>
+        <div class="qref-item"><div class="qref-lbl">CHENOA 2ND CHANGES</div><div class="qref-val">Email <b>locks@chenoafund.org</b> · Always extend 1st lien same day</div></div>
+        <div class="qref-item"><div class="qref-lbl">NO LOCK CONFIRMATION</div><div class="qref-val">30+ min after submit → email <b>lockrequests@prmg.net</b> · Do NOT resubmit</div></div>
+        <div class="qref-item"><div class="qref-lbl">THE ONE RULE</div><div class="qref-val">After every Change Request → <b>EXIT THE LOAN</b>. Everything else is optional.</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="tag">BRANCH <span class="gold">541-A</span> · PRMG</div>
+  <div class="line">────  JOSE DEL VALLE-FIGUEROA · BRANCH MANAGER & MLO  ────</div>
+  <div class="meta">
+    <b>Jose Del Valle-Figueroa</b> · Branch Manager / MLO · NMLS <b>#2686066</b><br>
+    Paramount Residential Mortgage Group · Las Vegas, Nevada · 702-848-5626<br>
+    Branch 541-A · 3960 Howard Hughes Pkwy Suite 519, Las Vegas NV 89169<br>
+    <b>JDelValle@prmg.net</b>
+  </div>
+  <div class="disclaimer">
+    <b>INTERNAL TEAM USE ONLY.</b> This guide is a training resource for Branch 541-A · PRMG. Pricing examples and extension costs shown are approximations for educational purposes only — actual pricing is determined in Polly / Optimal Blue at time of each request and is subject to change. Always verify current pricing and program rules directly with PRMG Secondary before quoting to a borrower. Not a substitute for official PRMG training materials, policies, or investor guidelines. Any conflict between this document and official PRMG guidance — official PRMG guidance wins.
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{const sc=document.documentElement.scrollTop;const h=document.documentElement.scrollHeight-document.documentElement.clientHeight;document.getElementById('prog').style.width=(sc/h*100)+'%';});
+  function calcExt(){const loan=parseFloat(document.getElementById('calc-loan').value)||0;const prog=document.getElementById('calc-prog').value;const days=parseInt(document.getElementById('calc-days').value)||0;let priceHit=0;if(prog==='chenoa'){const weeks=Math.ceil(days/7);priceHit=weeks*0.175;}else{if(days<=5)priceHit=days*0.040;else if(days<=15)priceHit=(5*0.040)+((days-5)*0.050);else priceHit=(5*0.040)+(10*0.050)+((days-15)*0.070);}const dollars=(priceHit/100)*loan;const bps=(priceHit*100).toFixed(0);const relockCost=(0.500/100)*loan;const ratio=relockCost/dollars;const vsText=ratio>=2?'~'+ratio.toFixed(1)+'× cheaper':ratio>=1.2?'cheaper':'comparable';document.getElementById('calc-price').textContent=priceHit.toFixed(3);document.getElementById('calc-bps').textContent=bps;document.getElementById('calc-dollars').textContent='$'+Math.round(dollars).toLocaleString();document.getElementById('calc-vs').textContent=vsText;}
+  calcExt();
+  function showRole(r,e){document.querySelectorAll('.role-tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.role-panel').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById('role-'+r).classList.add('active');}
+  function showAnswer(id,btn){document.querySelectorAll('.tree-opt').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tree-answer').forEach(a=>a.classList.remove('show'));btn.classList.add('active');document.getElementById(id).classList.add('show');}
+  document.querySelectorAll('.toc a').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});});
+</script>
+</body>
+</html>

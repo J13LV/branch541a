@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Branch 541-A · Pre-calificación rápida para agentes · Quick client pre-screen for realtors">
+<title>Pre-Screen · Branch 541-A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#08111f;
+  --navy2:#0d1c30;
+  --navy3:#122240;
+  --gold:#c8920a;
+  --gold2:#e0aa28;
+  --gold-l:rgba(200,146,10,.12);
+  --teal:#0a7868;
+  --teal2:#0d9980;
+  --teal-l:rgba(10,120,104,.12);
+  --green:#1a6b3a;
+  --green-l:rgba(26,107,58,.15);
+  --red:#8b1a1a;
+  --red-l:rgba(139,26,26,.15);
+  --amber:#a06000;
+  --amber-l:rgba(160,96,0,.15);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Outfit',sans-serif;
+  background:#08111f;
+  color:rgba(255,255,255,.9);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,17,31,.95);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(200,146,10,.15);
+  padding:0 20px;height:52px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.back-btn{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:rgba(255,255,255,.5);
+  text-decoration:none;border:none;background:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;
+  transition:color .15s;
+}
+.back-btn:hover{color:rgba(255,255,255,.8)}
+.back-btn svg{width:14px;height:14px;stroke:currentColor}
+.topbar-title{
+  font-family:'Fira Code',monospace;
+  font-size:10px;letter-spacing:.12em;
+  color:var(--teal2);font-weight:500;
+}
+.lang-toggle{
+  display:flex;align-items:center;gap:3px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:3px;
+}
+.lang-btn{
+  padding:3px 10px;border-radius:16px;border:none;
+  background:transparent;
+  font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;
+  color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;
+  letter-spacing:.05em;
+}
+.lang-btn.active{background:var(--gold);color:var(--navy);font-weight:600}
+
+/* ── HERO ── */
+.hero{
+  background:#08111f;
+  padding:36px 20px 28px;text-align:center;
+  border-bottom:1px solid rgba(10,120,104,.2);
+}
+.hero-eyebrow{
+  font-family:'Fira Code',monospace;
+  font-size:9px;letter-spacing:.2em;color:var(--teal2);
+  text-transform:uppercase;margin-bottom:12px;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(26px,6vw,38px);font-weight:600;
+  line-height:1.1;color:#fff;margin-bottom:8px;
+}
+.hero-title em{font-style:italic;color:var(--gold2)}
+.hero-sub{
+  font-size:13px;font-weight:300;
+  color:rgba(255,255,255,.5);line-height:1.6;
+  max-width:440px;margin:0 auto;
+}
+
+/* ── PROGRESS ── */
+.progress-wrap{
+  background:#08111f;
+  padding:16px 20px 0;
+  position:sticky;top:52px;z-index:90;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.progress-steps{
+  display:flex;align-items:center;gap:0;
+  max-width:540px;margin:0 auto 14px;
+}
+.pstep{
+  flex:1;height:3px;background:rgba(255,255,255,.1);
+  border-radius:2px;overflow:hidden;
+}
+.pstep-fill{height:100%;background:var(--teal2);border-radius:2px;width:0%;transition:width .4s}
+.progress-label{
+  text-align:center;
+  font-family:'Fira Code',monospace;font-size:9px;
+  letter-spacing:.1em;color:rgba(255,255,255,.3);
+  padding-bottom:10px;
+}
+.progress-label span{color:var(--teal2)}
+
+/* ── SECTIONS ── */
+.sections{
+  max-width:560px;margin:0 auto;
+  padding:0 20px 120px;background:#08111f;
+}
+
+.q-section{
+  padding:28px 0 24px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:none;
+}
+.q-section.active{display:block}
+.q-section.done{display:none}
+
+.q-num{
+  font-family:'Fira Code',monospace;
+  font-size:9px;letter-spacing:.15em;
+  color:var(--teal2);margin-bottom:10px;
+  display:flex;align-items:center;gap:6px;
+}
+.q-num::after{content:'';flex:1;height:1px;background:rgba(10,120,104,.2)}
+
+.q-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,4vw,22px);font-weight:500;
+  color:#fff;line-height:1.2;margin-bottom:4px;
+}
+.q-sub{
+  font-size:12px;color:rgba(255,255,255,.4);
+  font-weight:300;margin-bottom:18px;line-height:1.5;
+}
+
+/* ── CLIENT INFO INPUTS ── */
+.inputs-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:20px}
+.inp-group{display:flex;flex-direction:column;gap:4px}
+.inp-label{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.06em;font-family:'Fira Code',monospace}
+.inp{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:11px 14px;
+  font-family:'Outfit',sans-serif;font-size:14px;
+  color:#fff;outline:none;width:100%;
+  transition:border-color .15s;
+}
+.inp:focus{border-color:rgba(10,120,104,.5);background:rgba(255,255,255,.07)}
+.inp::placeholder{color:rgba(255,255,255,.2)}
+.inp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ── CHOICE PILLS ── */
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choice{
+  padding:10px 16px;border-radius:20px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  font-size:13px;font-weight:400;
+  color:rgba(255,255,255,.65);
+  cursor:pointer;transition:all .18s;
+  user-select:none;line-height:1.3;
+  text-align:center;
+}
+.choice:hover{border-color:rgba(10,120,104,.4);color:#fff;background:rgba(10,120,104,.06)}
+.choice.sel-teal{background:var(--teal-l);border-color:var(--teal2);color:var(--teal2);font-weight:500}
+.choice.sel-gold{background:var(--gold-l);border-color:var(--gold2);color:var(--gold2);font-weight:500}
+.choice.sel-green{background:var(--green-l);border-color:#2a9b5a;color:#2a9b5a;font-weight:500}
+.choice.sel-red{background:var(--red-l);border-color:#c04040;color:#c04040;font-weight:500}
+.choice.sel-amber{background:var(--amber-l);border-color:#d08000;color:#d08000;font-weight:500}
+
+/* CREDIT BANDS */
+.credit-row{display:flex;gap:6px;flex-wrap:wrap}
+.credit-pill{
+  flex:1;min-width:72px;padding:9px 6px;
+  text-align:center;border-radius:10px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  font-size:12px;font-weight:500;
+  color:rgba(255,255,255,.5);cursor:pointer;
+  transition:all .15s;font-family:'Fira Code',monospace;
+}
+.credit-pill:hover{border-color:rgba(10,120,104,.4);color:#fff}
+.credit-pill.sel-red{background:rgba(139,26,26,.25);border-color:#c04040;color:#f08080}
+.credit-pill.sel-amber{background:rgba(160,96,0,.25);border-color:#d08000;color:#e0a030}
+.credit-pill.sel-ok{background:rgba(160,120,0,.25);border-color:#c09000;color:#d0b040}
+.credit-pill.sel-green{background:rgba(26,107,58,.25);border-color:#2a9b5a;color:#50d890}
+.credit-pill.sel-great{background:rgba(10,80,40,.35);border-color:#1a8040;color:#50e8a0}
+.credit-pill.sel-unkn{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3);color:#fff}
+
+/* ── NEXT BTN ── */
+.nav-row{margin-top:24px;display:flex;gap:10px;align-items:center}
+.btn-next{
+  flex:1;padding:14px 20px;
+  border-radius:12px;border:none;
+  background:var(--teal2);color:#fff;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .18s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-next:hover{background:#0fc0a0}
+.btn-next:disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:not-allowed}
+.btn-next svg{width:16px;height:16px;stroke:currentColor}
+.btn-back{
+  padding:14px 16px;border-radius:12px;
+  border:1px solid rgba(255,255,255,.1);
+  background:transparent;color:rgba(255,255,255,.4);
+  font-family:'Outfit',sans-serif;font-size:14px;
+  cursor:pointer;transition:all .15s;
+}
+.btn-back:hover{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2)}
+
+/* ── RESULT ── */
+.result{
+  display:none;
+  padding:28px 0;
+}
+.result.show{display:block}
+
+.result-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:20px;
+  font-family:'Fira Code',monospace;font-size:11px;font-weight:500;
+  letter-spacing:.08em;margin-bottom:20px;
+}
+.badge-ready{background:rgba(26,107,58,.25);color:#50d890;border:1px solid rgba(26,107,58,.4)}
+.badge-almost{background:rgba(160,96,0,.25);color:#e0a030;border:1px solid rgba(160,96,0,.4)}
+.badge-prep{background:rgba(139,26,26,.25);color:#f08080;border:1px solid rgba(139,26,26,.4)}
+
+.result-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,5vw,30px);font-weight:600;
+  color:#fff;margin-bottom:6px;line-height:1.1;
+}
+.result-sub{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:24px;line-height:1.6}
+
+.signals-wrap{margin-bottom:24px}
+.signals-title{
+  font-family:'Fira Code',monospace;font-size:9px;
+  letter-spacing:.14em;color:rgba(255,255,255,.3);
+  text-transform:uppercase;margin-bottom:10px;
+}
+.signals{display:flex;flex-wrap:wrap;gap:6px}
+.sig{
+  font-size:11px;padding:4px 12px;border-radius:20px;
+  font-family:'Fira Code',monospace;font-weight:500;
+}
+.sig-dpa{background:rgba(26,107,58,.2);color:#50d890;border:1px solid rgba(26,107,58,.3)}
+.sig-fha{background:rgba(15,60,120,.2);color:#80b0f0;border:1px solid rgba(15,60,120,.3)}
+.sig-conv{background:rgba(74,26,122,.2);color:#b090e0;border:1px solid rgba(74,26,122,.3)}
+.sig-va{background:rgba(10,96,104,.2);color:#60c8d0;border:1px solid rgba(10,96,104,.3)}
+.sig-nonqm{background:rgba(139,26,64,.2);color:#f080a8;border:1px solid rgba(139,26,64,.3)}
+.sig-warn{background:rgba(160,96,0,.15);color:#e0a030;border:1px solid rgba(160,96,0,.25)}
+.sig-hero{background:rgba(10,120,104,.2);color:#0fd9a0;border:1px solid rgba(10,120,104,.3)}
+
+.summary-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:16px;margin-bottom:20px;
+}
+.summary-row{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);
+  gap:10px;
+}
+.summary-row:last-child{border-bottom:none}
+.sum-key{font-size:11px;color:rgba(255,255,255,.35);font-weight:400;flex-shrink:0}
+.sum-val{font-size:12px;color:rgba(255,255,255,.8);font-weight:500;text-align:right;line-height:1.4}
+
+/* ── WHATSAPP BTN ── */
+.wa-btn{
+  width:100%;padding:15px 20px;
+  border-radius:12px;border:none;
+  background:#25d366;color:#fff;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .18s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:10px;text-decoration:none;
+}
+.wa-btn:hover{background:#1fb857}
+.wa-btn svg{width:20px;height:20px;fill:currentColor;flex-shrink:0}
+
+.reset-btn{
+  width:100%;padding:12px 20px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.1);
+  background:transparent;color:rgba(255,255,255,.45);
+  font-family:'Outfit',sans-serif;font-size:13px;
+  cursor:pointer;transition:all .15s;
+}
+.reset-btn:hover{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2)}
+
+/* ── LANGUAGE ── */
+.es{display:block}.en{display:none}
+span.es{display:inline}.en{display:none}
+body.lang-en .es{display:none}
+body.lang-en .en{display:block}
+body.lang-en span.es{display:none}
+body.lang-en span.en{display:inline}
+
+/* ── FOOTER ── */
+.page-footer{
+  background:#08111f;
+  border-top:1px solid rgba(255,255,255,.06);
+  padding:20px;text-align:center;
+}
+.page-footer p{font-size:10px;color:rgba(255,255,255,.2);line-height:1.7}
+
+@media(max-width:400px){
+  .inp-row{grid-template-columns:1fr}
+  .credit-pill{min-width:60px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <a class="back-btn" href="../index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    <span class="es">Inicio</span><span class="en">Home</span>
+  </a>
+  <div class="topbar-title">
+    <span class="es">PRE-CALIFICACIÓN · AGENTE</span>
+    <span class="en">CLIENT PRE-SCREEN · REALTOR</span>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Branch 541-A · PRMG · Jose Del Valle NMLS# 2686066</div>
+  <h1 class="hero-title">
+    <span class="es">Pre-califica a tu<br>cliente en <em>2 minutos</em></span>
+    <span class="en">Pre-screen your<br>client in <em>2 minutes</em></span>
+  </h1>
+  <p class="hero-sub">
+    <span class="es">Responde estas preguntas con tu cliente antes de llamarnos. Al final recibes un resumen listo para enviar por WhatsApp.</span>
+    <span class="en">Answer these questions with your client before calling us. At the end you get a summary ready to send via WhatsApp.</span>
+  </p>
+</div>
+
+<!-- LO BANNER -->
+<div id="lo-banner" style="background:#08111f;padding:0 20px 16px">
+  <div style="max-width:540px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)">
+    <div id="lo-dot" style="width:8px;height:8px;border-radius:50%;flex-shrink:0;background:#c8920a"></div>
+    <div style="flex:1">
+      <div style="font-size:11px;color:rgba(255,255,255,.35);font-family:'Fira Code',monospace;letter-spacing:.08em">
+        <span class="es">ENVIANDO A</span><span class="en">SENDING TO</span>
+      </div>
+      <div id="lo-name-display" style="font-size:13px;font-weight:500;color:rgba(255,255,255,.85)">Branch 541-A</div>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.2);font-family:'Fira Code',monospace">PRMG 541-A</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-steps" id="progress-steps"></div>
+  <div class="progress-label">
+    <span class="es"><span id="step-cur">1</span> de <span id="step-tot">7</span></span>
+    <span class="en">Step <span id="step-cur-en">1</span> of <span id="step-tot-en">7</span></span>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div class="sections">
+
+  <!-- Q1: CLIENT INFO -->
+  <div class="q-section active" id="q1">
+    <div class="q-num">
+      <span class="es">01 · INFORMACIÓN DEL CLIENTE</span>
+      <span class="en">01 · CLIENT INFO</span>
+    </div>
+    <div class="q-label">
+      <span class="es">¿Cómo se llama tu cliente?</span>
+      <span class="en">What is your client's name?</span>
+    </div>
+    <p class="q-sub">
+      <span class="es">También necesitamos tu nombre como agente.</span>
+      <span class="en">We also need your name as the agent.</span>
+    </p>
+    <div class="inputs-grid">
+      <div class="inp-row">
+        <div class="inp-group">
+          <label class="inp-label"><span class="es">NOMBRE DEL CLIENTE</span><span class="en">CLIENT NAME</span></label>
+          <input class="inp" id="client-name" placeholder="Apellido, Nombre" oninput="checkQ1()">
+        </div>
+        <div class="inp-group">
+          <label class="inp-label"><span class="es">TELÉFONO</span><span class="en">PHONE</span></label>
+          <input class="inp" id="client-phone" placeholder="(702) ___-____" oninput="checkQ1()">
+        </div>
+      </div>
+      <div class="inp-row">
+        <div class="inp-group">
+          <label class="inp-label"><span class="es">TU NOMBRE (AGENTE)</span><span class="en">YOUR NAME (AGENT)</span></label>
+          <input class="inp" id="agent-name" placeholder="Tu nombre" oninput="checkQ1()">
+        </div>
+        <div class="inp-group">
+          <label class="inp-label"><span class="es">ESTADO</span><span class="en">STATE</span></label>
+          <select class="inp" id="state" onchange="checkQ1()" style="cursor:pointer">
+            <option value="">---</option>
+            <option value="NV">Nevada</option>
+            <option value="FL">Florida</option>
+            <option value="TX">Texas</option>
+            <option value="AZ">Arizona</option>
+            <option value="Other">Otro / Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-next" id="q1-next" onclick="goTo(2)" disabled>
+        <span class="es">Continuar</span><span class="en">Continue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Q2: FIRST-TIME BUYER -->
+  <div class="q-section" id="q2">
+    <div class="q-num">
+      <span class="es">02 · COMPRADOR PRIMERIZO</span>
+      <span class="en">02 · FIRST-TIME BUYER</span>
+    </div>
+    <div class="q-label">
+      <span class="es">¿Ha tenido casa en los últimos 3 años?</span>
+      <span class="en">Have they owned a home in the past 3 years?</span>
+    </div>
+    <p class="q-sub">
+      <span class="es">Esta es la pregunta más importante. Abre o cierra los programas DPA.</span>
+      <span class="en">This is the most important question. It opens or closes all DPA programs.</span>
+    </p>
+    <div class="choices" id="ftb-choices">
+      <div class="choice" onclick="pick('ftb','no-never','sel-green',this)">
+        <span class="es">No — nunca ha tenido casa</span>
+        <span class="en">No — never owned a home</span>
+      </div>
+      <div class="choice" onclick="pick('ftb','no-3yr','sel-green',this)">
+        <span class="es">No — no ha tenido en los últimos 3 años</span>
+        <span class="en">No — hasn't owned in past 3 years</span>
+      </div>
+      <div class="choice" onclick="pick('ftb','yes-owns','sel-red',this)">
+        <span class="es">Sí — actualmente tiene casa</span>
+        <span class="en">Yes — currently owns a home</span>
+      </div>
+      <div class="choice" onclick="pick('ftb','yes-sold','sel-amber',this)">
+        <span class="es">Sí — vendió en los últimos 3 años</span>
+        <span class="en">Yes — sold within the last 3 years</span>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(1)">←</button>
+      <button class="btn-next" id="q2-next" onclick="goTo(3)" disabled>
+        <span class="es">Continuar</span><span class="en">Continue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Q3: CREDIT SCORE -->
+  <div class="q-section" id="q3">
+    <div class="q-num">
+      <span class="es">03 · PUNTAJE DE CRÉDITO</span>
+      <span class="en">03 · CREDIT SCORE</span>
+    </div>
+    <div class="q-label">
+      <span class="es">¿Cuál es su puntaje de crédito aproximado?</span>
+      <span class="en">What is their approximate credit score?</span>
+    </div>
+    <p class="q-sub">
+      <span class="es">640 abre todos los programas DPA · 620 abre FHA y Chenoa · Menos de 580 necesita trabajo de crédito</span>
+      <span class="en">640 opens all DPA programs · 620 opens FHA and Chenoa · Below 580 needs credit work</span>
+    </p>
+    <div class="credit-row">
+      <div class="credit-pill" onclick="pickCredit(this,'sel-red','below580')">-580</div>
+      <div class="credit-pill" onclick="pickCredit(this,'sel-amber','580-619')">580-619</div>
+      <div class="credit-pill" onclick="pickCredit(this,'sel-ok','620-639')">620-639</div>
+      <div class="credit-pill" onclick="pickCredit(this,'sel-green','640-679')">640-679</div>
+      <div class="credit-pill" onclick="pickCredit(this,'sel-green','680-699')">680-699</div>
+      <div class="credit-pill" onclick="pickCredit(this,'sel-great','700-719')">700-719</div>
+      <div class="credit-pill" onclick="pickCredit(this,'sel-great','720+')">720+</div>
+      <div class="credit-pill" onclick="pickCredit(this,'sel-unkn','unknown')">
+        <span class="es">No sé</span><span class="en">Unknown</span>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(2)">←</button>
+      <button class="btn-next" id="q3-next" onclick="goTo(4)" disabled>
+        <span class="es">Continuar</span><span class="en">Continue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Q4: INCOME -->
+  <div class="q-section" id="q4">
+    <div class="q-num">
+      <span class="es">04 · INGRESOS</span>
+      <span class="en">04 · INCOME</span>
+    </div>
+    <div class="q-label">
+      <span class="es">¿Cuál es el ingreso familiar anual aproximado?</span>
+      <span class="en">What is the approximate annual household income?</span>
+    </div>
+    <p class="q-sub">
+      <span class="es">La mayoría de los programas DPA tienen un límite entre $80K–$160K.</span>
+      <span class="en">Most DPA programs have income limits between $80K–$160K.</span>
+    </p>
+    <div class="choices" id="income-choices">
+      <div class="choice" onclick="pick('income','under60','sel-green',this)">
+        <span class="es">Menos de $60,000</span><span class="en">Under $60,000</span>
+      </div>
+      <div class="choice" onclick="pick('income','60-80','sel-green',this)">$60,000 – $80,000</div>
+      <div class="choice" onclick="pick('income','80-105','sel-green',this)">$80,000 – $105,000</div>
+      <div class="choice" onclick="pick('income','105-130','sel-teal',this)">$105,000 – $130,000</div>
+      <div class="choice" onclick="pick('income','130-160','sel-teal',this)">$130,000 – $160,000</div>
+      <div class="choice" onclick="pick('income','over160','sel-amber',this)">
+        <span class="es">Más de $160,000</span><span class="en">Over $160,000</span>
+      </div>
+    </div>
+    <div style="margin-top:16px">
+      <p style="font-size:11px;color:rgba(255,255,255,.35);margin-bottom:8px;font-family:'Fira Code',monospace;letter-spacing:.08em">
+        <span class="es">CÓMO DOCUMENTA SUS INGRESOS</span>
+        <span class="en">HOW IS INCOME DOCUMENTED</span>
+      </p>
+      <div class="choices" id="incdoc-choices">
+        <div class="choice" onclick="pick('incdoc','w2','sel-teal',this)">
+          <span class="es">W-2 / Empleado</span><span class="en">W-2 / Employee</span>
+        </div>
+        <div class="choice" onclick="pick('incdoc','selfemployed','sel-teal',this)">
+          <span class="es">Trabajador independiente</span><span class="en">Self-employed</span>
+        </div>
+        <div class="choice" onclick="pick('incdoc','1099','sel-teal',this)">1099</div>
+        <div class="choice" onclick="pick('incdoc','itin','sel-gold',this)">
+          <span class="es">ITIN / Sin SSN</span><span class="en">ITIN / No SSN</span>
+        </div>
+        <div class="choice" onclick="pick('incdoc','bankdeposits','sel-gold',this)">
+          <span class="es">Depósitos bancarios</span><span class="en">Bank deposits</span>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(3)">←</button>
+      <button class="btn-next" id="q4-next" onclick="goTo(5)" disabled>
+        <span class="es">Continuar</span><span class="en">Continue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Q5: VETERAN + HERO -->
+  <div class="q-section" id="q5">
+    <div class="q-num">
+      <span class="es">05 · VETERANO / PROFESIÓN ESPECIAL</span>
+      <span class="en">05 · VETERAN / HERO OCCUPATION</span>
+    </div>
+    <div class="q-label">
+      <span class="es">¿Es veterano o trabaja en una profesión especial?</span>
+      <span class="en">Are they a veteran or in a hero profession?</span>
+    </div>
+    <p class="q-sub">
+      <span class="es">Los veteranos califican para VA. Las profesiones especiales califican para FL Hometown Heroes y TX TSAHC Heroes.</span>
+      <span class="en">Veterans qualify for VA loans. Hero occupations qualify for FL Hometown Heroes and TX TSAHC Heroes programs.</span>
+    </p>
+    <div class="choices" id="vet-choices" style="margin-bottom:14px">
+      <div class="choice" onclick="pickVet('vet','sel-teal',this)">
+        <span class="es">Sí — veterano / militar activo</span>
+        <span class="en">Yes — veteran / active duty</span>
+      </div>
+      <div class="choice" onclick="pickVet('no-vet','sel-teal',this)">
+        <span class="es">No es veterano</span>
+        <span class="en">Not a veteran</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:rgba(255,255,255,.35);margin-bottom:8px;font-family:'Fira Code',monospace;letter-spacing:.08em">
+      <span class="es">PROFESIÓN (SELECCIONA SI APLICA)</span>
+      <span class="en">OCCUPATION (SELECT IF APPLICABLE)</span>
+    </p>
+    <div class="choices" id="hero-choices">
+      <div class="choice" onclick="togHero(this,'sel-green')">
+        <span class="es">Maestro / Educador</span><span class="en">Teacher / Educator</span>
+      </div>
+      <div class="choice" onclick="togHero(this,'sel-green')">
+        <span class="es">Enfermero / Salud</span><span class="en">Nurse / Healthcare</span>
+      </div>
+      <div class="choice" onclick="togHero(this,'sel-green')">
+        <span class="es">Policía / Ley</span><span class="en">Law enforcement</span>
+      </div>
+      <div class="choice" onclick="togHero(this,'sel-green')">
+        <span class="es">Bombero / EMS</span><span class="en">Firefighter / EMS</span>
+      </div>
+      <div class="choice" onclick="togHero(this,'sel-green')">
+        <span class="es">Empleado del gobierno</span><span class="en">Government employee</span>
+      </div>
+      <div class="choice" onclick="togHero(this,'sel-teal')">
+        <span class="es">Ninguna / Sector privado</span><span class="en">None / Private sector</span>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(4)">←</button>
+      <button class="btn-next" id="q5-next" onclick="goTo(6)" disabled>
+        <span class="es">Continuar</span><span class="en">Continue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Q6: DOWN PAYMENT + PRICE -->
+  <div class="q-section" id="q6">
+    <div class="q-num">
+      <span class="es">06 · PAGO INICIAL Y PRECIO</span>
+      <span class="en">06 · DOWN PAYMENT & PRICE</span>
+    </div>
+    <div class="q-label">
+      <span class="es">¿Cuánto tiene disponible y cuánto quiere gastar?</span>
+      <span class="en">How much do they have available and what price range?</span>
+    </div>
+    <p class="q-sub" style="margin-bottom:14px">
+      <span class="es">PAGO INICIAL DISPONIBLE</span>
+      <span class="en">DOWN PAYMENT AVAILABLE</span>
+    </p>
+    <div class="choices" id="dp-choices" style="margin-bottom:18px">
+      <div class="choice" onclick="pick('dp','minimal','sel-amber',this)">
+        <span class="es">Mínimo — necesita máxima ayuda</span>
+        <span class="en">Minimal — needs max assistance</span>
+      </div>
+      <div class="choice" onclick="pick('dp','1-5k','sel-teal',this)">$1,000 – $5,000</div>
+      <div class="choice" onclick="pick('dp','5-10k','sel-teal',this)">$5,000 – $10,000</div>
+      <div class="choice" onclick="pick('dp','10-20k','sel-teal',this)">$10,000 – $20,000</div>
+      <div class="choice" onclick="pick('dp','20kplus','sel-green',this)">
+        <span class="es">Más de $20,000</span><span class="en">More than $20,000</span>
+      </div>
+    </div>
+    <p style="font-size:11px;color:rgba(255,255,255,.35);margin-bottom:8px;font-family:'Fira Code',monospace;letter-spacing:.08em">
+      <span class="es">PRECIO DE COMPRA OBJETIVO</span>
+      <span class="en">TARGET PURCHASE PRICE</span>
+    </p>
+    <div class="choices" id="price-choices">
+      <div class="choice" onclick="pick('price','under250','sel-teal',this)">
+        <span class="es">Menos de $250K</span><span class="en">Under $250K</span>
+      </div>
+      <div class="choice" onclick="pick('price','250-350','sel-teal',this)">$250K – $350K</div>
+      <div class="choice" onclick="pick('price','350-450','sel-teal',this)">$350K – $450K</div>
+      <div class="choice" onclick="pick('price','450-600','sel-teal',this)">$450K – $600K</div>
+      <div class="choice" onclick="pick('price','over600','sel-gold',this)">
+        <span class="es">Más de $600K</span><span class="en">Over $600K</span>
+      </div>
+      <div class="choice" onclick="pick('price','notsure','sel-teal',this)">
+        <span class="es">No sé todavía</span><span class="en">Not sure yet</span>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(5)">←</button>
+      <button class="btn-next" id="q6-next" onclick="goTo(7)" disabled>
+        <span class="es">Continuar</span><span class="en">Continue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Q7: TIMELINE + NOTES -->
+  <div class="q-section" id="q7">
+    <div class="q-num">
+      <span class="es">07 · TIEMPO Y NOTAS</span>
+      <span class="en">07 · TIMELINE & NOTES</span>
+    </div>
+    <div class="q-label">
+      <span class="es">¿Cuándo quiere comprar?</span>
+      <span class="en">When are they looking to buy?</span>
+    </div>
+    <div class="choices" id="timeline-choices" style="margin-bottom:18px">
+      <div class="choice" onclick="pick('timeline','asap','sel-gold',this)">
+        <span class="es">Ya tiene contrato / urgente</span>
+        <span class="en">Contract signed / urgent</span>
+      </div>
+      <div class="choice" onclick="pick('timeline','30-60','sel-green',this)">
+        <span class="es">30–60 días — buscando activamente</span>
+        <span class="en">30–60 days — actively looking</span>
+      </div>
+      <div class="choice" onclick="pick('timeline','3-6mo','sel-teal',this)">
+        <span class="es">3–6 meses — se está preparando</span>
+        <span class="en">3–6 months — getting ready</span>
+      </div>
+      <div class="choice" onclick="pick('timeline','6mo+','sel-teal',this)">
+        <span class="es">Más de 6 meses / explorando</span>
+        <span class="en">6+ months / exploring</span>
+      </div>
+    </div>
+    <div class="inp-group" style="margin-bottom:8px">
+      <label class="inp-label">
+        <span class="es">NOTAS ADICIONALES (OPCIONAL)</span>
+        <span class="en">ADDITIONAL NOTES (OPTIONAL)</span>
+      </label>
+      <textarea class="inp" id="notes" rows="3"
+        placeholder="Cualquier información adicional relevante...
+Any additional relevant info..."
+        style="resize:none;line-height:1.5"></textarea>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(6)">←</button>
+      <button class="btn-next" id="q7-next" onclick="showResult()" disabled style="background:var(--gold);color:var(--navy)">
+        <span class="es">Ver resultado →</span>
+        <span class="en">See result →</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result" id="result">
+    <div id="result-badge" class="result-badge badge-ready">
+      <span id="badge-text-es" class="es">LISTO PARA COMPRAR</span>
+      <span id="badge-text-en" class="en">READY TO BUY</span>
+    </div>
+    <div class="result-name" id="result-name">Cliente</div>
+    <p class="result-sub" id="result-sub">
+      <span class="es-sub es"></span>
+      <span class="en-sub en"></span>
+    </p>
+
+    <div class="signals-wrap">
+      <div class="signals-title">
+        <span class="es">SEÑALES DE PRODUCTOS</span>
+        <span class="en">PRODUCT SIGNALS</span>
+      </div>
+      <div class="signals" id="sig-chips"></div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-row"><span class="sum-key"><span class="es">Agente</span><span class="en">Agent</span></span><span class="sum-val" id="sum-agent">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Estado</span><span class="en">State</span></span><span class="sum-val" id="sum-state">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Comprador primerizo</span><span class="en">First-time buyer</span></span><span class="sum-val" id="sum-ftb">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Crédito</span><span class="en">Credit</span></span><span class="sum-val" id="sum-credit">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Ingresos</span><span class="en">Income</span></span><span class="sum-val" id="sum-income">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Tipo de ingreso</span><span class="en">Income type</span></span><span class="sum-val" id="sum-incdoc">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Pago inicial</span><span class="en">Down payment</span></span><span class="sum-val" id="sum-dp">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Precio objetivo</span><span class="en">Target price</span></span><span class="sum-val" id="sum-price">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Veterano</span><span class="en">Veteran</span></span><span class="sum-val" id="sum-vet">—</span></div>
+      <div class="summary-row"><span class="sum-key"><span class="es">Tiempo</span><span class="en">Timeline</span></span><span class="sum-val" id="sum-timeline">—</span></div>
+    </div>
+
+    <!-- Primary WA button — goes to assigned LO -->
+    <a class="wa-btn" id="wa-btn" href="#" target="_blank">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span id="wa-btn-text-es" class="es">Enviar a Branch 541-A</span>
+      <span id="wa-btn-text-en" class="en">Send to Branch 541-A</span>
+    </a>
+
+    <!-- Copy to clipboard — for branch group or any chat -->
+    <button class="wa-btn" id="copy-btn" onclick="copyMessage()" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);margin-top:6px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      <span class="es">Copiar mensaje · Para el grupo de WhatsApp</span>
+      <span class="en">Copy message · For WhatsApp group</span>
+    </button>
+
+    <button class="reset-btn" onclick="resetAll()">
+      <span class="es">Nueva pre-calificación</span>
+      <span class="en">New pre-screen</span>
+    </button>
+  </div>
+
+</div><!-- end sections -->
+
+<footer class="page-footer">
+  <p>Jose Del Valle-Figueroa · NMLS# 2686066 · 702-848-5626 · PRMG Branch 541-A · Equal Housing Lender<br>
+  <span class="es">Los programas están sujetos a elegibilidad, límites de ingreso y disponibilidad.</span>
+  <span class="en">Programs subject to eligibility, income limits, and availability.</span></p>
+</footer>
+
+<script>
+var TOTAL_STEPS = 7;
+var currentStep = 1;
+var answers = {};
+
+// ── LO CONFIG ───────────────────────────────────────────
+// Add phone numbers for each LO here (with country code, no spaces/dashes)
+var LO_CONFIG = {
+  jose:    { name: 'Jose Del Valle',  phone: '17024093114', nmls: '2686066',  color: '#c8920a' },
+  ana:     { name: 'Ana',             phone: '17027826393', nmls: '',          color: '#0d9980' },
+  marelis: { name: 'Marelis',         phone: '17027619474', nmls: '',          color: '#534AB7' },
+  branch:  { name: 'Branch 541-A',    phone: '17028485626', nmls: '2686066',   color: '#c8920a' }
+};
+var BRANCH_WA = '17028485626'; // Branch 541-A OPS WhatsApp
+
+// Read ?lo= from URL, default to branch
+function getLOFromURL(){
+  var params = new URLSearchParams(window.location.search);
+  var lo = (params.get('lo') || 'branch').toLowerCase();
+  return LO_CONFIG[lo] || LO_CONFIG.branch;
+}
+var activeLO = getLOFromURL();
+
+// ── LANGUAGE ────────────────────────────────────────────
+function setLang(lang){
+  document.body.classList.toggle('lang-en', lang==='en');
+  document.getElementById('btn-es').classList.toggle('active', lang==='es');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.documentElement.lang = lang;
+  localStorage.setItem('541a-lang', lang);
+}
+(function(){
+  var s = localStorage.getItem('541a-lang');
+  if(s==='en') setLang('en');
+})();
+
+// ── PROGRESS ────────────────────────────────────────────
+function buildProgress(){
+  var wrap = document.getElementById('progress-steps');
+  wrap.innerHTML = '';
+  for(var i=1; i<=TOTAL_STEPS; i++){
+    var div = document.createElement('div');
+    div.className = 'pstep';
+    var fill = document.createElement('div');
+    fill.className = 'pstep-fill';
+    fill.id = 'pf'+i;
+    div.appendChild(fill);
+    wrap.appendChild(div);
+    if(i < TOTAL_STEPS){
+      var sp = document.createElement('div');
+      sp.style.cssText='width:4px;flex-shrink:0';
+      wrap.appendChild(sp);
+    }
+  }
+}
+
+function updateProgress(step){
+  for(var i=1; i<=TOTAL_STEPS; i++){
+    var fill = document.getElementById('pf'+i);
+    if(fill) fill.style.width = (i <= step ? '100%' : '0%');
+  }
+  document.getElementById('step-cur').textContent = step;
+  document.getElementById('step-tot').textContent = TOTAL_STEPS;
+  document.getElementById('step-cur-en').textContent = step;
+  document.getElementById('step-tot-en').textContent = TOTAL_STEPS;
+}
+
+// ── NAVIGATION ──────────────────────────────────────────
+function goTo(step){
+  var cur = document.getElementById('q'+currentStep);
+  if(cur) cur.classList.remove('active');
+  var res = document.getElementById('result');
+  if(res) res.classList.remove('show');
+  currentStep = step;
+  var next = document.getElementById('q'+step);
+  if(next) next.classList.add('active');
+  updateProgress(step);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── CHOICE SELECTION ────────────────────────────────────
+function pick(key, val, cls, el){
+  var group = el.closest('.choices');
+  if(group){
+    group.querySelectorAll('.choice').forEach(function(c){
+      c.classList.remove('sel-green','sel-teal','sel-gold','sel-red','sel-amber');
+    });
+  }
+  el.classList.add(cls);
+  answers[key] = val;
+  // Enable next button for this question
+  var qMap = {ftb:'q2-next',income:'q4-next',incdoc:'q4-next',dp:'q6-next',price:'q6-next',timeline:'q7-next'};
+  checkSection(el.closest('.q-section'));
+}
+
+function pickCredit(el, cls, val){
+  document.querySelectorAll('.credit-pill').forEach(function(p){
+    p.className='credit-pill';
+  });
+  el.classList.add(cls);
+  answers.credit = val;
+  document.getElementById('q3-next').disabled = false;
+}
+
+function pickVet(val, cls, el){
+  var group = el.closest('#vet-choices');
+  group.querySelectorAll('.choice').forEach(function(c){
+    c.classList.remove('sel-teal','sel-green','sel-gold','sel-red','sel-amber');
+  });
+  el.classList.add(cls);
+  answers.vet = val;
+  checkSection(el.closest('.q-section'));
+}
+
+function togHero(el, cls){
+  el.classList.toggle(cls);
+  // Collect all selected heroes
+  var heroes = [];
+  document.querySelectorAll('#hero-choices .choice.sel-green').forEach(function(c){
+    heroes.push(c.textContent.trim().replace(/\s+/g,' '));
+  });
+  answers.hero = heroes;
+}
+
+function checkSection(section){
+  if(!section) return;
+  var id = section.id;
+  var nextId = id + '-next';
+  var btn = document.getElementById(nextId);
+  if(!btn) return;
+  var ok = false;
+  if(id==='q2') ok = !!answers.ftb;
+  if(id==='q4') ok = !!answers.income && !!answers.incdoc;
+  if(id==='q5') ok = answers.vet !== undefined;
+  if(id==='q6') ok = !!answers.dp && !!answers.price;
+  if(id==='q7') ok = !!answers.timeline;
+  if(ok) btn.disabled = false;
+}
+
+// Q1 validation
+function checkQ1(){
+  var name = document.getElementById('client-name').value.trim();
+  var agent = document.getElementById('agent-name').value.trim();
+  var state = document.getElementById('state').value;
+  document.getElementById('q1-next').disabled = !(name && agent && state);
+  if(name) answers.clientName = name;
+  if(agent) answers.agentName = agent;
+  if(state) answers.state = state;
+  var phone = document.getElementById('client-phone').value.trim();
+  if(phone) answers.clientPhone = phone;
+}
+
+// ── RESULT ──────────────────────────────────────────────
+function showResult(){
+  // Hide last section
+  var cur = document.getElementById('q'+currentStep);
+  if(cur) cur.classList.remove('active');
+  // Collect timeline
+  answers.notes = document.getElementById('notes').value.trim();
+
+  // Compute
+  var signals = [];
+  var score = 0;
+  var badgeCls = 'badge-ready';
+  var descEs = '';
+  var descEn = '';
+
+  // FTB
+  var ftbEs = '—', ftbEn = '—';
+  if(answers.ftb === 'no-never'){ ftbEs='✓ Nunca ha tenido'; ftbEn='✓ Never owned'; score+=25; signals.push({t:'DPA Programas abiertos',e:'DPA Programs open',c:'sig-dpa'}); }
+  else if(answers.ftb === 'no-3yr'){ ftbEs='✓ No en 3 años'; ftbEn='✓ Not in 3 years'; score+=25; signals.push({t:'DPA Programas abiertos',e:'DPA Programs open',c:'sig-dpa'}); }
+  else if(answers.ftb === 'yes-owns'){ ftbEs='✗ Actualmente tiene casa'; ftbEn='✗ Currently owns'; score+=5; signals.push({t:'Sin DPA — repite comprador',e:'No DPA — repeat buyer',c:'sig-warn'}); }
+  else if(answers.ftb === 'yes-sold'){ ftbEs='△ Vendió en 3 años'; ftbEn='△ Sold in 3 years'; score+=10; signals.push({t:'Verificar regla de 3 años',e:'Verify 3yr rule',c:'sig-warn'}); }
+
+  // Credit
+  var creditLabel = answers.credit || '—';
+  if(answers.credit === '720+' || answers.credit === '700-719' || answers.credit === '680-699'){ score+=25; signals.push({t:'Conv DPA elegible',e:'Conventional DPA eligible',c:'sig-conv'}); }
+  else if(answers.credit === '640-679'){ score+=20; signals.push({t:'FHA + DPA elegible',e:'FHA + DPA eligible',c:'sig-dpa'}); }
+  else if(answers.credit === '620-639'){ score+=12; signals.push({t:'Chenoa (620)',c:'sig-fha',e:'Chenoa eligible (620)'}); signals.push({t:'HIP requiere 640',e:'HIP needs 640',c:'sig-warn'}); }
+  else if(answers.credit === '580-619' || answers.credit === 'below580'){ score+=3; signals.push({t:'Trabajo de crédito necesario',e:'Credit work needed',c:'sig-warn'}); }
+  else if(answers.credit === 'unknown'){ signals.push({t:'Revisar crédito',e:'Pull credit — unknown',c:'sig-warn'}); }
+
+  // Income
+  if(answers.income === 'over160') signals.push({t:'Sobre límite HIP — NHF/Chenoa',e:'Over HIP limit — NHF/Chenoa',c:'sig-warn'});
+  else if(answers.income === '105-130' || answers.income === '130-160') signals.push({t:'Verificar límites DPA',e:'Verify DPA income limits',c:'sig-warn'});
+  if(answers.income) score += 10;
+
+  // Income doc
+  var incDocEs='—', incDocEn='—';
+  if(answers.incdoc==='w2'){ incDocEs='W-2 / Empleado'; incDocEn='W-2 / Employee'; score+=10; signals.push({t:'FHA / Convencional',e:'FHA / Conventional',c:'sig-fha'}); }
+  else if(answers.incdoc==='itin'){ incDocEs='ITIN'; incDocEn='ITIN'; signals.push({t:'Non-QM Non-Prime ITIN',c:'sig-nonqm',e:'Non-QM Non-Prime ITIN'}); signals.push({t:'Sin DPA estándar',e:'No standard DPA',c:'sig-warn'}); }
+  else if(answers.incdoc==='bankdeposits'){ incDocEs='Depósitos bancarios'; incDocEn='Bank deposits'; signals.push({t:'Non-QM banco',e:'Non-QM bank statement',c:'sig-nonqm'}); }
+  else if(answers.incdoc==='selfemployed'){ incDocEs='Independiente — 2 años declaraciones'; incDocEn='Self-employed — 2yr returns'; score+=8; }
+  else if(answers.incdoc==='1099'){ incDocEs='1099'; incDocEn='1099'; score+=8; }
+
+  // Vet / Hero
+  var vetEs='No', vetEn='No';
+  if(answers.vet==='vet'){ vetEs='✓ Veterano'; vetEn='✓ Veteran'; score+=5; signals.push({t:'VA elegible',e:'VA eligible',c:'sig-va'}); }
+  if(answers.hero && answers.hero.length > 0 && !answers.hero.some(function(h){return h.includes('Ninguna')||h.includes('None')||h.includes('Private');})){
+    signals.push({t:'Hero program elegible',e:'Hero program eligible',c:'sig-hero'});
+  }
+
+  // DP
+  if(answers.dp==='minimal' || answers.dp==='1-5k'){ signals.push({t:'DPA esencial',e:'DPA essential',c:'sig-dpa'}); score+=5; }
+  else if(answers.dp==='20kplus'){ score+=15; }
+  else { score+=10; }
+
+  // Badge + desc
+  var pct = Math.min(Math.round((score/100)*100),100);
+  if(pct >= 65){
+    badgeCls = 'badge-ready';
+    descEs = 'Buen perfil. Listo para llamar a Branch 541-A para una pre-calificación completa.';
+    descEn = 'Strong profile. Ready to call Branch 541-A for full pre-qualification.';
+  } else if(pct >= 35){
+    badgeCls = 'badge-almost';
+    descEs = 'Perfil prometedor. Hay uno o dos puntos a revisar antes de la aplicación formal.';
+    descEn = 'Promising profile. One or two items to address before formal application.';
+  } else {
+    badgeCls = 'badge-prep';
+    descEs = 'Se necesita preparación. Crédito, ingresos o elegibilidad necesitan atención.';
+    descEn = 'Preparation needed. Credit, income, or eligibility needs attention before applying.';
+  }
+
+  // Populate
+  var badge = document.getElementById('result-badge');
+  badge.className = 'result-badge ' + badgeCls;
+  document.getElementById('result-name').textContent = answers.clientName || 'Cliente';
+  document.querySelector('.result-sub .es-sub').textContent = descEs;
+  document.querySelector('.result-sub .en-sub').textContent = descEn;
+  document.getElementById('sum-agent').textContent = answers.agentName || '—';
+  document.getElementById('sum-state').textContent = answers.state || '—';
+  document.getElementById('sum-ftb').textContent = document.body.classList.contains('lang-en') ? ftbEn : ftbEs;
+  document.getElementById('sum-credit').textContent = creditLabel;
+  document.getElementById('sum-income').textContent = answers.income ? answers.income.replace('under60','<$60K').replace('60-80','$60K–$80K').replace('80-105','$80K–$105K').replace('105-130','$105K–$130K').replace('130-160','$130K–$160K').replace('over160','>$160K') : '—';
+  document.getElementById('sum-incdoc').textContent = document.body.classList.contains('lang-en') ? incDocEn : incDocEs;
+  document.getElementById('sum-dp').textContent = answers.dp ? answers.dp.replace('minimal','Mínimo / Minimal').replace('1-5k','$1K–$5K').replace('5-10k','$5K–$10K').replace('10-20k','$10K–$20K').replace('20kplus','>$20K') : '—';
+  document.getElementById('sum-price').textContent = answers.price ? answers.price.replace('under250','<$250K').replace('250-350','$250K–$350K').replace('350-450','$350K–$450K').replace('450-600','$450K–$600K').replace('over600','>$600K').replace('notsure','No sé / Not sure') : '—';
+  document.getElementById('sum-vet').textContent = document.body.classList.contains('lang-en') ? vetEn : vetEs;
+  document.getElementById('sum-timeline').textContent = answers.timeline ? answers.timeline.replace('asap','ASAP — Urgente / Urgent').replace('30-60','30–60 días / days').replace('3-6mo','3–6 meses / months').replace('6mo+','6+ meses / months') : '—';
+
+  // Chips
+  var chipsEl = document.getElementById('sig-chips');
+  chipsEl.innerHTML = signals.map(function(s){
+    return '<span class="sig '+s.c+'">'+(document.body.classList.contains('lang-en') ? s.e : s.t)+'</span>';
+  }).join('');
+
+  // WhatsApp message
+  var isEs = !document.body.classList.contains('lang-en');
+  var sigs = signals.map(function(s){ return '• '+s.t; }).join('\n');
+  var msg = [
+    '*REFERIDO — '+answers.clientName+'*',
+    'Agente / Agent: '+answers.agentName,
+    'Tel: '+(answers.clientPhone||'—'),
+    'Estado / State: '+answers.state,
+    '───────────────────',
+    '*Pre-Screen:*',
+    'FTB: '+ftbEs,
+    'Crédito: '+creditLabel,
+    'Ingreso: '+(answers.income||'—'),
+    'Tipo ingreso: '+incDocEs,
+    'Pago inicial: '+(answers.dp||'—'),
+    'Precio objetivo: '+(answers.price||'—'),
+    'Veterano: '+vetEs,
+    'Tiempo: '+(answers.timeline||'—'),
+    '───────────────────',
+    sigs,
+    answers.notes ? '\nNotas: '+answers.notes : '',
+    '\n@Jose → asignar LO + abrir fila en Tracker'
+  ].filter(Boolean).join('\n');
+
+  // Store message globally for copy button
+  window._waMsg = msg;
+
+  // Set WA button to assigned LO
+  document.getElementById('wa-btn').href = 'https://wa.me/'+activeLO.phone+'?text='+encodeURIComponent(msg);
+
+  // Update button label
+  var btnEs = document.getElementById('wa-btn-text-es');
+  var btnEn = document.getElementById('wa-btn-text-en');
+  if(btnEs) btnEs.textContent = 'Enviar a ' + activeLO.name;
+  if(btnEn) btnEn.textContent = 'Send to ' + activeLO.name;
+
+  // Show result
+  document.getElementById('result').classList.add('show');
+  updateProgress(7);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function resetAll(){
+  answers = {};
+  currentStep = 1;
+  // Clear all selections
+  document.querySelectorAll('.choice').forEach(function(c){
+    c.classList.remove('sel-green','sel-teal','sel-gold','sel-red','sel-amber');
+  });
+  document.querySelectorAll('.credit-pill').forEach(function(p){p.className='credit-pill';});
+  document.querySelectorAll('.inp').forEach(function(i){i.value='';});
+  // Disable next buttons
+  ['q1-next','q2-next','q3-next','q4-next','q5-next','q6-next','q7-next'].forEach(function(id){
+    var btn = document.getElementById(id);
+    if(btn) btn.disabled = true;
+  });
+  document.getElementById('result').classList.remove('show');
+  goTo(1);
+}
+
+// ── COPY MESSAGE ────────────────────────────────────────
+function copyMessage(){
+  var msg = window._waMsg || '';
+  if(!msg){ alert('Complete the form first.'); return; }
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(msg).then(function(){
+      var btn = document.getElementById('copy-btn');
+      var orig = btn.innerHTML;
+      btn.style.background = 'rgba(10,120,104,.3)';
+      btn.style.borderColor = '#0d9980';
+      var isEn = document.body.classList.contains('lang-en');
+      btn.innerHTML = isEn ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied! Paste into WhatsApp group' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ¡Copiado! Pega en el grupo de WhatsApp';
+      setTimeout(function(){ btn.innerHTML = orig; btn.style.background=''; btn.style.borderColor=''; }, 3000);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = msg; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Copied! Paste into WhatsApp group.');
+  }
+}
+
+// ── LO BANNER INIT ───────────────────────────────────────
+function initLOBanner(){
+  var dot = document.getElementById('lo-dot');
+  var nameEl = document.getElementById('lo-name-display');
+  if(dot) dot.style.background = activeLO.color;
+  if(nameEl) nameEl.textContent = activeLO.name + (activeLO.nmls ? ' · NMLS# ' + activeLO.nmls : '');
+  // Update page title eyebrow
+  var eyebrow = document.querySelector('.hero-eyebrow');
+  if(eyebrow){
+    eyebrow.textContent = 'Branch 541-A · PRMG · ' + activeLO.name + (activeLO.nmls ? ' NMLS# ' + activeLO.nmls : '');
+  }
+}
+
+// Init
+buildProgress();
+updateProgress(1);
+initLOBanner();
+</script>
+</body>
+</html>

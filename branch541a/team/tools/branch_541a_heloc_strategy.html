@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch 541-A · HELOC & Second Mortgage Strategy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Mulish:wght@300;400;500;600&family=Fira+Mono:wght@400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0c1008;
+  --surface:#131a0e;
+  --surface2:#1a2414;
+  --surface3:#202d19;
+  --border:#2a3d20;
+  --border2:#3a5430;
+  --gold:#c9a84c;
+  --gold2:#e8c96a;
+  --gold-dim:#7a6030;
+  --green:#4a8c35;
+  --green2:#5fad45;
+  --green-l:rgba(74,140,53,.15);
+  --cream:#f0ead8;
+  --cream2:#d4c9a8;
+  --muted:#7a9068;
+  --red:#c05040;
+  --red-l:rgba(192,80,64,.15);
+  --blue:#4078c0;
+  --blue-l:rgba(64,120,192,.15);
+  --amber:#c08030;
+  --amber-l:rgba(192,128,48,.15);
+}
+
+body{
+  font-family:'Mulish',sans-serif;
+  background:var(--bg);
+  color:var(--cream2);
+  font-size:14px;
+  line-height:1.65;
+  min-height:100vh;
+}
+
+/* HEADER */
+.header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border2);
+  padding:28px 36px;
+  position:relative;
+  overflow:hidden;
+}
+.header::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);
+}
+.header-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.header-title{
+  font-family:'Playfair Display',serif;
+  font-size:26px;
+  font-weight:700;
+  color:var(--cream);
+  letter-spacing:-.01em;
+  line-height:1.2;
+}
+.header-title span{color:var(--gold)}
+.header-sub{font-size:12px;color:var(--muted);margin-top:6px;font-family:'Fira Mono',monospace;letter-spacing:.02em}
+.header-badges{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start}
+.hb{font-size:10px;padding:4px 10px;border-radius:3px;font-family:'Fira Mono',monospace;font-weight:500;letter-spacing:.04em}
+.hb-gold{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.hb-green{background:var(--green-l);color:var(--green2);border:1px solid rgba(74,140,53,.3)}
+.hb-blue{background:var(--blue-l);color:#6a9de0;border:1px solid rgba(64,120,192,.3)}
+
+/* NAV */
+.nav{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 28px;
+  display:flex;gap:0;
+  overflow-x:auto;
+  position:sticky;top:0;z-index:100;
+  -webkit-overflow-scrolling:touch;
+}
+.nav button{
+  padding:13px 18px;
+  border:none;background:transparent;
+  font-size:12px;cursor:pointer;
+  color:var(--muted);white-space:nowrap;
+  border-bottom:2px solid transparent;
+  font-family:'Mulish',sans-serif;
+  font-weight:600;
+  letter-spacing:.03em;
+  text-transform:uppercase;
+  transition:color .2s;
+}
+.nav button:hover{color:var(--cream2)}
+.nav button.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+.content{max-width:1120px;margin:0 auto;padding:28px 24px}
+.panel{display:none}
+.panel.active{display:block}
+
+/* SECTION LABELS */
+.sec{
+  font-family:'Fira Mono',monospace;
+  font-size:10px;font-weight:500;
+  color:var(--gold-dim);
+  text-transform:uppercase;letter-spacing:.12em;
+  margin:28px 0 14px;
+  padding-bottom:8px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+}
+.sec::before{content:'';width:20px;height:1px;background:var(--gold);display:inline-block}
+
+/* OPPORTUNITY BAR */
+.opp-bar{
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:18px 22px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+}
+.opp-bar::after{
+  content:'';position:absolute;
+  left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--gold),var(--green2));
+}
+.ob-title{
+  font-family:'Playfair Display',serif;
+  font-size:15px;font-weight:600;
+  color:var(--cream);margin-bottom:6px;
+}
+.ob-body{font-size:13px;color:var(--cream2);line-height:1.7}
+.ob-body strong{color:var(--gold)}
+
+/* PRODUCT CARDS */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-bottom:20px}
+.prod-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:18px;
+  transition:border-color .2s;
+}
+.prod-card:hover{border-color:var(--border2)}
+.prod-card.featured{border-color:var(--gold-dim)}
+.prod-card.featured::before{
+  display:block;
+  content:'FEATURED PRODUCT';
+  font-family:'Fira Mono',monospace;
+  font-size:9px;letter-spacing:.1em;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+.prod-type{
+  font-family:'Fira Mono',monospace;
+  font-size:9px;letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:6px;
+}
+.pt-heloc{color:var(--green2)}
+.pt-closed{color:var(--gold)}
+.pt-nonqm{color:#a07de0}
+.pt-agency{color:var(--blue)}
+
+.prod-name{
+  font-family:'Playfair Display',serif;
+  font-size:16px;font-weight:600;
+  color:var(--cream);
+  margin-bottom:4px;
+}
+.prod-sub{font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+
+.rows{border-top:1px solid var(--border);padding-top:10px}
+.row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;gap:8px;align-items:flex-start}
+.row:last-child{border-bottom:none}
+.rl{color:var(--muted);flex:1;line-height:1.4}
+.rv{font-weight:500;color:var(--cream2);text-align:right;line-height:1.4}
+.rv-g{color:var(--green2);font-weight:500;text-align:right}
+.rv-a{color:var(--amber);font-weight:500;text-align:right}
+.rv-r{color:var(--red);font-weight:500;text-align:right}
+.rv-gold{color:var(--gold);font-weight:600;text-align:right}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;white-space:nowrap;font-family:'Fira Mono',monospace;letter-spacing:.03em}
+.bg{background:var(--green-l);color:var(--green2);border:1px solid rgba(74,140,53,.3)}
+.ba{background:var(--amber-l);color:var(--amber);border:1px solid rgba(192,128,48,.3)}
+.br{background:var(--red-l);color:var(--red);border:1px solid rgba(192,80,64,.3)}
+.bb{background:var(--blue-l);color:#6a9de0;border:1px solid rgba(64,120,192,.3)}
+.bgold{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.25)}
+.bpurple{background:rgba(160,125,224,.1);color:#b09de4;border:1px solid rgba(160,125,224,.25)}
+
+/* NOTE */
+.note{font-size:12px;padding:10px 14px;border-radius:6px;margin-top:10px;line-height:1.65}
+.n-gold{background:rgba(201,168,76,.08);color:var(--gold);border-left:2px solid var(--gold-dim)}
+.n-green{background:var(--green-l);color:var(--green2);border-left:2px solid var(--green)}
+.n-amber{background:var(--amber-l);color:var(--amber);border-left:2px solid var(--amber)}
+.n-red{background:var(--red-l);color:var(--red);border-left:2px solid var(--red)}
+.n-blue{background:var(--blue-l);color:#6a9de0;border-left:2px solid var(--blue)}
+.n-muted{background:rgba(255,255,255,.04);color:var(--muted);border-left:2px solid var(--border2)}
+
+/* SCENARIO CARDS */
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:20px}
+.sc-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.sc-number{
+  font-family:'Playfair Display',serif;
+  font-size:36px;font-weight:700;
+  color:var(--border2);
+  line-height:1;
+  margin-bottom:8px;
+}
+.sc-title{font-size:13px;font-weight:700;color:var(--cream);margin-bottom:4px}
+.sc-profile{font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+.sc-product{font-size:11px;font-family:'Fira Mono',monospace;color:var(--gold);margin-bottom:8px}
+.sc-math{background:rgba(255,255,255,.04);border-radius:6px;padding:10px 12px;font-size:12px}
+.sc-math-row{display:flex;justify-content:space-between;padding:3px 0;font-size:11px}
+.sc-math-row.total{border-top:1px solid var(--border);padding-top:6px;margin-top:4px;font-weight:600}
+.sm-label{color:var(--muted)}
+.sm-value{color:var(--cream2);font-family:'Fira Mono',monospace}
+.sm-value.gold{color:var(--gold)}
+
+/* REFERRAL TABLE */
+.ref-wrap{overflow-x:auto;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:560px}
+th{
+  text-align:left;padding:9px 14px;
+  font-size:10px;font-weight:600;
+  color:var(--muted);
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+  letter-spacing:.06em;
+  font-family:'Fira Mono',monospace;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+td{padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle;color:var(--cream2)}
+tr:hover td{background:rgba(255,255,255,.02)}
+tr:last-child td{border-bottom:none}
+
+/* COMP TABLE */
+.comp-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+.comp-title{
+  font-family:'Playfair Display',serif;
+  font-size:14px;font-weight:600;
+  color:var(--cream);margin-bottom:14px;
+  padding-bottom:10px;border-bottom:1px solid var(--border);
+}
+.comp-row{display:flex;justify-content:space-between;padding:7px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04)}
+.comp-row:last-child{border-bottom:none;padding-top:12px;margin-top:4px;font-weight:700;font-size:14px}
+.cl{color:var(--muted)}
+.cv{font-weight:500;color:var(--cream2);font-family:'Fira Mono',monospace}
+.cv-g{color:var(--green2);font-weight:600;font-family:'Fira Mono',monospace}
+.cv-gold{color:var(--gold);font-weight:700;font-family:'Fira Mono',monospace;font-size:16px}
+
+/* PLAYBOOK */
+.play-list{margin-top:4px}
+.play-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border)}
+.play-item:last-child{border-bottom:none}
+.play-num{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;
+  font-family:'Playfair Display',serif;
+}
+.pn-gold{background:rgba(201,168,76,.15);color:var(--gold);border:1px solid rgba(201,168,76,.3)}
+.pn-green{background:var(--green-l);color:var(--green2);border:1px solid rgba(74,140,53,.3)}
+.pn-blue{background:var(--blue-l);color:#6a9de0;border:1px solid rgba(64,120,192,.3)}
+.pn-amber{background:var(--amber-l);color:var(--amber);border:1px solid rgba(192,128,48,.3)}
+.pn-purple{background:rgba(160,125,224,.1);color:#b09de4;border:1px solid rgba(160,125,224,.25)}
+.play-content{}
+.play-title{font-size:13px;font-weight:700;color:var(--cream);margin-bottom:4px}
+.play-desc{font-size:12px;color:var(--muted);line-height:1.65}
+.play-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+
+/* MARKET DATA STRIP */
+.mdata{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:20px}
+.md-card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.md-label{font-size:10px;color:var(--muted);font-family:'Fira Mono',monospace;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.md-value{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--cream);letter-spacing:-.01em}
+.md-value.gold{color:var(--gold)}
+.md-value.green{color:var(--green2)}
+.md-sub{font-size:10px;color:var(--muted);margin-top:3px}
+
+/* PIPELINE VISUAL */
+.pipeline{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.pipe-node{
+  background:var(--surface3);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:8px 12px;
+  font-size:11px;
+  color:var(--cream2);
+  display:flex;align-items:center;gap:6px;
+  position:relative;
+}
+.pipe-node.active{border-color:var(--gold);color:var(--gold)}
+.pipe-node.trigger{border-color:var(--green);color:var(--green2)}
+.pipe-arrow{color:var(--border2);font-size:12px;align-self:center}
+
+/* ALERT BOX */
+.alert{border-radius:8px;padding:12px 16px;font-size:12px;margin-bottom:16px;line-height:1.6}
+.a-gold{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);color:var(--gold)}
+.a-green{background:var(--green-l);border:1px solid rgba(74,140,53,.2);color:var(--green2)}
+.a-red{background:var(--red-l);border:1px solid rgba(192,80,64,.2);color:#e08070}
+
+@media(max-width:600px){.header-inner{flex-direction:column}.prod-grid,.scenario-grid,.mdata{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title">Branch 541-A · <span>Home Equity Arsenal</span></div>
+      <div class="header-sub">HELOC & Second Mortgage Strategy · Full Product Stack · Jose Del Valle · PRMG Branch 541-A</div>
+    </div>
+    <div class="header-badges">
+      <span class="hb hb-gold">5 Products</span>
+      <span class="hb hb-green">$11.5T Market</span>
+      <span class="hb hb-blue">97% Untapped</span>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="show('market',this)">Market opportunity</button>
+  <button onclick="show('products',this)">Products</button>
+  <button onclick="show('scenarios',this)">Use cases</button>
+  <button onclick="show('referral',this)">Referral engine</button>
+  <button onclick="show('comp',this)">Comp model</button>
+  <button onclick="show('playbook',this)">Activation playbook</button>
+</div>
+
+<div class="content">
+
+<!-- MARKET -->
+<div id="tab-market" class="panel active">
+
+  <div class="opp-bar">
+    <div class="ob-title">The single most underserved product in your existing client base</div>
+    <div class="ob-body">Every homeowner in your DPA portfolio who bought in 2021–2024 is sitting on appreciated equity they cannot access without giving up their first mortgage rate. <strong>They will never cash-out refi.</strong> The HELOC and closed-end second exist precisely for them — and you already own the relationship. No other product in your stack converts past clients into current revenue with this little friction.</div>
+  </div>
+
+  <div class="sec">Live market conditions — April 2026</div>
+
+  <div class="mdata">
+    <div class="md-card">
+      <div class="md-label">Tappable equity nationwide</div>
+      <div class="md-value gold">$11.5T</div>
+      <div class="md-sub">record level — Q2 2025</div>
+    </div>
+    <div class="md-card">
+      <div class="md-label">Avg equity per borrower</div>
+      <div class="md-value gold">$295,000</div>
+      <div class="md-sub">sitting idle in most portfolios</div>
+    </div>
+    <div class="md-card">
+      <div class="md-label">Tappable equity unused</div>
+      <div class="md-value green">97%</div>
+      <div class="md-sub">of available equity untouched in 2025</div>
+    </div>
+    <div class="md-card">
+      <div class="md-label">Current avg HELOC rate</div>
+      <div class="md-value">7.20%</div>
+      <div class="md-sub">national avg — Curinos April 2026</div>
+    </div>
+    <div class="md-card">
+      <div class="md-label">Avg home equity loan rate</div>
+      <div class="md-value">7.47%</div>
+      <div class="md-sub">fixed rate — national avg</div>
+    </div>
+    <div class="md-card">
+      <div class="md-label">YoY equity withdrawal growth</div>
+      <div class="md-value green">+22%</div>
+      <div class="md-sub">Q1 2025 — largest since 2008</div>
+    </div>
+  </div>
+
+  <div class="sec">Why this market is exploding right now</div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-bottom:20px">
+    <div class="sc-card">
+      <div class="sc-title">The rate lock-in effect</div>
+      <div class="sc-profile">Millions of homeowners hold first mortgages at 2.5–3.5% from 2020–2022. They have massive equity gains but will never give up that rate for a cash-out refi at 6.5%. The HELOC is their only path to liquidity — and they need someone who can explain it clearly.</div>
+      <div class="note n-gold" style="margin-top:8px">Your DPA portfolio clients bought at 6.5–7%. Different math — but they still have appreciation and still won't want to restart their amortization clock. Same result.</div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-title">Home prices appreciated sharply</div>
+      <div class="sc-profile">NV, FL, TX, and AZ are all in the top-performing appreciation markets over the past 3 years. A borrower who bought a $320K home in Henderson in 2022 may be sitting at $385K today — $65K in new equity on top of their down payment.</div>
+      <div class="note n-green" style="margin-top:8px">Your exact geographic markets are among the highest-equity-gain states. Your portfolio is particularly well-positioned for this product.</div>
+    </div>
+    <div class="sc-card">
+      <div class="sc-title">Banks are pulling back — your opening</div>
+      <div class="sc-profile">Large banks tightened HELOC guidelines in 2023–2024. Non-bank lenders and PRMG's Non-QM second mortgage products now fill that gap for self-employed, ITIN, and higher-DTI borrowers who banks routinely decline.</div>
+      <div class="note n-gold" style="margin-top:8px">Your Non-QM Closed End Second Expanded Access serves exactly the borrowers the banks just rejected. This is where your bilingual + Non-QM positioning wins clean.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div id="tab-products" class="panel">
+
+  <div class="sec">Open-end products — revolving access to equity</div>
+  <div class="prod-grid">
+
+    <div class="prod-card featured">
+      <div class="prod-type pt-heloc">HELOC · Open End · Revolving</div>
+      <div class="prod-name">Lightning Equity Hybrid HELOC</div>
+      <div class="prod-sub">Fixed-draw + variable structure · Premier HELOC product · Borrower converts draws to fixed</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Structure</span><span class="rv-gold">Hybrid — variable line with fixed-rate lock option on draws</span></div>
+        <div class="row"><span class="rl">Key differentiator</span><span class="rv-g">Borrower can lock individual draws into fixed rate segments</span></div>
+        <div class="row"><span class="rl">Rate exposure</span><span class="rv-g">Reduced vs. pure variable — ideal in uncertain rate environment</span></div>
+        <div class="row"><span class="rl">Draw period</span><span class="rv">Revolving — draw, repay, redraw during draw period</span></div>
+        <div class="row"><span class="rl">Best for</span><span class="rv">Borrowers wanting flexibility but nervous about rate swings</span></div>
+        <div class="row"><span class="rl">Pitch vs. bank HELOC</span><span class="rv-gold">No other bank in your market offers the fixed-lock option</span></div>
+      </div>
+      <div class="note n-gold">This is your flagship HELOC product. Lead with Lightning on every HELOC conversation. The ability to lock a draw at a fixed rate is the one objection-killer that closes hesitant borrowers — they get HELOC flexibility without full variable rate exposure.</div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-type pt-heloc">HELOC · Open End · Variable</div>
+      <div class="prod-name">Symmetry HELOC</div>
+      <div class="prod-sub">Standard revolving HELOC · Prime-based variable rate · Simpler structure</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Structure</span><span class="rv">Prime + margin variable rate — standard revolving HELOC</span></div>
+        <div class="row"><span class="rl">Current prime rate</span><span class="rv">6.75% — HELOC rate = prime + lender margin</span></div>
+        <div class="row"><span class="rl">Draw / repayment periods</span><span class="rv">Typically 10yr draw / 20yr repayment</span></div>
+        <div class="row"><span class="rl">Best for</span><span class="rv">Rate-confident borrowers who want maximum simplicity</span></div>
+        <div class="row"><span class="rl">Vs. Lightning</span><span class="rv-a">Use when borrower prefers simple over hybrid structure</span></div>
+      </div>
+      <div class="note n-muted">Symmetry is your fallback HELOC — simpler to explain, easier to process. Use it when the borrower is sophisticated and rate-comfortable, or when Lightning's hybrid structure creates confusion in the conversation.</div>
+    </div>
+
+  </div>
+
+  <div class="sec">Closed-end products — fixed second mortgage, lump sum</div>
+  <div class="prod-grid">
+
+    <div class="prod-card featured">
+      <div class="prod-type pt-nonqm">Non-QM · Standalone Second · Closed End</div>
+      <div class="prod-name">Closed End Second Expanded Access</div>
+      <div class="prod-sub">Most flexible second mortgage in the stack · Non-QM guidelines · Bank statement eligible</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Income documentation</span><span class="rv-gold">Bank statement, P&L, asset depletion — no W-2 required</span></div>
+        <div class="row"><span class="rl">ITIN borrowers</span><span class="rv-g">Likely eligible — Non-QM guidelines</span></div>
+        <div class="row"><span class="rl">Non-Permanent Residents</span><span class="rv-g">Eligible — consistent with Non-QM product guidelines</span></div>
+        <div class="row"><span class="rl">Higher DTI tolerance</span><span class="rv-g">Non-QM flexibility — confirm current overlays with PRMG</span></div>
+        <div class="row"><span class="rl">Best for</span><span class="rv-gold">Self-employed, ITIN, gig workers with equity — bank declines</span></div>
+        <div class="row"><span class="rl">Your competitive moat</span><span class="rv-gold">No bank or credit union in NV offers this to ITIN borrowers</span></div>
+      </div>
+      <div class="note n-gold">This is your ITIN equity weapon. A self-employed landscaper who bought a home 4 years ago through your branch, paid on time, and now has $80K in equity cannot walk into Bank of America for a second mortgage. You can close it for them. That referral loop — closing the purchase AND the future equity loan — is the relationship moat no rate competitor can touch.</div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-type pt-nonqm">Non-QM · Standalone Second · Closed End</div>
+      <div class="prod-name">Closed End Second Elite</div>
+      <div class="prod-sub">Cleaner credit profile Non-QM second · Better pricing than Expanded Access</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Profile</span><span class="rv">Stronger credit / lower LTV Non-QM borrowers</span></div>
+        <div class="row"><span class="rl">Pricing vs. Expanded Access</span><span class="rv-g">Better rate — cleaner guidelines, less risk premium</span></div>
+        <div class="row"><span class="rl">Best for</span><span class="rv">Self-employed borrowers with strong income but non-W2 docs</span></div>
+        <div class="row"><span class="rl">Vs. Expanded Access</span><span class="rv">Use Elite first — step down to Expanded if borrower doesn't qualify</span></div>
+      </div>
+    </div>
+
+    <div class="prod-card">
+      <div class="prod-type pt-agency">Agency · Piggyback or Standalone · Closed End</div>
+      <div class="prod-name">Closed End Second Classic Elite</div>
+      <div class="prod-sub">Agency-grade second · Concurrent piggyback on new purchases OR standalone refi second</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Primary use case</span><span class="rv-gold">80/10/10 or 80/15/5 piggyback on new purchase — eliminates PMI</span></div>
+        <div class="row"><span class="rl">Standalone use</span><span class="rv-g">Refinance second — pull equity without touching first lien</span></div>
+        <div class="row"><span class="rl">Agency guidelines</span><span class="rv">Fannie/Freddie eligible — cleaner underwriting, better rate</span></div>
+        <div class="row"><span class="rl">DTI consideration</span><span class="rv">Combined payment of first + second must qualify</span></div>
+        <div class="row"><span class="rl">PMI savings</span><span class="rv-gold">At $320K purchase: eliminates ~$180/mo PMI on first lien</span></div>
+      </div>
+      <div class="note n-green">The piggyback structure on purchase is underused by almost every DPA branch. For a buyer who is just over the DPA income limit and doesn't qualify for assistance, an 80/15/5 piggyback eliminates PMI, reduces their effective monthly payment, and still lets them close with 5% down. Same problem solved, different tool.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- USE CASES -->
+<div id="tab-scenarios" class="panel">
+
+  <div class="sec">Six client scenarios — which product closes the deal</div>
+  <div class="scenario-grid">
+
+    <div class="sc-card">
+      <div class="sc-number">01</div>
+      <div class="sc-title">Past DPA client — equity + rate lock</div>
+      <div class="sc-profile">Bought NV home in 2022 at $295K with HIP. Now worth $360K. Has 6.75% first — will not refi. Wants $45K for home renovation.</div>
+      <div class="sc-product">→ Lightning Equity Hybrid HELOC</div>
+      <div class="sc-math">
+        <div class="sc-math-row"><span class="sm-label">Available equity (at 85% CLTV)</span><span class="sm-value">~$61K tappable</span></div>
+        <div class="sc-math-row"><span class="sm-label">Draw needed</span><span class="sm-value">$45,000</span></div>
+        <div class="sc-math-row"><span class="sm-label">Monthly IO payment (7.25%)</span><span class="sm-value">~$272/mo</span></div>
+        <div class="sc-math-row"><span class="sm-label">First lien — untouched</span><span class="sm-value">6.75% stays</span></div>
+        <div class="sc-math-row total"><span class="sm-label">Pitch</span><span class="sm-value gold">"Keep your rate. Tap your equity."</span></div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-number">02</div>
+      <div class="sc-title">Self-employed — bank declined</div>
+      <div class="sc-profile">ITIN borrower, restaurant owner. Owns home outright — $280K value, no mortgage. Needs $60K for second location. Bank rejected — no W-2.</div>
+      <div class="sc-product">→ Closed End Second Expanded Access</div>
+      <div class="sc-math">
+        <div class="sc-math-row"><span class="sm-label">Property value</span><span class="sm-value">$280,000</span></div>
+        <div class="sc-math-row"><span class="sm-label">Loan amount (at 70% LTV)</span><span class="sm-value">$196,000 max</span></div>
+        <div class="sc-math-row"><span class="sm-label">Requested $60K — eligible</span><span class="sm-value">Yes — well within LTV</span></div>
+        <div class="sc-math-row"><span class="sm-label">Income docs</span><span class="sm-value">24-mo bank statement</span></div>
+        <div class="sc-math-row total"><span class="sm-label">Who else can do this</span><span class="sm-value gold">Nobody in their community</span></div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-number">03</div>
+      <div class="sc-title">New purchase — over DPA income limit</div>
+      <div class="sc-profile">FL buyer, $95K income — over FL Housing limit. Buying $380K home. Has 5% down ($19K). Wants to avoid PMI. Doesn't qualify for DPA.</div>
+      <div class="sc-product">→ Closed End Second Classic Elite (Piggyback 80/15/5)</div>
+      <div class="sc-math">
+        <div class="sc-math-row"><span class="sm-label">First mortgage (80%)</span><span class="sm-value">$304,000</span></div>
+        <div class="sc-math-row"><span class="sm-label">Second mortgage (15%)</span><span class="sm-value">$57,000</span></div>
+        <div class="sc-math-row"><span class="sm-label">Borrower down (5%)</span><span class="sm-value">$19,000</span></div>
+        <div class="sc-math-row"><span class="sm-label">PMI eliminated</span><span class="sm-value">~$180/mo saved</span></div>
+        <div class="sc-math-row total"><span class="sm-label">Two originations, one buyer</span><span class="sm-value gold">First + second = dual comp</span></div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-number">04</div>
+      <div class="sc-title">Debt consolidation — high-rate credit cards</div>
+      <div class="sc-profile">Past FL Hometown Heroes client. Bought 2023. Home appreciated. Has $28K in credit card debt at 21% APR. Good payment history.</div>
+      <div class="sc-product">→ Symmetry HELOC or Closed End Second Elite</div>
+      <div class="sc-math">
+        <div class="sc-math-row"><span class="sm-label">Credit card monthly cost</span><span class="sm-value">~$588/mo minimum</span></div>
+        <div class="sc-math-row"><span class="sm-label">$28K HELOC at 7.25%</span><span class="sm-value">~$170/mo IO</span></div>
+        <div class="sc-math-row"><span class="sm-label">Monthly savings</span><span class="sm-value">~$418/mo</span></div>
+        <div class="sc-math-row"><span class="sm-label">Annual savings</span><span class="sm-value">~$5,016/yr</span></div>
+        <div class="sc-math-row total"><span class="sm-label">Pitch</span><span class="sm-value gold">"Your house is cheaper than your credit cards."</span></div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-number">05</div>
+      <div class="sc-title">TX builder — NOO cash out (revisited)</div>
+      <div class="sc-profile">Alvin TX builder. Two $340K homes, no tenants yet. Wants cash out to fund next build. DSCR timing issue — no rental income yet.</div>
+      <div class="sc-product">→ Non-QM DSCR first OR Closed End Second Expanded Access (once TX licensed)</div>
+      <div class="sc-math">
+        <div class="sc-math-row"><span class="sm-label">If homes are owned free/clear</span><span class="sm-value">Standalone second on one property</span></div>
+        <div class="sc-math-row"><span class="sm-label">Max at 65% LTV</span><span class="sm-value">~$221K accessible</span></div>
+        <div class="sc-math-row"><span class="sm-label">Income docs</span><span class="sm-value">Business bank statement</span></div>
+        <div class="sc-math-row total"><span class="sm-label">Advantage</span><span class="sm-value gold">No DSCR ratio needed on closed-end second</span></div>
+      </div>
+    </div>
+
+    <div class="sc-card">
+      <div class="sc-number">06</div>
+      <div class="sc-title">NV homeowner — fund down payment on rental</div>
+      <div class="sc-profile">Past NV purchase client. Home worth $420K, first at $260K balance. Wants to buy a rental investment property but lacks down payment.</div>
+      <div class="sc-product">→ Lightning Equity Hybrid HELOC → fund rental down payment</div>
+      <div class="sc-math">
+        <div class="sc-math-row"><span class="sm-label">Available equity (85% CLTV)</span><span class="sm-value">~$97K tappable</span></div>
+        <div class="sc-math-row"><span class="sm-label">Draw for rental DP (25%)</span><span class="sm-value">$80K → buys $320K rental</span></div>
+        <div class="sc-math-row"><span class="sm-label">Result</span><span class="sm-value">HELOC + DSCR purchase = 2 loans</span></div>
+        <div class="sc-math-row total"><span class="sm-label">Double origination</span><span class="sm-value gold">HELOC + DSCR Non-QM purchase</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- REFERRAL ENGINE -->
+<div id="tab-referral" class="panel">
+
+  <div class="opp-bar">
+    <div class="ob-title">HELOC referrals come from different partners than purchase DPA</div>
+    <div class="ob-body">Your DPA referral engine runs through Realtors. Your HELOC referral engine runs through <strong>contractors, CPAs, financial advisors, and your own past client database</strong>. These are separate conversations with separate partners — and most competing LOs in your market are not having either one.</div>
+  </div>
+
+  <div class="sec">Referral partner matrix — HELOC and second mortgage</div>
+
+  <div class="ref-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Partner type</th>
+        <th>Why they refer HELOC/second clients</th>
+        <th>Your pitch to them</th>
+        <th>Target states</th>
+        <th>Pipeline volume</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Home contractors / remodelers</strong></td>
+        <td>Clients want major renovations but don't have cash. Contractor loses jobs when buyers can't finance improvements.</td>
+        <td>"I can fund your clients' projects in 30 days — HELOC with fixed-lock option. You close more jobs."</td>
+        <td><span class="badge bg">NV</span><span class="badge bg">FL</span><span class="badge ba">TX</span></td>
+        <td><span class="badge bgold">High — recurring</span></td>
+      </tr>
+      <tr>
+        <td><strong>CPAs / tax preparers (SmartBee)</strong></td>
+        <td>Self-employed clients with equity and bank statement income — banks turn them down. CPA wants solutions for their clients.</td>
+        <td>"Your ITIN and self-employed clients who own a home — I can give them a Non-QM second using bank statement income. No W-2 required."</td>
+        <td><span class="badge bg">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="badge bgold">Very high — ITIN niche</span></td>
+      </tr>
+      <tr>
+        <td><strong>Financial advisors / wealth managers</strong></td>
+        <td>Clients need liquidity without selling investments. HELOC is a tax-efficient bridge — advisor looks good for finding the solution.</td>
+        <td>"Rather than liquidating a portfolio at a tax cost, your client taps $80K in home equity at 7.2% and leaves investments compounding."</td>
+        <td><span class="badge bg">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="badge bb">Medium — high loan amounts</span></td>
+      </tr>
+      <tr>
+        <td><strong>Real estate investors / your DSCR clients</strong></td>
+        <td>Investors need down payments for next acquisitions without liquidating assets. HELOC on primary = fund the next deal.</td>
+        <td>"Use your primary home equity as a down payment line for your next investment property. I close the HELOC and the DSCR purchase."</td>
+        <td><span class="badge bg">NV</span><span class="badge ba">TX</span><span class="badge bb">AZ</span></td>
+        <td><span class="badge bgold">Double origination per client</span></td>
+      </tr>
+      <tr>
+        <td><strong>Your own past DPA clients</strong></td>
+        <td>Sales Boomerang Equity Watch fires when they hit equity threshold. No external partner needed.</td>
+        <td>Outbound call from Total Expert journey: "You've built significant equity. I have a product that lets you access it without touching your first mortgage rate."</td>
+        <td>All states</td>
+        <td><span class="badge bgold">Zero lead cost — highest ROI</span></td>
+      </tr>
+      <tr>
+        <td><strong>Hispanic community notaries / servicios</strong></td>
+        <td>Trusted community figures with access to ITIN homeowners who don't know they can access their equity.</td>
+        <td>"Your clients who own homes and have an ITIN — I can help them access their equity with bank statement income. No W-2."</td>
+        <td><span class="badge bg">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="badge bpurple">Niche — very high conversion</span></td>
+      </tr>
+      <tr>
+        <td><strong>Divorce attorneys</strong></td>
+        <td>Divorcing homeowners often need to buy out a spouse. HELOC or closed-end second funds the buyout without full refi.</td>
+        <td>"Instead of forcing a refinance at today's rates, I can structure a closed-end second that funds the buyout and keeps the primary mortgage intact."</td>
+        <td><span class="badge bg">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="badge bb">Medium — specialized</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sec">Total Expert + Sales Boomerang automation — set it once</div>
+  <div class="ref-wrap">
+  <table>
+    <thead><tr><th>Tool</th><th>Trigger</th><th>Automatic action</th><th>Your follow-up</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sales Boomerang — Equity Watch</strong></td><td>Client hits 20%+ equity in Total Expert</td><td>Alert sent to Jose / Ana</td><td>HELOC conversation call within 48 hrs</td></tr>
+      <tr><td><strong>Sales Boomerang — Credit Watch</strong></td><td>Client credit pulled by another lender</td><td>Immediate alert — they're shopping</td><td>Call same day — beat the competitor</td></tr>
+      <tr><td><strong>Total Expert — Equity Journey</strong></td><td>12 months post-close trigger</td><td>Equity check-in email sequence sent</td><td>Confirm journey activated at every closing</td></tr>
+      <tr><td><strong>Total Expert — Annual Review</strong></td><td>12-month anniversary of purchase</td><td>Automated "home anniversary" touchpoint</td><td>Natural segue to equity conversation</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- COMP -->
+<div id="tab-comp" class="panel">
+
+  <div class="alert a-gold">Confirm exact comp rates with your PRMG branch agreement before quoting — HELOC and closed-end second comp structures vary by product and may differ from your first mortgage 150/175 bps rates. The ranges below are industry-standard estimates for planning purposes.</div>
+
+  <div class="sec">Comp structure by product</div>
+
+  <div class="comp-card">
+    <div class="comp-title">Estimated comp — HELOC products (Lightning & Symmetry)</div>
+    <div class="comp-row"><span class="cl">Typical HELOC origination comp structure</span><span class="cv">Flat fee OR bps on initial draw / line amount</span></div>
+    <div class="comp-row"><span class="cl">Industry range for HELOC origination</span><span class="cv">$1,000–$2,500 flat OR 50–100 bps on line</span></div>
+    <div class="comp-row"><span class="cl">Example: $75K Lightning HELOC at 100 bps</span><span class="cv-g">$750 origination comp</span></div>
+    <div class="comp-row"><span class="cl">Example: $100K Symmetry HELOC flat fee</span><span class="cv-g">$1,500 flat comp estimate</span></div>
+    <div class="comp-row"><span class="cl">Processing complexity vs. first mortgage</span><span class="cv">Lower — no DPA second lien, faster close</span></div>
+    <div class="comp-row"><span class="cl">Close timeline</span><span class="cv">15–25 days — significantly faster than DPA purchase</span></div>
+  </div>
+
+  <div class="comp-card">
+    <div class="comp-title">Estimated comp — Closed-end second products</div>
+    <div class="comp-row"><span class="cl">Closed End Second Classic Elite (Agency piggyback)</span><span class="cv">~100–150 bps on second lien amount</span></div>
+    <div class="comp-row"><span class="cl">Example: $57K piggyback at 125 bps</span><span class="cv-g">~$713 comp on second</span></div>
+    <div class="comp-row"><span class="cl">Plus first lien comp on 80% first</span><span class="cv-g">$304K × 150 bps = $4,560</span></div>
+    <div class="comp-row"><span class="cl">Total comp on 80/15/5 piggyback deal</span><span class="cv-g">~$5,273 combined</span></div>
+    <div class="comp-row"><span class="cl">Non-QM Closed End Second (Elite / Expanded)</span><span class="cv">~100–150 bps — Non-QM premium possible</span></div>
+    <div class="comp-row"><span class="cl">Example: $80K Non-QM second at 150 bps</span><span class="cv-g">$1,200 comp</span></div>
+  </div>
+
+  <div class="comp-card">
+    <div class="comp-title">The real comp argument — why HELOCs are worth adding</div>
+    <div class="comp-row"><span class="cl">DPA purchase — avg comp per file</span><span class="cv">$4,200 · 45–55 day close · high complexity</span></div>
+    <div class="comp-row"><span class="cl">HELOC — avg comp per file</span><span class="cv">$750–$1,500 · 15–25 day close · low complexity</span></div>
+    <div class="comp-row"><span class="cl">Comp/day comparison (purchase)</span><span class="cv">$4,200 ÷ 50 days = $84/day</span></div>
+    <div class="comp-row"><span class="cl">Comp/day comparison (HELOC)</span><span class="cv">$1,000 ÷ 20 days = $50/day</span></div>
+    <div class="comp-row"><span class="cl">Key insight</span><span class="cv">HELOCs don't replace purchases — they fill pipeline gaps</span></div>
+    <div class="comp-row"><span class="cl">Piggyback (both liens) — comp/day</span><span class="cv-g">$5,200 ÷ 45 days = $116/day — best in stack</span></div>
+    <div class="comp-row"><span class="cl">Zero lead cost HELOCs from past clients</span><span class="cv-gold">Pure margin — no marketing spend</span></div>
+  </div>
+
+  <div class="sec">Annual revenue model — HELOC layer on top of purchase production</div>
+  <div class="comp-card">
+    <div class="comp-title">Phase 2–3 branch (10–12 purchases/month) + HELOC layer added</div>
+    <div class="comp-row"><span class="cl">Purchase comp (10 loans × $4,200)</span><span class="cv-g">$42,000/month</span></div>
+    <div class="comp-row"><span class="cl">HELOC from past clients (3/month × $1,200)</span><span class="cv-g">$3,600/month</span></div>
+    <div class="comp-row"><span class="cl">Piggyback structures (2/month × $5,200)</span><span class="cv-g">$10,400/month</span></div>
+    <div class="comp-row"><span class="cl">Non-QM seconds — ITIN (2/month × $1,200)</span><span class="cv-g">$2,400/month</span></div>
+    <div class="comp-row"><span class="cl">Total monthly with HELOC layer</span><span class="cv-gold">$58,400/month</span></div>
+    <div class="comp-row"><span class="cl">vs. purchases only</span><span class="cv-g">$42,000/month</span></div>
+    <div class="comp-row"><span class="cl">HELOC layer adds annually</span><span class="cv-gold">+$196,800/year — same team, same states</span></div>
+  </div>
+</div>
+
+<!-- PLAYBOOK -->
+<div id="tab-playbook" class="panel">
+
+  <div class="sec">Six-step activation sequence — launch HELOC in 30 days</div>
+
+  <div class="play-list">
+
+    <div class="play-item">
+      <div class="play-num pn-gold">1</div>
+      <div class="play-content">
+        <div class="play-title">Week 1 — Learn the two flagship products cold</div>
+        <div class="play-desc">Before marketing anything, get to PRMG product profiles for Lightning Equity Hybrid HELOC and Closed End Second Expanded Access. Understand the max CLTV, min credit score, draw structure, and Non-QM income flexibility on the closed-end second. You cannot sell what you cannot explain in 60 seconds to a homeowner. Jose masters these two first — everything else is secondary.</div>
+        <div class="play-tags"><span class="badge bgold">Lightning HELOC</span><span class="badge bpurple">CE Second Expanded</span><span class="badge bb">PRMG product profile review</span></div>
+      </div>
+    </div>
+
+    <div class="play-item">
+      <div class="play-num pn-green">2</div>
+      <div class="play-content">
+        <div class="play-title">Week 1–2 — Tag and segment your Total Expert database</div>
+        <div class="play-desc">Every closed client in Total Expert needs a DPA program tag and an estimated equity field. Pull your closed loan list, calculate current estimated value using Zillow or Redfin estimates, flag everyone with 15%+ equity. This is your HELOC outreach list. It should take Ana or Marelis one afternoon to build. Without this segmentation, Sales Boomerang Equity Watch cannot fire correctly.</div>
+        <div class="play-tags"><span class="badge bg">Total Expert</span><span class="badge bg">Sales Boomerang Equity Watch</span><span class="badge bb">Marelis task</span></div>
+      </div>
+    </div>
+
+    <div class="play-item">
+      <div class="play-num pn-blue">3</div>
+      <div class="play-content">
+        <div class="play-title">Week 2 — Build the contractor referral pitch</div>
+        <div class="play-desc">Identify 5 established home contractors in Clark County and Broward/Miami-Dade. Roofing, kitchen remodel, HVAC, solar, and landscaping are the highest-ticket home improvement categories. Your pitch is one sentence: "I can fund your clients' projects in 3 weeks with a HELOC — fixed-lock option available — so you stop losing jobs to budget constraints." Book one lunch per week. This referral channel compounds fast because contractors see the same homeowners repeatedly.</div>
+        <div class="play-tags"><span class="badge bg">NV contractors</span><span class="badge bg">FL contractors</span><span class="badge bgold">Lightning HELOC lead product</span></div>
+      </div>
+    </div>
+
+    <div class="play-item">
+      <div class="play-num pn-amber">4</div>
+      <div class="play-content">
+        <div class="play-title">Week 2–3 — Activate SmartBee ITIN equity conversation</div>
+        <div class="play-desc">Brief Marelis and the SmartBee contact on the Non-QM Closed End Second Expanded Access. Any TaxDome intake client who is an existing homeowner and has an ITIN is a potential second mortgage client — completely separate from purchase pipeline. Add a field to the TaxDome intake form: "Do you currently own a home?" One checkbox. Every yes from an ITIN borrower becomes a Non-QM second mortgage conversation routed to Jose or Ana.</div>
+        <div class="play-tags"><span class="badge bpurple">CE Second Expanded Access</span><span class="badge bg">TaxDome intake</span><span class="badge bb">Marelis owns the flag</span></div>
+      </div>
+    </div>
+
+    <div class="play-item">
+      <div class="play-num pn-green">5</div>
+      <div class="play-content">
+        <div class="play-title">Week 3 — Add piggyback option to every over-income DPA conversation</div>
+        <div class="play-desc">Every time a buyer is declined for DPA due to income, Ana or Jose runs the piggyback calculation immediately in the same call. "You don't qualify for the assistance program, but I have another structure — 80/15/5 — that eliminates your PMI and gets you to the same monthly payment." Closed End Second Classic Elite is the product. This converts a lost DPA lead into a dual origination. Train Ana on this script this week — it changes how every over-income conversation ends.</div>
+        <div class="play-tags"><span class="badge bb">CE Second Classic Elite</span><span class="badge bgold">Piggyback script</span><span class="badge bg">Ana trains first</span></div>
+      </div>
+    </div>
+
+    <div class="play-item">
+      <div class="play-num pn-gold">6</div>
+      <div class="play-content">
+        <div class="play-title">Month 2 onward — Monthly equity outreach cadence</div>
+        <div class="play-desc">First of every month: pull Sales Boomerang equity alerts from prior 30 days. Call every flagged past client personally — not an email, not a text. A 3-minute phone call: "I was reviewing your account and noticed your home has appreciated. I want to share a way to access that equity without touching your mortgage rate. Do you have 10 minutes this week?" Convert 30–40% of calls to HELOC applications. This single habit, executed consistently, builds a predictable $3,000–$5,000/month revenue layer from your existing book at zero acquisition cost.</div>
+        <div class="play-tags"><span class="badge bg">Sales Boomerang alert</span><span class="badge bgold">Personal outreach — Jose or Ana</span><span class="badge bb">Total Expert journey active</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec">The 30-day launch checklist</div>
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px">
+    <div class="ref-wrap">
+    <table style="min-width:400px">
+      <thead><tr><th>Action</th><th>Owner</th><th>Deadline</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Review Lightning Equity HELOC + CE Second Expanded product profiles at PRMG</td><td><span class="badge bg">Jose</span></td><td>Week 1</td><td><span class="badge ba">To do</span></td></tr>
+        <tr><td>Confirm HELOC comp rates with PRMG branch agreement</td><td><span class="badge bg">Jose</span></td><td>Week 1</td><td><span class="badge ba">To do</span></td></tr>
+        <tr><td>Tag all closed clients in Total Expert with DPA program + equity estimate</td><td><span class="badge bb">Ana / Marelis</span></td><td>Week 1–2</td><td><span class="badge ba">To do</span></td></tr>
+        <tr><td>Activate Sales Boomerang Equity Watch on full database</td><td><span class="badge bg">Jose</span></td><td>Week 1</td><td><span class="badge ba">To do</span></td></tr>
+        <tr><td>Add homeowner field to TaxDome SmartBee intake form</td><td><span class="badge bb">Marelis</span></td><td>Week 2</td><td><span class="badge ba">To do</span></td></tr>
+        <tr><td>Book 5 contractor meetings (NV) + 5 (FL)</td><td><span class="badge bg">Jose</span></td><td>Week 2–3</td><td><span class="badge ba">To do</span></td></tr>
+        <tr><td>Train Ana on piggyback script for over-income DPA declines</td><td><span class="badge bg">Jose</span></td><td>Week 2</td><td><span class="badge ba">To do</span></td></tr>
+        <tr><td>Set monthly Sales Boomerang equity outreach calendar reminder</td><td><span class="badge bg">Jose</span></td><td>Week 1</td><td><span class="badge ba">To do</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script>
+function show(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

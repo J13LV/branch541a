@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Partnership Presentation — Branch 541-A · PRMG</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0A1628;min-height:100vh}::-webkit-scrollbar{display:none}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+const NAVY="#0A1628",GOLD="#C8922A",BLUE="#1E5FA8",GREEN="#0A6E4F",RED="#B22222",
+      TEAL="#0891B2",WHITE="#F4F6F9",DIM="#6B7FA6",CARD="#0F1E35",BORDER="#1A2E4A";
+
+const SLIDES=[
+{id:"title",type:"title"},
+{id:"problem",type:"problem"},
+{id:"pain1",type:"pain",num:"01",icon:"👻",
+ es:"EL LO QUE DESAPARECE",en:"The Ghost LO",
+ agent_says:"«Mandé al comprador, el LO tomó el archivo y nunca más contestó.»",
+ agent_en:'"I sent the buyer, the LO took the file and never called back."',
+ what_happens:"Client loses the house. Agent loses the commission. Relationship with the client — destroyed. The listing agent never works with you again.",what_happens_es:"El cliente pierde la casa. El agente pierde la comisión. La relación con el cliente — destruida. El agente listador nunca vuelve a trabajar contigo.",
+ your_fix:"I answer my phone within 2 hours. And more importantly — your client and both agents receive automatic text and email notifications at every milestone. Nobody has to chase me for a status update.",your_fix_es:"Contestamos en 2 horas. Y lo más importante — su cliente y ambos agentes reciben notificaciones automáticas de texto y email en cada etapa. Nadie tiene que perseguirnos para saber el status.",
+ fix_es:"Contesto en 2 horas — y el sistema notifica a todos automáticamente en cada etapa del proceso.",color:RED},
+{id:"pain2",type:"pain",num:"02",icon:"⏰",
+ es:"LA DESCALIFICACIÓN DE ÚLTIMO MINUTO",en:"The Last-Minute Decline",
+ agent_says:"«3 días antes del cierre me dicen que el comprador no califica. Perdí mi comisión y mi cliente.»",
+ agent_en:'"3 days before closing they tell me the buyer doesn\'t qualify. Lost my commission and my client."',
+ what_happens:"Seller re-lists. Buyer loses their earnest money. Agent loses the deal, the client, and their reputation with the listing agent.",what_happens_es:"El vendedor vuelve a listar la propiedad. El comprador pierde su depósito. El agente pierde el trato, el cliente y su reputación con el agente listador.",
+ your_fix:"Full credit review, income verification, and DPA qualification confirmation happen in the PRE-QUAL — not at underwriting. If there is a problem, I find it in week 1, not week 5.",your_fix_es:"La revisión de crédito, verificación de ingresos y confirmación de DPA ocurren en la PRE-CALIFICACIÓN — no en underwriting. Si hay un problema, lo encontramos en la semana 1, no en la semana 5.",
+ fix_es:"Los problemas los encuentro en la semana 1, no en la semana 5.",color:"#CC4400"},
+{id:"pain3",type:"pain",num:"03",icon:"📵",
+ es:"EL LO DE BUZÓN DE VOZ",en:"The Voicemail LO",
+ agent_says:"«Presenté una oferta y el agente vendedor llamó al LO. Nadie contestó. Perdimos la casa.»",
+ agent_en:'"I submitted an offer and the listing agent called the LO. No answer. We lost the house."',
+ what_happens:"In competitive Las Vegas offers, listing agents call your lender to verify reliability. If nobody answers, the seller picks a different offer.",what_happens_es:"En Las Vegas, los agentes listadores llaman al prestamista para verificar la confiabilidad. Si nadie contesta, el vendedor elige otra oferta.",
+ your_fix:"My direct cell is on every pre-approval letter. And the listing agent receives automatic status notifications at key milestones — appraisal ordered, submitted to underwriting, clear to close, closing date confirmed.",your_fix_es:"Nuestro celular está en cada carta de pre-aprobación. El agente listador recibe notificaciones automáticas en cada etapa clave — tasación ordenada, enviado a UW, CTC, fecha de cierre confirmada.",
+ fix_es:"El agente vendedor recibe notificaciones automáticas en cada etapa clave — sin necesidad de llamar a nadie.",color:"#9B5500"},
+{id:"pain4",type:"pain",num:"04",icon:"📋",
+ es:"LAS CONDICIONES SORPRESA",en:"The Surprise Conditions",
+ agent_says:"«Underwriting mandó 8 condiciones que nadie mencionó. El cliente pensó que yo lo metí en algo malo.»",
+ agent_en:'"Underwriting sent 8 conditions nobody mentioned. My client thought I got them into something bad."',
+ what_happens:"Client blames the agent. Agent loses the referral network. The deal survives but the relationship does not.",what_happens_es:"El cliente culpa al agente. El agente pierde su red de referidos. El trato sobrevive pero la relación no.",
+ your_fix:"I walk every client through a complete pre-submission review. Known conditions are identified and collected before the file goes to underwriting. No surprises — only solutions.",your_fix_es:"Hacemos una revisión completa antes de enviar el expediente a UW. Las condiciones conocidas se identifican y recopilan de antemano. Sin sorpresas — solo soluciones.",
+ fix_es:"Identifico las condiciones antes de enviar el archivo. Sin sorpresas.",color:BLUE},
+{id:"pain5",type:"pain",num:"05",icon:"🗓️",
+ es:"EL CIERRE QUE NUNCA LLEGA",en:"The Never-Ending Close",
+ agent_says:"«Me prometieron 30 días. Tardaron 60. El vendedor quiso cancelar. Casi pierdo a mi cliente.»",
+ agent_en:'"They promised 30 days. It took 60. The seller almost cancelled. I almost lost my client."',
+ what_happens:"Rate lock expires. Extension fees cost the buyer money. Seller loses patience. Agent has to manage a crisis instead of close a deal.",what_happens_es:"El lock de tasa vence. El comprador paga fees de extensión. El vendedor pierde la paciencia. El agente maneja una crisis en lugar de cerrar el trato.",
+ your_fix:"FHA and DPA files close in 21–30 business days at this branch. Our processor works files daily. We track every file on a live pipeline dashboard — we see problems before they become delays.",your_fix_es:"Los archivos FHA y DPA cierran en 21–30 días hábiles en esta oficina. La procesadora trabaja los archivos diariamente. Seguimos cada archivo en un dashboard en vivo — vemos los problemas antes de que causen retrasos.",
+ fix_es:"FHA y DPA cierran en 21–30 días hábiles en esta oficina.",color:GREEN},
+{id:"bridge",type:"bridge"},
+{id:"process",type:"process"},
+{id:"notifications",type:"notifications"},
+{id:"comms",type:"comms"},
+{id:"products",type:"products"},
+{id:"itin",type:"itin"},
+{id:"close",type:"close"},
+];
+
+function Bi({es,en,esStyle={},enStyle={},lang}){
+  if(lang==="en") return <span style={enStyle}>{en}</span>;
+  return <span style={esStyle}>{es}</span>;
+}
+
+function SlideRenderer({slide,lang}){
+  const bi=(es,en,esS={},enS={})=><Bi es={es} en={en} esStyle={esS} enStyle={enS} lang={lang}/>;
+
+  if(slide.type==="title") return(
+    <div style={{textAlign:"center",padding:"40px 20px"}}>
+      <div style={{fontSize:13,color:GOLD,letterSpacing:"3px",marginBottom:20,fontWeight:600}}>PRESENTACIÓN PARA AGENTES · AGENT PARTNERSHIP PRESENTATION</div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(28px,5vw,48px)",lineHeight:1.1,marginBottom:16}}>
+        <span style={{color:WHITE}}>UN SOCIO QUE<br/></span>
+        <span style={{color:GOLD}}>NUNCA DESAPARECE</span>
+      </div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:"clamp(14px,3vw,22px)",color:DIM,marginBottom:32}}>A Partner Who Never Disappears</div>
+      <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap",marginBottom:40}}>
+        {["DPA Specialist — NV · FL · TX","ITIN Non-QM","Lightning HELOC","21–30 Day FHA Close"].map(p=>(
+          <div key={p} style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:8,padding:"8px 16px",fontSize:12,color:DIM}}>{p}</div>
+        ))}
+      </div>
+      <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:18,color:WHITE}}>Jose Del Valle-Figueroa · NMLS #2686066</div>
+      <div style={{fontSize:13,color:DIM,marginTop:4}}>PRMG Branch 541-A · Las Vegas, NV · 702-848-5626</div>
+      <div style={{fontSize:12,color:GOLD,marginTop:16,fontStyle:"italic"}}>"El Oficial de Préstamos que Sí Contesta" · "The Loan Officer Who Actually Answers"</div>
+    </div>
+  );
+
+  if(slide.type==="problem") return(
+    <div style={{padding:"20px"}}>
+      <div style={{textAlign:"center",marginBottom:32}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(20px,4vw,32px)",color:WHITE,marginBottom:8}}>
+          {bi("¿Le suena familiar alguno de estos?","Do any of these sound familiar?")}
+        </div>
+        <div style={{fontSize:14,color:DIM}}>{bi("Cada agente en Las Vegas ha vivido esto al menos una vez.","Every agent in Las Vegas has experienced this at least once.")}</div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(240px,1fr))",gap:12}}>
+        {[
+          {icon:"👻",es:"El LO que toma el archivo y desaparece",en:"The LO who takes the file and vanishes",color:RED},
+          {icon:"⏰",es:"La descalificación 3 días antes del cierre",en:"The disqualification 3 days before closing",color:"#CC4400"},
+          {icon:"📵",es:"El buzón de voz cuando más lo necesita",en:"Voicemail when you need them most",color:"#9B5500"},
+          {icon:"📋",es:"Las condiciones sorpresa de underwriting",en:"Surprise underwriting conditions",color:BLUE},
+          {icon:"🗓️",es:"El cierre que prometieron en 30 días y tardó 60",en:"The 30-day close that took 60 days",color:GREEN},
+        ].map(p=>(
+          <div key={p.es} style={{background:CARD,border:`1px solid ${p.color}44`,borderLeft:`3px solid ${p.color}`,borderRadius:8,padding:"14px 16px",display:"flex",gap:12,alignItems:"flex-start"}}>
+            <span style={{fontSize:24,flexShrink:0}}>{p.icon}</span>
+            <div style={{fontSize:13,color:WHITE,lineHeight:1.5}}>{bi(p.es,p.en,{fontWeight:600},{})}</div>
+          </div>
+        ))}
+        <div style={{background:`${GOLD}18`,border:`1px solid ${GOLD}`,borderRadius:8,padding:"14px 16px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <div style={{textAlign:"center",fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:16,color:GOLD,lineHeight:1.4}}>
+            {bi("Hoy les muestro cómo trabajamos diferente.","Today we show you how we work differently.",{color:GOLD},{color:GOLD})}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if(slide.type==="pain") return(
+    <div style={{padding:"16px"}}>
+      <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:24}}>
+        <div style={{background:`${slide.color}22`,border:`2px solid ${slide.color}`,borderRadius:12,padding:"14px 16px",fontSize:36,flexShrink:0}}>{slide.icon}</div>
+        <div>
+          <div style={{fontSize:11,color:slide.color,letterSpacing:"2px",fontWeight:600,marginBottom:4}}>PROBLEMA {slide.num}</div>
+          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(16px,3vw,22px)",color:WHITE,lineHeight:1.2}}>{slide.es}</div>
+          <div style={{fontSize:14,color:DIM,marginTop:2}}>{slide.en}</div>
+        </div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+        <div style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:10,padding:"16px"}}>
+          <div style={{fontSize:10,color:DIM,letterSpacing:"1px",marginBottom:10,fontWeight:600}}>{bi("EL AGENTE DICE","THE AGENT SAYS")}</div>
+          <div style={{fontSize:15,color:`${slide.color}EE`,lineHeight:1.7,fontStyle:"italic"}}>
+            {lang==="es"?<div>{slide.agent_says}</div>:<div>{slide.agent_en}</div>}
+          </div>
+        </div>
+        <div style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:10,padding:"16px"}}>
+          <div style={{fontSize:10,color:DIM,letterSpacing:"1px",marginBottom:10,fontWeight:600}}>{bi("LO QUE PASA DESPUÉS","WHAT HAPPENS NEXT")}</div>
+          <div style={{fontSize:13,color:WHITE,lineHeight:1.7}}>{lang==="es"?(slide.what_happens_es||slide.what_happens):slide.what_happens}</div>
+        </div>
+        <div style={{background:`${GREEN}15`,border:`2px solid ${GREEN}`,borderRadius:10,padding:"16px",gridColumn:"1 / -1"}}>
+          <div style={{fontSize:10,color:GREEN,letterSpacing:"1px",marginBottom:10,fontWeight:600}}>{bi("CÓMO LO RESOLVEMOS","HOW WE SOLVE THIS")}</div>
+          <div style={{display:"flex",gap:16,alignItems:"flex-start",flexWrap:"wrap"}}>
+            <div style={{fontSize:14,color:WHITE,lineHeight:1.7,flex:1}}>{lang==="es"?(slide.your_fix_es||slide.your_fix):slide.your_fix}</div>
+            {lang!=="en"&&<div style={{fontSize:15,color:GREEN,fontWeight:700,borderLeft:`2px solid ${GREEN}`,paddingLeft:14,lineHeight:1.6,flexShrink:0,maxWidth:240}}>{slide.fix_es}</div>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if(slide.type==="bridge") return(
+    <div style={{textAlign:"center",padding:"40px 20px"}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(22px,4vw,38px)",color:WHITE,marginBottom:16,lineHeight:1.2}}>
+        {lang==="es"?<><span style={{color:GOLD}}>Cada uno de esos problemas</span><br/>tiene una solución en esta oficina.</>:<><span style={{color:GOLD}}>Every one of those problems</span><br/>has a solution in this branch.</>}
+      </div>
+      <div style={{fontSize:15,color:DIM,marginBottom:40,lineHeight:1.7}}>
+        {bi("No son promesas. Es el estándar de operación de PRMG Branch 541-A.","Not promises. This is the operating standard of PRMG Branch 541-A.")}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:12,maxWidth:700,margin:"0 auto"}}>
+        {[
+          {icon:"📞",es:"Respuesta en 2 horas",en:"2-hour response"},
+          {icon:"✅",es:"Pre-cal que sí aguanta",en:"Pre-quals that hold"},
+          {icon:"🗓️",es:"FHA: 21–30 días hábiles",en:"FHA: 21–30 business days"},
+          {icon:"📲",es:"Notificaciones automáticas",en:"Auto-notifications"},
+          {icon:"📊",es:"Pipeline dashboard en vivo",en:"Live pipeline dashboard"},
+          {icon:"🏆",es:"DPA experto · NV · FL · TX",en:"DPA expert · NV · FL · TX"},
+          {icon:"🌎",es:"Bilingüe — EN / ES",en:"Bilingual — EN / ES"},
+        ].map(item=>(
+          <div key={item.en} style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:10,padding:"14px 10px",textAlign:"center"}}>
+            <div style={{fontSize:26,marginBottom:7}}>{item.icon}</div>
+            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:11,color:WHITE,lineHeight:1.4}}>
+              {bi(item.es,item.en)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if(slide.type==="process") return(
+    <div style={{padding:"16px"}}>
+      <div style={{textAlign:"center",marginBottom:20}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(18px,4vw,28px)",color:WHITE}}>
+          {bi("Así funciona un archivo en esta oficina","How a file works in this branch")}
+        </div>
+        <div style={{fontSize:13,color:DIM,marginTop:4}}>
+          {bi("Transparencia total — el agente sabe exactamente en qué etapa está su cliente.","Full transparency — the agent always knows exactly what stage their client is in.")}
+        </div>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {[
+          {phase:"DÍA 1–2",title:"Pre-Calificación Completa",title_en:"Full Pre-Qualification",detail_es:"Crédito jalado, ingresos verificados, programa DPA confirmado. Carta de pre-aprobación lista el mismo día.",detail_en:"Credit pulled, income verified, DPA program confirmed. Pre-approval letter ready same day.",color:GOLD},
+          {phase:"DÍA 3–5",title:"Aplicación Completa + Disclosures",title_en:"Full Application + Disclosures",detail_es:"1003 completa, todos los documentos recolectados, disclosures firmados.",detail_en:"Complete 1003, all documents collected, disclosures signed.",color:BLUE},
+          {phase:"DÍA 5–12",title:"Procesamiento — Gissella Limo",title_en:"Processing — Gissella Limo",detail_es:"Procesadora trabaja el archivo diariamente. Título, appraisal y seguro ordenados. Condiciones identificadas antes de UW.",detail_en:"Processor works the file daily. Title, appraisal, insurance ordered. Conditions identified before UW.",color:TEAL},
+          {phase:"DÍA 12–19",title:"Underwriting en PRMG",title_en:"PRMG Underwriting",detail_es:"Aprobación condicional en 5–7 días. Condiciones preparadas con anticipación. Sin sorpresas.",detail_en:"Conditional approval in 5–7 days. Conditions anticipated and ready. No surprises.",color:BLUE},
+          {phase:"DÍA 19–30",title:"Clear to Close → Cierre",title_en:"Clear to Close → Closing",detail_es:"CTC confirmado. CD emitido. Cierre coordinado con el agente y la compañía de título.",detail_en:"CTC confirmed. CD issued. Closing coordinated with agent and title company.",color:GREEN},
+        ].map((step,i)=>(
+          <div key={i} style={{display:"flex",gap:0}}>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",marginRight:14,width:20,paddingTop:4}}>
+              <div style={{width:12,height:12,borderRadius:"50%",background:step.color,flexShrink:0}}/>
+              {i<4&&<div style={{width:2,flex:1,background:BORDER,minHeight:12}}/>}
+            </div>
+            <div style={{flex:1,paddingBottom:14,paddingTop:2}}>
+              <div style={{background:CARD,borderLeft:`3px solid ${step.color}`,borderRadius:"0 8px 8px 0",padding:"10px 14px"}}>
+                <div style={{display:"flex",gap:10,alignItems:"baseline",flexWrap:"wrap",marginBottom:4}}>
+                  <span style={{background:`${step.color}22`,color:step.color,borderRadius:4,padding:"2px 8px",fontSize:10,fontWeight:600}}>{step.phase}</span>
+                  <span style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:13,color:WHITE}}>
+                    {lang==="es"?step.title:step.title_en}
+                  </span>
+                </div>
+                <div style={{fontSize:12,color:DIM,lineHeight:1.6}}>
+                  {lang==="es"?<span>{step.detail_es}</span>:<span>{step.detail_en}</span>}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if(slide.type==="notifications") return(
+    <div style={{padding:"16px"}}>
+      <div style={{textAlign:"center",marginBottom:18}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(16px,3.5vw,24px)",color:WHITE,marginBottom:6}}>
+          {bi("Nadie tiene que perseguirnos para saber el status","Nobody has to chase us for a status update")}
+        </div>
+        <div style={{fontSize:12,color:DIM}}>{bi("Notificaciones automáticas a su cliente, agente comprador y agente vendedor en cada etapa clave.","Automatic notifications to your client, buyer agent, and listing agent at every key milestone.")}</div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))",gap:9,marginBottom:14}}>
+        {[
+          {step:"1",m:"Pre-Aprobación",m_en:"Pre-Approval",color:GOLD,note_es:"Carta lista — notificación inmediata",note_en:"Letter ready — immediate",who:["👤 Cliente","🤝 Ag. Comprador"]},
+          {step:"2",m:"Aplicación Completa",m_en:"Application Complete",color:BLUE,note_es:"Archivo activo en procesamiento",note_en:"File active in processing",who:["👤 Cliente","🤝 Ag. Comprador"]},
+          {step:"3",m:"Appraisal Ordenado",m_en:"Appraisal Ordered",color:TEAL,note_es:"Acceso coordinado",note_en:"Access coordinated",who:["👤 Cliente","🤝 Ag. Comprador","🏷️ Ag. Vendedor"]},
+          {step:"4",m:"Enviado a Underwriting",m_en:"Submitted to UW",color:BLUE,note_es:"Todos saben que está en revisión",note_en:"All parties notified",who:["👤 Cliente","🤝 Ag. Comprador","🏷️ Ag. Vendedor"]},
+          {step:"5",m:"Aprobación Condicional",m_en:"Conditional Approval",color:"#8B4FE8",note_es:"Condiciones identificadas",note_en:"Conditions identified",who:["👤 Cliente","🤝 Ag. Comprador"]},
+          {step:"6",m:"Clear to Close ⭐",m_en:"Clear to Close ⭐",color:GREEN,note_es:"¡La notificación que todos esperan!",note_en:"The notification everyone waits for!",who:["👤 Cliente","🤝 Ag. Comprador","🏷️ Ag. Vendedor"]},
+          {step:"7",m:"Cierre Confirmado",m_en:"Closing Confirmed",color:GOLD,note_es:"Fecha, hora y lugar a todos",note_en:"Date, time, location confirmed",who:["👤 Cliente","🤝 Ag. Comprador","🏷️ Ag. Vendedor","📄 Título"]},
+          {step:"8",m:"Fondos Liberados 🎉",m_en:"FUNDED 🎉",color:GREEN,note_es:"¡Todos celebran al mismo tiempo!",note_en:"Everyone celebrates together!",who:["👤 Cliente","🤝 Ag. Comprador","🏷️ Ag. Vendedor"]},
+        ].map((item,i)=>(
+          <div key={i} style={{background:CARD,border:`1px solid ${item.color}44`,borderLeft:`3px solid ${item.color}`,borderRadius:8,padding:"9px 11px"}}>
+            <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:5}}>
+              <span style={{background:`${item.color}22`,color:item.color,borderRadius:4,padding:"1px 7px",fontSize:10,fontWeight:700}}>{item.step}</span>
+              <span style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:11,color:WHITE,lineHeight:1.3}}>{lang==="en"?item.m_en:item.m}</span>
+            </div>
+            <div style={{fontSize:10,color:DIM,marginBottom:7}}>{lang==="es"?item.note_es:item.note_en}</div>
+            <div style={{display:"flex",gap:4,flexWrap:"wrap"}}>
+              {item.who.map((w,j)=>(
+                <span key={j} style={{background:`${item.color}15`,border:`1px solid ${item.color}33`,borderRadius:4,padding:"2px 6px",fontSize:9,color:item.color,fontWeight:600}}>{w}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{background:`${GREEN}15`,border:`2px solid ${GREEN}`,borderRadius:10,padding:"12px 16px",display:"flex",gap:12,alignItems:"center"}}>
+        <span style={{fontSize:24,flexShrink:0}}>📲</span>
+        <div style={{fontSize:12,color:WHITE,lineHeight:1.7}}>
+          {bi("Su cliente no le llama preguntando '¿dónde está mi préstamo?'. El agente vendedor no le llama a usted. Todos saben exactamente dónde está el archivo — en tiempo real.",
+             "Your client doesn't ask 'where is my loan?'. The listing agent doesn't call you. Everyone knows exactly where the file stands — in real time.")}
+        </div>
+      </div>
+    </div>
+  );
+
+  if(slide.type==="comms") return(
+    <div style={{padding:"16px"}}>
+      <div style={{textAlign:"center",marginBottom:20}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(18px,3.5vw,26px)",color:WHITE}}>
+          {bi("El estándar de comunicación — no una promesa, un contrato","The communication standard — not a promise, a contract")}
+        </div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:18}}>
+        {[
+          {icon:"📞",es:"Llámanos directo",en:"Call us direct",detail_es:"Nuestro celular está en cada carta de pre-aprobación. Si el agente vendedor llama, contestamos.",detail_en:"Our cell is on every pre-approval letter. If the listing agent calls, we answer.",color:GOLD},
+          {icon:"⏱️",es:"Respuesta en 2 horas",en:"2-hour response",detail_es:"Llamadas, textos y emails — respuesta dentro de 2 horas durante horas hábiles.",detail_en:"Calls, texts, emails — response within 2 hours during business hours.",color:BLUE},
+          {icon:"📊",es:"Pipeline dashboard en vivo",en:"Live pipeline dashboard",detail_es:"El agente puede preguntar el status del archivo en cualquier momento. La respuesta es siempre inmediata.",detail_en:"The agent can ask the file status at any time. The answer is always immediate.",color:GREEN},
+          {icon:"🔔",es:"Actualizaciones proactivas",en:"Proactive updates",detail_es:"No esperes a preguntar. Te avisamos cuando el archivo avanza de etapa — automáticamente.",detail_en:"Don't wait to ask. We notify you when the file moves to the next stage — automatically.",color:TEAL},
+        ].map(item=>(
+          <div key={item.en} style={{background:CARD,border:`1px solid ${item.color}44`,borderTop:`3px solid ${item.color}`,borderRadius:8,padding:"14px"}}>
+            <div style={{display:"flex",gap:10,alignItems:"center",marginBottom:8}}>
+              <span style={{fontSize:22}}>{item.icon}</span>
+              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:14,color:item.color}}>{bi(item.es,item.en)}</div>
+            </div>
+            <div style={{fontSize:12,color:DIM,lineHeight:1.6}}>
+              {lang==="es"?<div>{item.detail_es}</div>:<div>{item.detail_en}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{background:`${GOLD}15`,border:`1px solid ${GOLD}`,borderRadius:10,padding:"16px 20px",textAlign:"center"}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:18,color:GOLD,lineHeight:1.5}}>
+          {bi('"El Oficial de Préstamos que Sí Contesta"','"The Loan Officer Who Actually Answers"',{color:GOLD},{color:GOLD})}
+        </div>
+        <div style={{fontSize:12,color:DIM,marginTop:6}}>
+          {bi("Este no es un slogan. Es nuestro estándar operativo.","This is not a slogan. It is our operating standard.")}
+        </div>
+      </div>
+    </div>
+  );
+
+  if(slide.type==="products") return(
+    <div style={{padding:"16px"}}>
+      <div style={{textAlign:"center",marginBottom:18}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(18px,3.5vw,26px)",color:WHITE}}>
+          {bi("Productos — un sí para cada perfil de comprador","Products — a yes for every buyer profile")}
+        </div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))",gap:11}}>
+        {[
+          {icon:"🏠",color:GOLD,prog:"NV HIP",es:"4% perdonable, crédito 640+, hasta $105K ingreso. El programa estrella de Nevada.",en:"4% forgivable, 640+ credit, up to $105K income. Nevada's flagship DPA program."},
+          {icon:"🎁",color:GREEN,prog:"NHF GRANT",es:"Donación verdadera — sin segunda hipoteca, sin repago.",en:"True grant — no second lien, no repayment. All 49 states."},
+          {icon:"🛡️",color:TEAL,prog:"CHENOA FUND",es:"Piso de crédito desde 580. Para los compradores que el banco rechazó.",en:"Credit floor from 580. For buyers the bank declined."},
+          {icon:"🌴",color:"#1A7A5A",prog:"FL HOMETOWN HEROES",es:"Hasta $35,000 diferido — maestros, enfermeros, policías, bomberos.",en:"Up to $35,000 deferred — teachers, nurses, police, firefighters."},
+          {icon:"⭐",color:"#C4A020",prog:"TSAHC / SETH TX",es:"3–5% donación real sin requisito de comprador primerizo. Todos los condados TX.",en:"3–5% true grant, no FTB requirement. All TX counties."},
+          {icon:"⚡",color:BLUE,prog:"LIGHTNING HELOC",es:"Línea de crédito con opción de tasa fija por extracción. Ningún banco en NV ofrece esto.",en:"Credit line with fixed-rate lock on draws. No bank in NV offers this."},
+          {icon:"📋",color:"#8B4FE8",prog:"CE SECOND ITIN",es:"Segunda hipoteca con estados de cuenta — sin W-2. Para homeowners con ITIN.",en:"Second mortgage with bank statements — no W-2. For ITIN homeowners."},
+          {icon:"🔄",color:"#CC4400",prog:"FHA STREAMLINE",es:"Refi sin tasación — para todos sus clientes FHA + DPA. 21–30 días hábiles.",en:"Refi with no appraisal — for all past FHA + DPA clients. 21–30 business days."},
+        ].map(p=>(
+          <div key={p.prog} style={{background:CARD,border:`1px solid ${p.color}44`,borderTop:`3px solid ${p.color}`,borderRadius:10,padding:"12px 10px"}}>
+            <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:7}}>
+              <span style={{fontSize:18}}>{p.icon}</span>
+              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:12,color:p.color}}>{p.prog}</div>
+            </div>
+            <div style={{fontSize:11,color:DIM,lineHeight:1.6}}>
+              {lang==="es"?<div>{p.es}</div>:<div>{p.en}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if(slide.type==="itin") return(
+    <div style={{padding:"16px"}}>
+      <div style={{background:`#6B3FA015`,border:`2px solid #8B4FE8`,borderRadius:12,padding:"18px",marginBottom:18}}>
+        <div style={{display:"flex",gap:14,alignItems:"flex-start",flexWrap:"wrap"}}>
+          <div style={{fontSize:36,flexShrink:0}}>🌎</div>
+          <div>
+            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(16px,3.5vw,22px)",color:"#A87EFF",lineHeight:1.2,marginBottom:6}}>
+              {bi("El producto que ningún banco en Las Vegas ofrece","The product no bank in Las Vegas offers")}
+            </div>
+            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,color:WHITE}}>CE Second Expanded Access — ITIN Non-QM</div>
+          </div>
+        </div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
+        <div style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:10,padding:"14px"}}>
+          <div style={{fontSize:10,color:DIM,letterSpacing:"1px",marginBottom:8,fontWeight:600}}>{bi("EL ESCENARIO","THE SCENARIO")}</div>
+          <div style={{fontSize:13,color:WHITE,lineHeight:1.7}}>
+            {bi("Su cliente tiene ITIN, es dueño de casa, tiene capital acumulado — pero el banco lo rechazó porque no tiene W-2.",
+               "Your client has an ITIN, owns a home, has built equity — but the bank declined them because they have no W-2.")}
+          </div>
+        </div>
+        <div style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:10,padding:"14px"}}>
+          <div style={{fontSize:10,color:DIM,letterSpacing:"1px",marginBottom:8,fontWeight:600}}>{bi("LO QUE HACEMOS","WHAT WE DO")}</div>
+          <div style={{fontSize:13,color:WHITE,lineHeight:1.7}}>
+            {bi("Cerramos la segunda hipoteca usando estados de cuenta bancaria. Sin W-2 requerido. Residentes no permanentes elegibles.",
+               "We close the second mortgage using bank statements. No W-2 required. Non-permanent residents eligible.")}
+          </div>
+        </div>
+        <div style={{background:`${GREEN}15`,border:`1px solid ${GREEN}`,borderRadius:10,padding:"14px",gridColumn:"1/-1"}}>
+          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:15,color:GREEN,marginBottom:8}}>
+            {bi("Para el agente en el mercado hispano — esta es la mayor oportunidad.","For the agent in the Hispanic market — this is the biggest opportunity.")}
+          </div>
+          <div style={{fontSize:12,color:DIM,lineHeight:1.7}}>
+            {bi("Cada cliente de ITIN que tiene casa y necesita capital es un cliente que su actual prestamista no puede ayudar. Nosotros sí podemos. Cuando su cliente de ITIN sea rechazado en el banco, llámenos.",
+               "Every ITIN homeowner client who needs equity access is a client your current lender cannot help. We can. When your ITIN client gets declined at the bank, call us.")}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if(slide.type==="close") return(
+    <div style={{textAlign:"center",padding:"30px 20px"}}>
+      <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(22px,4vw,36px)",color:WHITE,lineHeight:1.2,marginBottom:18}}>
+        {lang==="es"?<>Lo que ofrecemos no es<br/><span style={{color:GOLD}}>solo un prestamista.</span></>:<>What we offer is not<br/><span style={{color:GOLD}}>just a lender.</span></>}
+      </div>
+      <div style={{fontSize:14,color:DIM,lineHeight:1.8,marginBottom:28,maxWidth:540,margin:"0 auto 28px"}}>
+        {bi("Es un socio que protege su reputación, cierra sus archivos a tiempo, contesta su teléfono, y tiene un programa para cada comprador que nos traiga.",
+           "It is a partner who protects your reputation, closes your files on time, answers the phone, and has a program for every buyer you bring.")}
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:12,marginBottom:28,maxWidth:600,margin:"0 auto 28px"}}>
+        {[
+          {es:"Protegemos su reputación con sus clientes",en:"We protect your reputation with clients",icon:"🛡️"},
+          {es:"Cerramos en 21–30 días hábiles",en:"We close in 21–30 business days",icon:"✅"},
+          {es:"Tenemos el programa DPA para cada perfil",en:"We have the DPA program for every profile",icon:"🏠"},
+        ].map(item=>(
+          <div key={item.en} style={{background:CARD,border:`1px solid ${GOLD}44`,borderRadius:10,padding:"16px 10px"}}>
+            <div style={{fontSize:26,marginBottom:8}}>{item.icon}</div>
+            <div style={{fontSize:12,color:WHITE,lineHeight:1.5,fontWeight:600}}>{bi(item.es,item.en)}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{background:`${GOLD}22`,border:`2px solid ${GOLD}`,borderRadius:12,padding:"18px 24px",maxWidth:480,margin:"0 auto 22px"}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:17,color:GOLD,marginBottom:10}}>
+          {bi("Siguiente paso","Next step")}
+        </div>
+        <div style={{fontSize:14,color:WHITE,lineHeight:1.7}}>
+          {bi("Mándenos un comprador esta semana. Lo calificamos el mismo día y le mandamos la carta de pre-aprobación antes de que termine la jornada.",
+             "Send us a buyer this week. We qualify them same day and send you the pre-approval letter before end of business.")}
+        </div>
+      </div>
+      <div style={{fontSize:13,color:DIM}}>
+        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,color:WHITE,marginBottom:4}}>Jose Del Valle-Figueroa · NMLS #2686066</div>
+        <div>JDelValle@prmg.net · PRMG Branch 541-A · 702-848-5626</div>
+        <div style={{color:GOLD,marginTop:6,fontStyle:"italic"}}>"El Oficial de Préstamos que Sí Contesta" · "The Loan Officer Who Actually Answers"</div>
+      </div>
+    </div>
+  );
+
+  return <div/>;
+}
+
+function Presentation(){
+  const [idx,setIdx]=useState(0);
+  const [lang,setLang]=useState("es");
+  const slide=SLIDES[idx];
+  const total=SLIDES.length;
+  const nav=(dir)=>setIdx(i=>Math.max(0,Math.min(total-1,i+dir)));
+
+  return(
+    <div style={{fontFamily:"'DM Sans',system-ui,sans-serif",background:NAVY,minHeight:"100vh",display:"flex",flexDirection:"column",color:WHITE}}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap');*{box-sizing:border-box;margin:0;padding:0;}@keyframes fi{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.fi{animation:fi 0.3s ease;}.nav-btn{transition:all .15s;cursor:pointer;border:none;}.nav-btn:hover{opacity:.8;transform:scale(1.05);}.pill{transition:all .15s;cursor:pointer;border:none;}.pill:hover{opacity:.85;}::-webkit-scrollbar{display:none;}`}</style>
+
+      <div style={{background:CARD,borderBottom:`1px solid ${BORDER}`,padding:"10px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8}}>
+        <div style={{display:"flex",alignItems:"center",gap:12}}>
+          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:13,color:GOLD}}>BRANCH 541-A · PRMG</div>
+          <div style={{fontSize:10,color:DIM}}>AGENT PARTNERSHIP PRESENTATION</div>
+        </div>
+        <div style={{display:"flex",gap:6,alignItems:"center"}}>
+          {["es","en"].map(l=>(
+            <button key={l} className="pill" onClick={()=>setLang(l)}
+              style={{background:lang===l?GOLD:BORDER,color:lang===l?NAVY:DIM,borderRadius:4,padding:"4px 10px",fontSize:10,fontWeight:600}}>
+              {l.toUpperCase()}
+            </button>
+          ))}
+          <div style={{fontSize:11,color:DIM,marginLeft:10}}>{idx+1} / {total}</div>
+        </div>
+      </div>
+
+      <div style={{flex:1,display:"flex",alignItems:"stretch",minHeight:0}}>
+        <div style={{display:"flex",alignItems:"center",padding:"0 6px"}}>
+          <button className="nav-btn" onClick={()=>nav(-1)} disabled={idx===0}
+            style={{background:idx===0?"transparent":BORDER,color:idx===0?BORDER:WHITE,borderRadius:8,padding:"10px 8px",fontSize:18,opacity:idx===0?0.2:1}}>‹</button>
+        </div>
+        <div style={{flex:1,padding:"16px",display:"flex",alignItems:"center",justifyContent:"center",overflow:"auto"}}>
+          <div className="fi" key={idx} style={{width:"100%",maxWidth:860}}>
+            <SlideRenderer slide={slide} lang={lang}/>
+          </div>
+        </div>
+        <div style={{display:"flex",alignItems:"center",padding:"0 6px"}}>
+          <button className="nav-btn" onClick={()=>nav(1)} disabled={idx===total-1}
+            style={{background:idx===total-1?"transparent":GOLD,color:idx===total-1?BORDER:NAVY,borderRadius:8,padding:"10px 8px",fontSize:18,opacity:idx===total-1?0.2:1}}>›</button>
+        </div>
+      </div>
+
+      <div style={{display:"flex",justifyContent:"center",gap:6,padding:"10px 0",background:CARD,borderTop:`1px solid ${BORDER}`,flexWrap:"wrap"}}>
+        {SLIDES.map((_,i)=>(
+          <div key={i} onClick={()=>setIdx(i)} style={{width:i===idx?20:7,height:7,borderRadius:4,background:i===idx?GOLD:BORDER,cursor:"pointer",transition:"all .2s"}}/>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Presentation/>);
+</script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarTech System Map — Branch 541-A · PRMG</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#0D1B2A;min-height:100vh}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0D1B2A}::-webkit-scrollbar-thumb{background:#1E3048;border-radius:2px}</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState}=React;
+const NAVY="#0D1B2A",GOLD="#C8922A",BLUE="#2E6DA4",GREEN="#0A7A5A",PURPLE="#6B3FA0",RED="#C0392B",TEAL="#0891B2",WHITE="#F0F4F8",DIM="#8899AA",CARD="#131F2E",BORDER="#1E3048";
+const JOURNEYS=[
+{id:"j1",label:"J1",title:"Agent Identification",tool:"Model Match",toolColor:BLUE,icon:"🎯",goal:"Find agents doing purchase volume in your DPA markets who need a specialist",steps:[{day:"Setup",action:"Search by ZIP code in NV, FL, TX markets",detail:"Filter: purchase transactions, FHA/Conv loan types, 10+ deals/yr"},{day:"Week 1",action:"Tag agents by market",detail:"Labels: 'DPA Agent - NV', 'DPA Agent - FL', 'DPA Agent - TX'"},{day:"Week 1",action:"Check lender relationships",detail:"Agents with no dominant lender = highest priority targets"},{day:"Export",action:"Import contact list to Total Expert",detail:"Map fields: name, email, phone, market, production volume"},{day:"Monthly",action:"Run new search for growing agents",detail:"Agents who jumped 20%+ in volume = hot targets"}],output:"Qualified agent list loaded into Total Expert → triggers J2"},
+{id:"j2",label:"J2",title:"Agent Activation",tool:"Total Expert",toolColor:GOLD,icon:"📡",goal:"Position Branch 541-A as the DPA specialist before any competitor does",steps:[{day:"Day 1",action:"Introduction email",detail:"Subject: 'The DPA specialist in [City]' — lead with NV HIP / FL Heroes expertise"},{day:"Day 3",action:"DPA program guide email",detail:"State-specific: NV HIP, FL Hometown Heroes, TX TSAHC — value first"},{day:"Day 7",action:"Text message",detail:"'Hi [Name], quick question — do any of your buyers struggle with down payment?'"},{day:"Day 14",action:"Market insight email",detail:"MBS Highway content: rate trend + how it affects DPA buyer purchasing power"},{day:"Day 21",action:"Case study email",detail:"'We closed an FHA + NHF Grant that two lenders declined' — tell the story"},{day:"Day 30",action:"Phone call or video (BombBomb)",detail:"Personal touch — reference their production data, offer a co-branded flyer"},{day:"Monthly",action:"DPA program update newsletter",detail:"Any income limit changes, new programs, rate triggers"}],output:"Agent engages → moves to Active Partner → triggers monthly nurture"},
+{id:"j3",label:"J3",title:"Client Review Capture",tool:"Total Expert + BirdEye",toolColor:GREEN,icon:"⭐",goal:"Turn every closed DPA loan into a public review that wins the next agent",steps:[{day:"Close Day",action:"Milestone trigger fires in Encompass",detail:"Loan funded → Total Expert journey auto-starts for this borrower"},{day:"Day 1",action:"Congratulations text",detail:"'Congrats [Name]! It was an honor helping you become a homeowner 🏠'"},{day:"Day 3",action:"BirdEye review request — SMS",detail:"Auto-sent: Google review link + short personal note"},{day:"Day 5",action:"BirdEye review request — Email",detail:"Backup if SMS not clicked — subject: 'One quick favor, [Name]'"},{day:"Day 7",action:"Follow-up text if no review",detail:"'Did you get my message? Takes 60 seconds — means a lot'"},{day:"Day 14",action:"Review auto-shared by BirdEye",detail:"Google + Zillow + website + SOCi social post — amplified automatically"},{day:"Day 30",action:"30-day check-in + referral ask",detail:"'How's the new home? Anyone else thinking of buying?'"}],output:"Review live on Google → BirdEye shares to all platforms → agents see it"},
+{id:"j4",label:"J4",title:"Long-Term Equity Nurture",tool:"Total Expert + Sales Boomerang",toolColor:PURPLE,icon:"🔄",goal:"Every closed DPA client becomes a refi, HELOC, or referral source when the time is right",steps:[{day:"Close",action:"Tag with DPA program + equity baseline",detail:"Tag: 'NV HIP FHA', 'FL Heroes', etc. — enables targeted future campaigns"},{day:"Monthly",action:"Sales Boomerang equity watch",detail:"Alert fires automatically when client hits equity threshold → HELOC call"},{day:"Monthly",action:"Sales Boomerang rate watch",detail:"Alert fires when client becomes refi-eligible — FHA Streamline trigger"},{day:"Annual",action:"Home anniversary touchpoint",detail:"Auto email/text: 'Happy home anniversary! Here's what your home is worth today'"},{day:"Tax season",action:"SmartBee cross-sell trigger",detail:"New homeowner deductions — segue into tax prep conversation"},{day:"Rate drop",action:"FHA Streamline mass campaign",detail:"Every FHA+DPA client gets refi call within 48 hrs of trigger"},{day:"Yr 2+",action:"HELOC outreach",detail:"Lightning HELOC or CE Second for home improvement, investment DP"}],output:"Refi pipeline + HELOC pipeline + referral pipeline from past clients"},
+];
+function SystemMap(){
+  const[active,setActive]=useState(null);
+  const[tab,setTab]=useState("map");
+  const selected=JOURNEYS.find(j=>j.id===active);
+  return(
+    <div style={{fontFamily:"'DM Mono','Courier New',monospace",background:NAVY,minHeight:"100vh",color:WHITE}}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');.hov{transition:all .15s;cursor:pointer;}.hov:hover{transform:translateY(-2px);opacity:.9;}.pill{transition:all .15s;cursor:pointer;border:none;}.pill:hover{opacity:.85;}@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.fi{animation:fi .25s ease;}`}</style>
+      <div style={{background:CARD,borderBottom:`2px solid ${GOLD}`,padding:"14px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10}}>
+        <div>
+          <div style={{fontFamily:"Syne",fontWeight:800,fontSize:20,color:WHITE}}>MarTech System Map</div>
+          <div style={{fontSize:10,color:DIM,letterSpacing:"2px",marginTop:2}}>BRANCH 541-A · PRMG · TOTAL EXPERT · MODEL MATCH · BIRDEYE</div>
+        </div>
+        <div style={{display:"flex",gap:8}}>
+          {[["map","SYSTEM MAP"],["journeys","4 JOURNEYS"],["loop","THE LOOP"]].map(([t,l])=>(
+            <button key={t} className="pill" onClick={()=>setTab(t)} style={{background:tab===t?GOLD:BORDER,color:tab===t?NAVY:DIM,borderRadius:6,padding:"7px 14px",fontSize:11,fontFamily:"DM Mono",fontWeight:500}}>{l}</button>
+          ))}
+        </div>
+      </div>
+      {tab==="map"&&<div className="fi" style={{padding:"22px 18px"}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))",gap:13,marginBottom:20}}>
+          {[
+            {tool:"MODEL MATCH",sub:"PRMG IQ",color:BLUE,status:"AVAILABLE — SETUP NEEDED",icon:"🎯",role:"IDENTIFY",desc:"Find agents by production data in your DPA markets. Filter by loan type, volume, and lender gaps.",actions:["Search by ZIP in NV, FL, TX","Filter: FHA/Conv purchase volume","Tag by market + priority","Export to Total Expert"]},
+            {tool:"TOTAL EXPERT",sub:"PRMG CRM",color:GOLD,status:"ACTIVE ✓",icon:"📡",role:"ACTIVATE & NURTURE",desc:"Run all 4 journeys. Agent outreach, client reviews, equity nurture, and DPA expertise campaigns.",actions:["J1 Agent import from Model Match","J2 DPA expertise drip campaign","J3 Post-close review trigger","J4 Long-term equity nurture"]},
+            {tool:"BIRDEYE",sub:"REPUTATION",color:GREEN,status:"ACTIVE ✓",icon:"⭐",role:"AMPLIFY",desc:"Every closed loan becomes a public review. Auto-published to Google, Zillow, website, and social.",actions:["Auto-SMS review request Day 3","Auto-email backup Day 5","Publish to Google + Zillow","Share via SOCi social posts"]},
+          ].map(({tool,sub,color,status,icon,role,desc,actions})=>(
+            <div key={tool} style={{background:CARD,border:`1px solid ${color}`,borderRadius:12,overflow:"hidden"}}>
+              <div style={{background:`${color}18`,borderBottom:`2px solid ${color}`,padding:"12px 14px",display:"flex",alignItems:"center",gap:10}}>
+                <span style={{fontSize:20}}>{icon}</span>
+                <div><div style={{fontFamily:"Syne",fontWeight:800,fontSize:14,color}}>{tool}</div><div style={{fontSize:10,color:DIM}}>{sub}</div></div>
+                <div style={{marginLeft:"auto",fontSize:9,color:status.includes("✓")?GREEN:GOLD,background:`${status.includes("✓")?GREEN:GOLD}22`,borderRadius:4,padding:"2px 6px"}}>{status}</div>
+              </div>
+              <div style={{padding:"12px 14px"}}>
+                <div style={{fontSize:10,color,letterSpacing:"2px",fontWeight:500,marginBottom:7}}>{role}</div>
+                <div style={{fontSize:12,color:DIM,lineHeight:1.6,marginBottom:10}}>{desc}</div>
+                {actions.map((a,i)=><div key={i} style={{display:"flex",gap:7,marginBottom:4}}><span style={{color,fontSize:11}}>→</span><span style={{fontSize:11,color:WHITE}}>{a}</span></div>)}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:12,padding:"16px 18px",marginBottom:20}}>
+          <div style={{fontSize:10,color:DIM,letterSpacing:"2px",marginBottom:12}}>THE CONNECTED FLOW</div>
+          <div style={{display:"flex",alignItems:"center",gap:0,overflowX:"auto",paddingBottom:4}}>
+            {[{node:"Model Match",color:BLUE,sub:"Identify"},{arrow:true},{node:"Total Expert",color:GOLD,sub:"Activate"},{arrow:true},{node:"BirdEye",color:GREEN,sub:"Review"},{arrow:true},{node:"Google/Zillow",color:TEAL,sub:"Publish"},{arrow:true},{node:"Agent finds you",color:PURPLE,sub:"Reputation"},{arrow:true},{node:"Sends a deal",color:RED,sub:"Loop restarts"}].map((item,i)=>item.arrow?<div key={i} style={{color:GOLD,fontSize:16,margin:"0 6px",flexShrink:0}}>→</div>:<div key={i} style={{background:`${item.color}18`,border:`1px solid ${item.color}`,borderRadius:7,padding:"7px 11px",textAlign:"center",flexShrink:0}}><div style={{fontFamily:"Syne",fontWeight:700,fontSize:11,color:item.color}}>{item.node}</div><div style={{fontSize:10,color:DIM,marginTop:1}}>{item.sub}</div></div>)}
+          </div>
+        </div>
+        <div style={{fontSize:10,color:DIM,letterSpacing:"2px",marginBottom:11}}>4 TOTAL EXPERT JOURNEYS — click to expand</div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(210px,1fr))",gap:10}}>
+          {JOURNEYS.map(j=>(
+            <div key={j.id} className="hov" onClick={()=>{setActive(j.id);setTab("journeys");}} style={{background:CARD,border:`1px solid ${j.toolColor}`,borderRadius:10,padding:"14px",cursor:"pointer"}}>
+              <div style={{display:"flex",alignItems:"center",gap:9,marginBottom:8}}><span style={{fontSize:20}}>{j.icon}</span><div><div style={{fontFamily:"Syne",fontWeight:700,fontSize:12,color:j.toolColor}}>{j.label} — {j.title}</div><div style={{fontSize:10,color:DIM}}>{j.tool}</div></div></div>
+              <div style={{fontSize:11,color:DIM,lineHeight:1.6,marginBottom:8}}>{j.goal}</div>
+              <div style={{fontSize:10,color:j.toolColor}}>{j.steps.length} steps → {j.output.split("→")[0].trim()}</div>
+            </div>
+          ))}
+        </div>
+      </div>}
+      {tab==="journeys"&&<div className="fi" style={{padding:"18px 18px"}}>
+        <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
+          {JOURNEYS.map(j=><button key={j.id} className="pill" onClick={()=>setActive(active===j.id?null:j.id)} style={{background:active===j.id?j.toolColor:BORDER,color:active===j.id?NAVY:j.toolColor,borderRadius:6,padding:"6px 13px",fontSize:11,fontFamily:"DM Mono",fontWeight:500,border:`1px solid ${j.toolColor}`}}>{j.icon} {j.label} — {j.title}</button>)}
+        </div>
+        {!active&&<div style={{padding:36,textAlign:"center",color:DIM,fontSize:13}}>Select a journey above</div>}
+        {active&&selected&&<div className="fi"><div style={{background:CARD,border:`1px solid ${selected.toolColor}`,borderRadius:12,overflow:"hidden"}}>
+          <div style={{background:`${selected.toolColor}18`,borderBottom:`2px solid ${selected.toolColor}`,padding:"14px 18px"}}>
+            <div style={{display:"flex",alignItems:"center",gap:11}}><span style={{fontSize:24}}>{selected.icon}</span><div><div style={{fontFamily:"Syne",fontWeight:800,fontSize:16,color:selected.toolColor}}>{selected.label} — {selected.title}</div><div style={{fontSize:11,color:DIM,marginTop:2}}>{selected.tool}</div></div></div>
+            <div style={{fontSize:12,color:WHITE,marginTop:10,lineHeight:1.6}}><span style={{color:selected.toolColor,fontWeight:500}}>Goal: </span>{selected.goal}</div>
+          </div>
+          <div style={{padding:"14px 18px"}}>
+            {selected.steps.map((s,i)=>(
+              <div key={i} style={{display:"flex",gap:0}}>
+                <div style={{display:"flex",flexDirection:"column",alignItems:"center",marginRight:13,width:18}}>
+                  <div style={{width:9,height:9,borderRadius:"50%",background:selected.toolColor,marginTop:15,flexShrink:0}}/>
+                  {i<selected.steps.length-1&&<div style={{width:2,flex:1,background:BORDER,minHeight:18}}/>}
+                </div>
+                <div style={{flex:1,padding:"10px 0",paddingBottom:i<selected.steps.length-1?14:6}}>
+                  <div style={{display:"flex",gap:8,alignItems:"baseline",flexWrap:"wrap",marginBottom:3}}>
+                    <span style={{background:`${selected.toolColor}22`,color:selected.toolColor,borderRadius:4,padding:"2px 7px",fontSize:10,fontWeight:500}}>{s.day}</span>
+                    <span style={{fontFamily:"Syne",fontWeight:700,fontSize:13,color:WHITE}}>{s.action}</span>
+                  </div>
+                  <div style={{fontSize:11,color:DIM,lineHeight:1.6}}>{s.detail}</div>
+                </div>
+              </div>
+            ))}
+            <div style={{marginTop:13,background:`${selected.toolColor}11`,border:`1px solid ${selected.toolColor}44`,borderRadius:7,padding:"10px 13px"}}><span style={{fontSize:10,color:selected.toolColor,letterSpacing:"1px",fontWeight:500}}>OUTPUT → </span><span style={{fontSize:11,color:WHITE}}>{selected.output}</span></div>
+          </div>
+        </div></div>}
+      </div>}
+      {tab==="loop"&&<div className="fi" style={{padding:"22px 18px"}}><div style={{maxWidth:660,margin:"0 auto"}}>
+        <div style={{fontFamily:"Syne",fontWeight:800,fontSize:20,color:WHITE,marginBottom:7}}>The Referral Flywheel</div>
+        <div style={{fontSize:12,color:DIM,marginBottom:24,lineHeight:1.7}}>Each tool feeds the next. Reviews make you findable. Model Match tells you who to target. Total Expert builds the relationship. The loop compounds — every closed deal makes the next one easier to win.</div>
+        {[
+          {step:"01",from:"Model Match",action:"Find agents with purchase volume in your DPA ZIPs who have no dominant lender partner",color:BLUE,icon:"🎯"},
+          {step:"02",from:"Total Expert J2",action:"Send DPA expertise campaign — NV HIP, FL Heroes, TX TSAHC content that no competitor is sending",color:GOLD,icon:"📡"},
+          {step:"03",from:"Agent sends deal",action:"Pre-qualified DPA buyer arrives — you close it with the program expertise the agent now trusts you for",color:TEAL,icon:"🤝"},
+          {step:"04",from:"Total Expert J3",action:"Post-close trigger fires: congratulations text Day 1, BirdEye review SMS Day 3, Google review email Day 5",color:GREEN,icon:"⭐"},
+          {step:"05",from:"BirdEye",action:"Review auto-published to Google, Zillow, website, and SOCi — your reputation compounds with every close",color:GREEN,icon:"📢"},
+          {step:"06",from:"New agent Googles you",action:"Sees 40+ 5-star reviews mentioning DPA expertise — credibility established before first contact",color:PURPLE,icon:"🔍"},
+          {step:"07",from:"Model Match",action:"Confirm new agent's production data — high volume + no lender = highest priority — import to Total Expert",color:BLUE,icon:"🔄"},
+          {step:"08",from:"Total Expert J4",action:"While loop spins, past DPA clients get equity alerts, refi triggers, anniversary touchpoints — second origination pipeline builds",color:PURPLE,icon:"💰"},
+        ].map((item,i)=>(
+          <div key={i} style={{display:"flex",gap:0}}>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",marginRight:16,width:22}}>
+              <div style={{width:22,height:22,borderRadius:"50%",background:item.color,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:700,color:NAVY,flexShrink:0}}>{item.step}</div>
+              {i<7&&<div style={{width:2,flex:1,background:BORDER,minHeight:24}}/>}
+            </div>
+            <div style={{flex:1,paddingBottom:16}}><div style={{background:CARD,border:`1px solid ${BORDER}`,borderLeft:`3px solid ${item.color}`,borderRadius:7,padding:"11px 13px"}}><div style={{display:"flex",gap:7,alignItems:"center",marginBottom:5}}><span style={{fontSize:14}}>{item.icon}</span><span style={{fontSize:10,color:item.color,letterSpacing:"1px",fontWeight:500}}>{item.from.toUpperCase()}</span></div><div style={{fontSize:12,color:WHITE,lineHeight:1.6}}>{item.action}</div></div></div>
+          </div>
+        ))}
+        <div style={{background:`${GOLD}18`,border:`2px solid ${GOLD}`,borderRadius:11,padding:"14px 17px",marginTop:7}}>
+          <div style={{fontFamily:"Syne",fontWeight:700,fontSize:13,color:GOLD,marginBottom:7}}>The Compound Effect</div>
+          <div style={{fontSize:12,color:WHITE,lineHeight:1.8}}>Month 1: 1 agent → 1 deal → 1 review<br/>Month 6: 8 agents → 6 deals/mo → 40+ reviews → new agents find you organically<br/>Month 12: Inbound agents asking for your DPA flyers and co-branded materials<br/>Rate drop event: 240 past DPA clients → 84 FHA Streamlines → $352K from clients you already own</div>
+        </div>
+      </div></div>}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<SystemMap/>);
+</script>
+</body>
+</html>

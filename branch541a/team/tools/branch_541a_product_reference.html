@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch 541-A · PRMG Product Reference</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f6f9;--surface:#fff;--surface2:#f8f9fb;--surface3:#eef1f6;
+  --border:#e3e8f0;--border2:#c8d3e8;
+  --text:#0a1628;--muted:#5a6a85;--light:#8a9ab5;
+  --fl:#0e6b3a;--fl-l:#d4f0e2;--fl-b:#8fd4b0;
+  --tx:#a04800;--tx-l:#ffecd8;--tx-b:#f0b880;
+  --nv:#0f4890;--nv-l:#dde8ff;--nv-b:#90b4f0;
+  --heloc:#5a1f8a;--heloc-l:#ede0ff;--heloc-b:#c0a0f0;
+  --nonqm:#8a1f40;--nonqm-l:#ffe0e8;--nonqm-b:#f0a0b8;
+  --refi:#0f6878;--refi-l:#d0f4f8;--refi-b:#80d4e0;
+  --agency:#3a5a1f;--agency-l:#e4f0d8;--agency-b:#a0c880;
+  --gold:#c89010;--gold-l:#fff8e0;
+}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+
+.header{background:var(--text);padding:22px 30px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.htitle{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.hsub{font-size:11px;color:#7090b8;margin-top:3px;font-family:'Fira Code',monospace}
+.hb{font-size:10px;padding:3px 9px;border-radius:3px;font-family:'Fira Code',monospace;font-weight:500}
+.hb-fl{background:rgba(14,107,58,.25);color:#50d090;border:1px solid rgba(14,107,58,.3)}
+.hb-tx{background:rgba(160,72,0,.25);color:#f0a050;border:1px solid rgba(160,72,0,.3)}
+.hb-nv{background:rgba(15,72,144,.25);color:#70a8f0;border:1px solid rgba(15,72,144,.3)}
+.hbadges{display:flex;gap:6px;flex-wrap:wrap}
+
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;display:flex;overflow-x:auto;position:sticky;top:0;z-index:100;-webkit-overflow-scrolling:touch}
+.nav button{padding:12px 16px;border:none;background:transparent;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;font-family:'Outfit',sans-serif;font-weight:700;letter-spacing:.02em;text-transform:uppercase;transition:color .15s}
+.nav button:hover{color:var(--text)}
+.nav button.fl{color:var(--fl);border-bottom-color:var(--fl)}
+.nav button.tx{color:var(--tx);border-bottom-color:var(--tx)}
+.nav button.heloc{color:var(--heloc);border-bottom-color:var(--heloc)}
+.nav button.nonqm{color:var(--nonqm);border-bottom-color:var(--nonqm)}
+.nav button.full{color:var(--gold);border-bottom-color:var(--gold)}
+
+.content{max-width:1160px;margin:0 auto;padding:24px 20px}
+.panel{display:none}
+.panel.active{display:block}
+
+.sec{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:24px 0 12px;padding-bottom:7px;border-bottom:2px solid var(--border);font-family:'Fira Code',monospace}
+
+/* STATE HEADER */
+.state-hd{border-radius:12px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.sh-fl{background:var(--fl-l);border:1px solid var(--fl-b)}
+.sh-tx{background:var(--tx-l);border:1px solid var(--tx-b)}
+.sh-title{font-size:16px;font-weight:800}
+.sh-fl .sh-title{color:var(--fl)}
+.sh-tx .sh-title{color:var(--tx)}
+.sh-sub{font-size:12px;margin-top:2px}
+.sh-fl .sh-sub{color:#1a8a50}
+.sh-tx .sh-sub{color:#c05800}
+
+/* PROGRAM CARDS */
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;margin-bottom:20px}
+.prog-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.pc-header{padding:12px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.pc-hfl{background:#f0faf5;border-bottom:1px solid #c0e8d4}
+.pc-htx{background:#fff8f0;border-bottom:1px solid #f0d0a8}
+.pc-hnv{background:#f0f4ff;border-bottom:1px solid #c0d0f0}
+.pc-hheloc{background:#f8f0ff;border-bottom:1px solid #d8c0f0}
+.pc-hnonqm{background:#fff0f4;border-bottom:1px solid #f0c0d0}
+.pc-hrefi{background:#f0fafc;border-bottom:1px solid #a0d8e0}
+.pc-hagency{background:#f4f9f0;border-bottom:1px solid #b0d090}
+.pc-name{font-size:13px;font-weight:700}
+.pc-hfl .pc-name{color:var(--fl)}
+.pc-htx .pc-name{color:var(--tx)}
+.pc-hnv .pc-name{color:var(--nv)}
+.pc-hheloc .pc-name{color:var(--heloc)}
+.pc-hnonqm .pc-name{color:var(--nonqm)}
+.pc-hrefi .pc-name{color:var(--refi)}
+.pc-hagency .pc-name{color:var(--agency)}
+.pc-agency-tag{font-size:10px;color:var(--muted);margin-top:2px;font-family:'Fira Code',monospace}
+.pc-body{padding:12px 16px}
+.field-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f5f5f5;font-size:12px;gap:8px;align-items:flex-start}
+.field-row:last-child{border-bottom:none}
+.fl-label{color:var(--muted);flex:1;line-height:1.4}
+.fl-value{font-weight:600;color:var(--text);text-align:right;line-height:1.4;max-width:55%}
+.fl-value.green{color:var(--fl)}
+.fl-value.amber{color:var(--tx)}
+.fl-value.red{color:#c03030}
+.fl-value.blue{color:var(--nv)}
+.fl-value.purple{color:var(--heloc)}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap;font-family:'Fira Code',monospace}
+.bfl{background:var(--fl-l);color:var(--fl);border:1px solid var(--fl-b)}
+.btx{background:var(--tx-l);color:var(--tx);border:1px solid var(--tx-b)}
+.bnv{background:var(--nv-l);color:var(--nv);border:1px solid var(--nv-b)}
+.bheloc{background:var(--heloc-l);color:var(--heloc);border:1px solid var(--heloc-b)}
+.bnonqm{background:var(--nonqm-l);color:var(--nonqm);border:1px solid var(--nonqm-b)}
+.brefi{background:var(--refi-l);color:var(--refi);border:1px solid var(--refi-b)}
+.bagency{background:var(--agency-l);color:var(--agency);border:1px solid var(--agency-b)}
+.bgold{background:var(--gold-l);color:var(--gold);border:1px solid #e8d080}
+.bz{background:var(--surface3);color:var(--muted);border:1px solid var(--border2)}
+
+/* NOTE */
+.note{font-size:12px;padding:9px 13px;border-radius:7px;margin-bottom:12px;line-height:1.65}
+.n-fl{background:var(--fl-l);color:var(--fl);border-left:3px solid var(--fl)}
+.n-tx{background:var(--tx-l);color:var(--tx);border-left:3px solid var(--tx)}
+.n-heloc{background:var(--heloc-l);color:var(--heloc);border-left:3px solid var(--heloc)}
+.n-nonqm{background:var(--nonqm-l);color:var(--nonqm);border-left:3px solid var(--nonqm)}
+.n-gold{background:var(--gold-l);color:var(--gold);border-left:3px solid var(--gold)}
+.n-gray{background:var(--surface2);color:var(--muted);border-left:3px solid var(--border2)}
+
+/* FULL STACK TABLE */
+.stack-wrap{overflow-x:auto;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
+th{text-align:left;padding:9px 12px;font-size:10px;font-weight:700;color:var(--muted);border-bottom:2px solid var(--border);background:var(--surface2);letter-spacing:.08em;font-family:'Fira Code',monospace;text-transform:uppercase;white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.cat-row td{background:var(--surface3);font-weight:700;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:'Fira Code',monospace}
+
+/* COUNTY GRID */
+.county-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin-bottom:16px}
+.county-chip{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cc-name{font-size:12px;font-weight:600;color:var(--text)}
+.cc-types{display:flex;gap:3px;flex-wrap:wrap}
+
+/* ALERT */
+.alert{border-radius:9px;padding:13px 16px;font-size:12px;margin-bottom:16px;line-height:1.65}
+.a-gold{background:var(--gold-l);border:1px solid #e8d080;color:var(--gold)}
+.a-fl{background:var(--fl-l);border:1px solid var(--fl-b);color:var(--fl)}
+.a-tx{background:var(--tx-l);border:1px solid var(--tx-b);color:var(--tx)}
+
+@media(max-width:600px){.prog-grid{grid-template-columns:1fr}.county-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="htitle">Branch 541-A · PRMG Product Reference</div>
+    <div class="hsub">Sourced from PRMG Retail Product Profile Links · Updated 04/03/2026</div>
+  </div>
+  <div class="hbadges">
+    <span class="hb hb-fl">FL — 15 DPA Programs</span>
+    <span class="hb hb-tx">TX — 7 Programs</span>
+    <span class="hb hb-nv">NV — 4 Programs</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="fl active" onclick="show('fl',this,'fl')">Florida DPA</button>
+  <button onclick="show('tx',this,'tx')">Texas DPA</button>
+  <button onclick="show('heloc',this,'heloc')">HELOC & Seconds</button>
+  <button onclick="show('nonqm',this,'nonqm')">Non-QM stack</button>
+  <button onclick="show('full',this,'full')">Full product stack</button>
+</div>
+
+<div class="content">
+
+<!-- FLORIDA DPA -->
+<div id="tab-fl" class="panel active">
+  <div class="state-hd sh-fl">
+    <div>
+      <div class="sh-title">Florida — DPA & HFA Programs</div>
+      <div class="sh-sub">15 programs across state + 8 county HFAs · 175 bps comp · Jose licensed now</div>
+    </div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <span class="badge bfl">Licensed ✓</span>
+      <span class="badge bgold">175 bps</span>
+      <span class="badge bfl">Highest comp in stack</span>
+    </div>
+  </div>
+
+  <div class="note n-fl">All FL Housing programs (statewide) pay 175 bps on the first lien. County HFA programs may vary — confirm with PRMG product desk. All require homebuyer education completion before closing.</div>
+
+  <div class="sec">FL Housing — statewide programs (your primary FL products)</div>
+  <div class="prog-grid">
+
+    <div class="prog-card">
+      <div class="pc-header pc-hfl">
+        <div><div class="pc-name">FL Housing Conventional</div><div class="pc-agency-tag">FL Housing Finance Corporation · Statewide</div></div>
+        <span class="badge bfl">Conventional</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">First mortgage type</span><span class="fl-value">HFA Preferred Conventional 30yr fixed</span></div>
+        <div class="field-row"><span class="fl-label">DPA available</span><span class="fl-value green">FL Assist — up to $10,000 deferred 0%</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">640</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value amber">Varies by county — check FL Housing matrix</span></div>
+        <div class="field-row"><span class="fl-label">DTI max</span><span class="fl-value">45%</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value amber">Required (3-yr non-ownership rule)</span></div>
+        <div class="field-row"><span class="fl-label">Second lien repayment</span><span class="fl-value amber">Deferred — due on sale, refi, or payoff</span></div>
+        <div class="field-row"><span class="fl-label">Homebuyer education</span><span class="fl-value amber">Required before closing</span></div>
+        <div class="field-row"><span class="fl-label">Branch comp</span><span class="fl-value green">175 bps — first lien only</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="pc-header pc-hfl">
+        <div><div class="pc-name">FL Housing FHA</div><div class="pc-agency-tag">FL Housing Finance Corporation · Statewide</div></div>
+        <span class="badge bfl">FHA</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">First mortgage type</span><span class="fl-value">FHA 30yr fixed</span></div>
+        <div class="field-row"><span class="fl-label">DPA available</span><span class="fl-value green">FL Assist — up to $10,000 deferred 0%</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">640</span></div>
+        <div class="field-row"><span class="fl-label">Max loan amount</span><span class="fl-value">FHA county limit</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value amber">County-based — FL Housing matrix</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value amber">Required</span></div>
+        <div class="field-row"><span class="fl-label">Second lien repayment</span><span class="fl-value amber">Deferred — due on sale, refi, or payoff</span></div>
+        <div class="field-row"><span class="fl-label">Branch comp</span><span class="fl-value green">175 bps — first lien only</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="pc-header pc-hfl">
+        <div><div class="pc-name">FL Housing VA</div><div class="pc-agency-tag">FL Housing Finance Corporation · Statewide</div></div>
+        <span class="badge bfl">VA</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">First mortgage type</span><span class="fl-value">VA 30yr fixed</span></div>
+        <div class="field-row"><span class="fl-label">DPA available</span><span class="fl-value green">FL Assist — up to $10,000 deferred 0%</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">640</span></div>
+        <div class="field-row"><span class="fl-label">Veteran eligibility</span><span class="fl-value green">Active duty, veteran, surviving spouse</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value amber">Required</span></div>
+        <div class="field-row"><span class="fl-label">VA funding fee</span><span class="fl-value">Standard VA rules apply</span></div>
+        <div class="field-row"><span class="fl-label">Branch comp</span><span class="fl-value green">175 bps — first lien only</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--fl-b)">
+      <div class="pc-header pc-hfl">
+        <div><div class="pc-name">FL Housing Hometown Heroes FHA</div><div class="pc-agency-tag">FL Housing Finance Corporation · Your #1 FL referral product</div></div>
+        <span class="badge bgold">FLAGSHIP</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">First mortgage type</span><span class="fl-value">FHA 30yr fixed</span></div>
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">Up to 5% of first mortgage · max $35,000</span></div>
+        <div class="field-row"><span class="fl-label">Who qualifies</span><span class="fl-value green">Teachers, nurses, firefighters, LEO, military, govt</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">640</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">120% AMI — county-based</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value amber">Required</span></div>
+        <div class="field-row"><span class="fl-label">Second lien repayment</span><span class="fl-value amber">0% deferred — due on sale or refi</span></div>
+        <div class="field-row"><span class="fl-label">Homebuyer education</span><span class="fl-value amber">Required</span></div>
+        <div class="field-row"><span class="fl-label">Branch comp</span><span class="fl-value green">175 bps — first lien only</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--fl-b)">
+      <div class="pc-header pc-hfl">
+        <div><div class="pc-name">FL Housing Hometown Heroes VA</div><div class="pc-agency-tag">FL Housing Finance Corporation</div></div>
+        <span class="badge bgold">FLAGSHIP</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">First mortgage type</span><span class="fl-value">VA 30yr fixed</span></div>
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">Up to 5% of first mortgage · max $35,000</span></div>
+        <div class="field-row"><span class="fl-label">Who qualifies</span><span class="fl-value green">Veterans + eligible hero occupations</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">640</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">120% AMI</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value amber">Required</span></div>
+        <div class="field-row"><span class="fl-label">Second lien repayment</span><span class="fl-value amber">0% deferred — due on sale or refi</span></div>
+        <div class="field-row"><span class="fl-label">Branch comp</span><span class="fl-value green">175 bps</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--fl-b)">
+      <div class="pc-header pc-hfl">
+        <div><div class="pc-name">FL Housing Hometown Heroes Conventional</div><div class="pc-agency-tag">FL Housing Finance Corporation</div></div>
+        <span class="badge bgold">FLAGSHIP</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">First mortgage type</span><span class="fl-value">HFA Preferred Conventional 30yr fixed</span></div>
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">Up to 5% of first mortgage · max $35,000</span></div>
+        <div class="field-row"><span class="fl-label">Who qualifies</span><span class="fl-value green">Hero occupations — Conv option for stronger credit</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">640</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">120% AMI</span></div>
+        <div class="field-row"><span class="fl-label">PMI</span><span class="fl-value">Reduced MI on HFA Preferred</span></div>
+        <div class="field-row"><span class="fl-label">Branch comp</span><span class="fl-value green">175 bps</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec">FL County HFA programs — geographic expansion targets</div>
+  <div class="note n-gray">These county-specific HFA programs are in addition to statewide FL Housing. Use them for borrowers in those specific counties — especially Miami-Dade and Orange County (Orlando). Comp rate may differ from FL Housing 175 bps — confirm with PRMG product desk per county.</div>
+
+  <div class="county-grid">
+    <div class="county-chip">
+      <div class="cc-name">Escambia County</div>
+      <div class="cc-types"><span class="badge bfl">Conv</span><span class="badge bfl">FHA</span></div>
+    </div>
+    <div class="county-chip">
+      <div class="cc-name">Hillsborough County</div>
+      <div class="cc-types"><span class="badge bfl">Conv</span><span class="badge bfl">FHA</span></div>
+    </div>
+    <div class="county-chip">
+      <div class="cc-name">Lee County</div>
+      <div class="cc-types"><span class="badge bfl">Conv</span><span class="badge bfl">FHA</span></div>
+    </div>
+    <div class="county-chip" style="border-color:var(--fl-b)">
+      <div class="cc-name">Manatee County</div>
+      <div class="cc-types"><span class="badge bfl">Conv</span><span class="badge bgold">Grant FHA</span><span class="badge bfl">SF FHA</span></div>
+    </div>
+    <div class="county-chip" style="border-color:var(--fl-b)">
+      <div class="cc-name">Miami-Dade County</div>
+      <div class="cc-types"><span class="badge bfl">Conv</span><span class="badge bfl">FHA</span></div>
+    </div>
+    <div class="county-chip" style="border-color:var(--fl-b)">
+      <div class="cc-name">Orange County (Orlando)</div>
+      <div class="cc-types"><span class="badge bfl">Conv</span><span class="badge bfl">FHA</span><span class="badge bfl">VA</span><span class="badge bfl">USDA</span></div>
+    </div>
+    <div class="county-chip">
+      <div class="cc-name">Pinellas County</div>
+      <div class="cc-types"><span class="badge bfl">Conv</span><span class="badge bgold">Home Key FHA</span></div>
+    </div>
+  </div>
+
+  <div class="note n-fl">Miami-Dade and Orange County HFAs are your highest-volume FL county targets. Miami-Dade for the South FL bilingual market. Orange County (Orlando) is notable for offering FHA, VA, USDA, AND Conventional — the most versatile county HFA in the state. Manatee County has a grant FHA option — no repayment required. Prioritize learning those three.</div>
+</div>
+
+<!-- TEXAS DPA -->
+<div id="tab-tx" class="panel">
+  <div class="state-hd sh-tx">
+    <div>
+      <div class="sh-title">Texas — DPA & HFA Programs</div>
+      <div class="sh-sub">7 programs · License sponsorship pending · Houston metro + statewide</div>
+    </div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">
+      <span class="badge btx">License pending ⏳</span>
+      <span class="badge bgold">Activates immediately on approval</span>
+    </div>
+  </div>
+
+  <div class="alert a-tx">TX license sponsorship submitted — activate this reference the moment approval lands. All 7 programs below are in the PRMG catalog and ready to originate. TSAHC, TDHCA, and SETH are your primary stack. TVLB is the veteran niche nobody else knows.</div>
+
+  <div class="prog-grid">
+
+    <div class="prog-card" style="border-color:var(--tx-b)">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX TSAHC — Homes for Texas Heroes FHA</div><div class="pc-agency-tag">Texas State Affordable Housing Corporation</div></div>
+        <span class="badge btx">FHA</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">3%–5% of loan · grant OR deferred second</span></div>
+        <div class="field-row"><span class="fl-label">Who qualifies</span><span class="fl-value green">Teachers, firefighters, police, veterans, EMS, nurses</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">County-based — ~$97K–$140K Houston area</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value green">NOT required — repeat buyers eligible</span></div>
+        <div class="field-row"><span class="fl-label">Grant option</span><span class="fl-value green">Yes — true grant, no repayment</span></div>
+        <div class="field-row"><span class="fl-label">MCC stackable</span><span class="fl-value green">Yes — up to $2,000/yr tax credit</span></div>
+        <div class="field-row"><span class="fl-label">Alvin/Brazoria County</span><span class="fl-value green">Eligible — statewide coverage</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--tx-b)">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX TSAHC Conventional</div><div class="pc-agency-tag">Texas State Affordable Housing Corporation</div></div>
+        <span class="badge btx">Conv</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">3%–5% of loan · grant OR deferred second</span></div>
+        <div class="field-row"><span class="fl-label">Who qualifies</span><span class="fl-value green">Hero occupations — Conv for stronger credit profiles</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">County-based</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value green">NOT required</span></div>
+        <div class="field-row"><span class="fl-label">Grant option</span><span class="fl-value green">Yes — true grant available</span></div>
+        <div class="field-row"><span class="fl-label">PMI</span><span class="fl-value">Reduced MI on conventional option</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--tx-b)">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX TSAHC VA</div><div class="pc-agency-tag">Texas State Affordable Housing Corporation</div></div>
+        <span class="badge btx">VA</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">3%–5% · grant OR deferred</span></div>
+        <div class="field-row"><span class="fl-label">Who qualifies</span><span class="fl-value green">Texas veterans in hero occupations</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value green">NOT required</span></div>
+        <div class="field-row"><span class="fl-label">VA funding fee</span><span class="fl-value">Standard VA rules — waived if disabled</span></div>
+        <div class="field-row"><span class="fl-label">Note</span><span class="fl-value amber">Compare with TVLB rate — use whichever is better</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--tx-b)">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX TDHCA — My First Texas Home FHA</div><div class="pc-agency-tag">TX Dept of Housing and Community Affairs</div></div>
+        <span class="badge bgold">+ MCC STACK</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">Up to 5% of first mortgage — deferred 0%</span></div>
+        <div class="field-row"><span class="fl-label">First mortgage rate</span><span class="fl-value green">Below-market rate — TDHCA subsidized</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">115% AMI — Houston metro ~$92K</span></div>
+        <div class="field-row"><span class="fl-label">Purchase price cap</span><span class="fl-value">~$450K–$510K (county-based)</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value amber">Required — 3-yr non-ownership rule</span></div>
+        <div class="field-row"><span class="fl-label">Homebuyer education</span><span class="fl-value amber">Required</span></div>
+        <div class="field-row"><span class="fl-label">MCC available</span><span class="fl-value green">Yes — $2,000/yr federal tax credit</span></div>
+        <div class="field-row"><span class="fl-label">Subordination at refi</span><span class="fl-value amber">TDHCA process — allow 3–4 weeks</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--tx-b)">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX TDHCA Conventional</div><div class="pc-agency-tag">TX Dept of Housing and Community Affairs</div></div>
+        <span class="badge bgold">+ MCC STACK</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">Up to 5% deferred 0%</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">115% AMI</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value amber">Required</span></div>
+        <div class="field-row"><span class="fl-label">MCC available</span><span class="fl-value green">Yes — stacks with DPA</span></div>
+        <div class="field-row"><span class="fl-label">Vs. TDHCA FHA</span><span class="fl-value">Use Conv for 640+ scores — lower MI cost</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--tx-b)">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX SETH 5 Star Advantage FHA</div><div class="pc-agency-tag">SE Texas Housing Finance Corp · All 254 TX counties</div></div>
+        <span class="badge bgold">TRUE GRANT</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">Up to 5% of loan — true grant, no repayment</span></div>
+        <div class="field-row"><span class="fl-label">Coverage</span><span class="fl-value green">All 254 Texas counties — statewide</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value">Income-based — check SETH matrix</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value green">NOT required — repeat buyers eligible</span></div>
+        <div class="field-row"><span class="fl-label">Grant at refi</span><span class="fl-value green">No second lien — clean refi, zero subordination</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--tx-b)">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX SETH 5 Star Advantage Conventional</div><div class="pc-agency-tag">SE Texas Housing Finance Corp · HIDDEN GEM</div></div>
+        <span class="badge bgold">NO INCOME CAP</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DPA amount</span><span class="fl-value green">Up to 5% — true grant, no repayment</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value green">NONE on conventional option</span></div>
+        <div class="field-row"><span class="fl-label">First-time buyer</span><span class="fl-value green">NOT required</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">Best use case</span><span class="fl-value green">Borrowers over TSAHC/TDHCA income limits</span></div>
+        <div class="field-row"><span class="fl-label">Moat factor</span><span class="fl-value green">Most TX LOs don't know this program exists</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="pc-header pc-htx">
+        <div><div class="pc-name">TX Veterans Land Board (TVLB)</div><div class="pc-agency-tag">Texas General Land Office · TX veterans only</div></div>
+        <span class="badge btx">Veterans</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">What it is</span><span class="fl-value">State-funded TX-only mortgage — separate from VA loan</span></div>
+        <div class="field-row"><span class="fl-label">Rate advantage</span><span class="fl-value green">Subsidized — often 0.5–1% below market</span></div>
+        <div class="field-row"><span class="fl-label">Who qualifies</span><span class="fl-value green">TX residents — 90+ days active duty</span></div>
+        <div class="field-row"><span class="fl-label">Income limit</span><span class="fl-value green">None</span></div>
+        <div class="field-row"><span class="fl-label">Can combine with VA?</span><span class="fl-value amber">No — separate program entirely</span></div>
+        <div class="field-row"><span class="fl-label">Key play</span><span class="fl-value green">Know when TVLB rate beats VA — this is your moat</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- HELOC & SECONDS -->
+<div id="tab-heloc" class="panel">
+
+  <div class="note n-heloc">All five products below are confirmed in the PRMG Retail Product Profiles catalog. Comp rates for HELOC and second mortgage products differ from first lien — confirm exact bps with your PRMG branch agreement before quoting.</div>
+
+  <div class="sec">Open-end HELOC products</div>
+  <div class="prog-grid">
+
+    <div class="prog-card" style="border-color:var(--heloc-b)">
+      <div class="pc-header pc-hheloc">
+        <div><div class="pc-name">Lightning Equity Hybrid HELOC</div><div class="pc-agency-tag">PRMG · Open-end revolving · YOUR FLAGSHIP HELOC</div></div>
+        <span class="badge bgold">LEAD PRODUCT</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">Product type</span><span class="fl-value purple">Open-end revolving line of credit</span></div>
+        <div class="field-row"><span class="fl-label">Rate structure</span><span class="fl-value green">HYBRID — variable line + fixed-lock option on draws</span></div>
+        <div class="field-row"><span class="fl-label">Key feature</span><span class="fl-value green">Borrower can lock individual draws into fixed rate</span></div>
+        <div class="field-row"><span class="fl-label">Competitive advantage</span><span class="fl-value green">No bank in your market offers the fixed-lock feature</span></div>
+        <div class="field-row"><span class="fl-label">Draw period</span><span class="fl-value">Revolving — draw, repay, redraw</span></div>
+        <div class="field-row"><span class="fl-label">Best pitch angle</span><span class="fl-value purple">"Keep your rate. Tap your equity. Lock your draws."</span></div>
+        <div class="field-row"><span class="fl-label">Referral target</span><span class="fl-value">Contractors, past DPA clients, HELOC equity alerts</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="pc-header pc-hheloc">
+        <div><div class="pc-name">Symmetry HELOC</div><div class="pc-agency-tag">PRMG · Open-end revolving · Standard variable</div></div>
+        <span class="badge bheloc">Variable</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">Product type</span><span class="fl-value">Standard revolving HELOC</span></div>
+        <div class="field-row"><span class="fl-label">Rate structure</span><span class="fl-value">Prime + margin — variable</span></div>
+        <div class="field-row"><span class="fl-label">Current prime rate</span><span class="fl-value">6.75% (April 2026)</span></div>
+        <div class="field-row"><span class="fl-label">Draw period</span><span class="fl-value">Typically 10yr draw / 20yr repayment</span></div>
+        <div class="field-row"><span class="fl-label">Use vs. Lightning</span><span class="fl-value amber">Use when borrower wants simplicity over hybrid structure</span></div>
+        <div class="field-row"><span class="fl-label">Best for</span><span class="fl-value">Rate-confident borrowers, smaller draw amounts</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec">Closed-end second mortgage products</div>
+  <div class="prog-grid">
+
+    <div class="prog-card" style="border-color:var(--heloc-b)">
+      <div class="pc-header pc-hheloc">
+        <div><div class="pc-name">Closed End Second Expanded Access</div><div class="pc-agency-tag">PRMG Non-QM · Standalone second · YOUR ITIN EQUITY WEAPON</div></div>
+        <span class="badge bnonqm">Non-QM</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">Product type</span><span class="fl-value purple">Non-QM standalone second mortgage</span></div>
+        <div class="field-row"><span class="fl-label">Income docs</span><span class="fl-value green">Bank statement, P&L, asset depletion — no W-2</span></div>
+        <div class="field-row"><span class="fl-label">ITIN borrowers</span><span class="fl-value green">Eligible — Non-QM guidelines</span></div>
+        <div class="field-row"><span class="fl-label">Non-Perm Residents</span><span class="fl-value green">Eligible</span></div>
+        <div class="field-row"><span class="fl-label">DTI tolerance</span><span class="fl-value green">Non-QM flexibility — higher than agency</span></div>
+        <div class="field-row"><span class="fl-label">Best use case</span><span class="fl-value green">Self-employed, ITIN homeowners — bank declines</span></div>
+        <div class="field-row"><span class="fl-label">Moat factor</span><span class="fl-value green">No bank offers Non-QM second to ITIN borrowers</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="pc-header pc-hheloc">
+        <div><div class="pc-name">Closed End Second Elite</div><div class="pc-agency-tag">PRMG Non-QM · Cleaner credit profile</div></div>
+        <span class="badge bnonqm">Non-QM</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">Product type</span><span class="fl-value">Non-QM standalone second mortgage</span></div>
+        <div class="field-row"><span class="fl-label">Profile</span><span class="fl-value">Stronger credit / lower LTV than Expanded Access</span></div>
+        <div class="field-row"><span class="fl-label">Pricing vs. Expanded</span><span class="fl-value green">Better rate — cleaner risk profile</span></div>
+        <div class="field-row"><span class="fl-label">Use sequence</span><span class="fl-value">Try Elite first — step to Expanded if needed</span></div>
+        <div class="field-row"><span class="fl-label">Best for</span><span class="fl-value">Self-employed with strong deposits, non-W2 income</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--heloc-b)">
+      <div class="pc-header pc-hheloc">
+        <div><div class="pc-name">Closed End Second Classic Elite</div><div class="pc-agency-tag">PRMG Agency · Piggyback OR standalone · DUAL ORIGINATION TOOL</div></div>
+        <span class="badge bagency">Agency</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">Product type</span><span class="fl-value">Agency-grade concurrent piggyback or standalone second</span></div>
+        <div class="field-row"><span class="fl-label">Primary use</span><span class="fl-value green">80/10/10 or 80/15/5 piggyback — eliminates PMI</span></div>
+        <div class="field-row"><span class="fl-label">Standalone use</span><span class="fl-value green">Pull equity without touching first lien</span></div>
+        <div class="field-row"><span class="fl-label">PMI elimination</span><span class="fl-value green">$300K purchase — saves ~$150–$180/mo PMI</span></div>
+        <div class="field-row"><span class="fl-label">Dual comp</span><span class="fl-value green">First lien + second lien = two originations</span></div>
+        <div class="field-row"><span class="fl-label">Pivot script trigger</span><span class="fl-value purple">Every over-income DPA decline → run this instantly</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NON-QM STACK -->
+<div id="tab-nonqm" class="panel">
+
+  <div class="sec">Non-QM core products — from PRMG catalog page 2</div>
+  <div class="prog-grid">
+
+    <div class="prog-card" style="border-color:var(--nonqm-b)">
+      <div class="pc-header pc-hnonqm">
+        <div><div class="pc-name">Non-QM Income Qualifying — Expanded Prime</div><div class="pc-agency-tag">PRMG Non-QM · Self-employed, bank statement, asset depletion</div></div>
+        <span class="badge bnonqm">Expanded Prime</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">Income docs</span><span class="fl-value green">12–24 mo bank statement OR P&L OR asset utilization</span></div>
+        <div class="field-row"><span class="fl-label">Asset depletion</span><span class="fl-value green">Qualify on assets alone — no income required</span></div>
+        <div class="field-row"><span class="fl-label">Loan amounts</span><span class="fl-value">$75,000 – $3,000,000</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">660</span></div>
+        <div class="field-row"><span class="fl-label">Amortization</span><span class="fl-value green">40-year available · Interest only available</span></div>
+        <div class="field-row"><span class="fl-label">LLC / Corp close</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Non-Perm Residents</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Non-warrantable condos</span><span class="fl-value green">Yes — Las Vegas high-rises eligible</span></div>
+        <div class="field-row"><span class="fl-label">Rural properties</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Recently listed</span><span class="fl-value green">Yes — options available</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--nonqm-b)">
+      <div class="pc-header pc-hnonqm">
+        <div><div class="pc-name">Non-QM Income Qualifying — Non-Prime</div><div class="pc-agency-tag">PRMG Non-QM · ITIN · Significant derogatory allowed</div></div>
+        <span class="badge bgold">ITIN ELIGIBLE</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">ITIN borrowers</span><span class="fl-value green">Explicitly allowed — stated in PRMG catalog</span></div>
+        <div class="field-row"><span class="fl-label">Income docs</span><span class="fl-value green">12–24 mo bank statement or P&L</span></div>
+        <div class="field-row"><span class="fl-label">Derogatory credit</span><span class="fl-value green">Significant derogatory allowed — settled FC/SS/DIL/BK</span></div>
+        <div class="field-row"><span class="fl-label">Loan amounts</span><span class="fl-value">$100,000 – $1,500,000</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">620</span></div>
+        <div class="field-row"><span class="fl-label">Amortization</span><span class="fl-value green">40-year available · Interest only available</span></div>
+        <div class="field-row"><span class="fl-label">LLC / Corp close</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Non-Perm Residents</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Rural properties</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Moat factor</span><span class="fl-value green">Bilingual LO + ITIN Non-QM = unmatched market position</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card" style="border-color:var(--nonqm-b)">
+      <div class="pc-header pc-hnonqm">
+        <div><div class="pc-name">Non-QM DSCR</div><div class="pc-agency-tag">PRMG Non-QM · Investment properties · More flexible than DSCR Core</div></div>
+        <span class="badge bnonqm">DSCR</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">Qualifies on</span><span class="fl-value green">Rental income + credit only — no income/employment</span></div>
+        <div class="field-row"><span class="fl-label">Loan amounts</span><span class="fl-value">$75,000 – $2,500,000</span></div>
+        <div class="field-row"><span class="fl-label">Min credit score</span><span class="fl-value">660</span></div>
+        <div class="field-row"><span class="fl-label">LLC / Corp close</span><span class="fl-value green">Yes — Alvin TX builder can use LLC</span></div>
+        <div class="field-row"><span class="fl-label">40-yr amortization</span><span class="fl-value green">Yes — lowers PITIA, improves DSCR ratio</span></div>
+        <div class="field-row"><span class="fl-label">Interest only</span><span class="fl-value green">Yes — maximum cash flow flexibility</span></div>
+        <div class="field-row"><span class="fl-label">Rural properties</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Recently listed</span><span class="fl-value green">Yes — options available</span></div>
+        <div class="field-row"><span class="fl-label">Foreign nationals</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">First-time investor</span><span class="fl-value green">Yes — no restriction</span></div>
+        <div class="field-row"><span class="fl-label">1007 market rent</span><span class="fl-value green">Accepted in lieu of actual lease — new construction path</span></div>
+      </div>
+    </div>
+
+    <div class="prog-card">
+      <div class="pc-header pc-hnonqm">
+        <div><div class="pc-name">Alternative AUS Solution (AFS)</div><div class="pc-agency-tag">PRMG Hybrid · Jumbo/Non-QM · DU with limited overlays</div></div>
+        <span class="badge bnonqm">Hybrid</span>
+      </div>
+      <div class="pc-body">
+        <div class="field-row"><span class="fl-label">DTI maximum</span><span class="fl-value green">49.99% — vs. conventional 45%</span></div>
+        <div class="field-row"><span class="fl-label">Non-warrantable condos</span><span class="fl-value green">Yes — Strip condotels in LV eligible</span></div>
+        <div class="field-row"><span class="fl-label">New FL condo projects</span><span class="fl-value green">Yes — full lender review or PERS approval</span></div>
+        <div class="field-row"><span class="fl-label">Max cash out limit</span><span class="fl-value green">None — unlimited cash out</span></div>
+        <div class="field-row"><span class="fl-label">TX Home Equity</span><span class="fl-value green">Yes — once TX licensed</span></div>
+        <div class="field-row"><span class="fl-label">Non-Perm Residents</span><span class="fl-value green">Yes</span></div>
+        <div class="field-row"><span class="fl-label">Rate/term payoff non-purchase seconds</span><span class="fl-value green">Yes — seasoned second refi tool</span></div>
+        <div class="field-row"><span class="fl-label">Best use</span><span class="fl-value amber">Loan rescue — not primary origination product</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FULL STACK -->
+<div id="tab-full" class="panel">
+
+  <div class="note n-gold">Complete product stack sourced directly from PRMG Retail Product Profile Links document (updated 04/03/2026). Every product listed here is available to Branch 541-A — subject to state licensing.</div>
+
+  <div class="sec">Complete PRMG product catalog — Branch 541-A reference</div>
+  <div class="stack-wrap">
+  <table>
+    <thead>
+      <tr><th>Product name</th><th>Category</th><th>Key detail</th><th>States</th><th>Branch priority</th></tr>
+    </thead>
+    <tbody>
+      <tr class="cat-row"><td colspan="5">Agency Products</td></tr>
+      <tr><td><strong>Agency Fannie Mae Standard and High Balance</strong></td><td><span class="badge bagency">Agency</span></td><td>DU — standard + high balance, LPMI, student loans, mfg homes, SOFR ARM</td><td>Licensed states</td><td><span class="badge bz">Standard</span></td></tr>
+      <tr><td><strong>Agency Freddie Mac Standard and Super Conforming</strong></td><td><span class="badge bagency">Agency</span></td><td>LPA — standard + super conforming, HomeOne, LPMI, mfg homes, SOFR ARM</td><td>Licensed states</td><td><span class="badge bz">Standard</span></td></tr>
+      <tr><td><strong>Fannie Mae HomeReady</strong></td><td><span class="badge bagency">Agency</span></td><td>Low-income conventional — 3% down, reduced MI, income limits apply</td><td>Licensed states</td><td><span class="badge bgold">DPA alternative</span></td></tr>
+      <tr><td><strong>Freddie Mac Home Possible</strong></td><td><span class="badge bagency">Agency</span></td><td>Low-income conventional — 3% down, reduced MI, income limits apply</td><td>Licensed states</td><td><span class="badge bgold">DPA alternative</span></td></tr>
+      <tr><td><strong>Agency Texas Home Equity (Fannie + Freddie)</strong></td><td><span class="badge btx">TX Agency</span></td><td>TX-specific home equity rules under Fannie/Freddie</td><td><span class="badge btx">TX only</span></td><td><span class="badge btx">TX — once licensed</span></td></tr>
+      <tr><td><strong>Agency Chase ARM Addendum</strong></td><td><span class="badge bagency">Agency</span></td><td>Chase ARM product overlay</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Agency Chase Community Lending</strong></td><td><span class="badge bagency">Agency</span></td><td>Chase community lending addendum</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Agency Citibank Homerun</strong></td><td><span class="badge bagency">Agency</span></td><td>Citibank overlay product</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+
+      <tr class="cat-row"><td colspan="5">Government Products</td></tr>
+      <tr><td><strong>FHA Standard and High Balance</strong></td><td><span class="badge bnv">FHA</span></td><td>No credit score option, 203(h), HUD Repair Escrow, $100 Down, Good Neighbor Next Door, mfg homes</td><td>Licensed states</td><td><span class="badge bgold">Core product</span></td></tr>
+      <tr><td><strong>FHA Streamline Standard and High Balance</strong></td><td><span class="badge brefi">Refi</span></td><td>No appraisal, minimal income verification — your #1 refi product</td><td>Licensed states</td><td><span class="badge bgold">Refi — high priority</span></td></tr>
+      <tr><td><strong>VA</strong></td><td><span class="badge bnv">VA</span></td><td>Standard VA purchase</td><td>Licensed states</td><td><span class="badge bgold">Core product</span></td></tr>
+      <tr><td><strong>VA High Balance</strong></td><td><span class="badge bnv">VA</span></td><td>VA above standard loan limits</td><td>Licensed states</td><td><span class="badge bgold">Core product</span></td></tr>
+      <tr><td><strong>VA IRRRL Standard and High Balance</strong></td><td><span class="badge brefi">Refi</span></td><td>No appraisal, no income — cleanest refi in the industry</td><td>Licensed states</td><td><span class="badge bgold">Refi — veterans</span></td></tr>
+      <tr><td><strong>USDA</strong></td><td><span class="badge bagency">USDA</span></td><td>Rural purchase — 0% down</td><td>Licensed states</td><td><span class="badge bz">Rural markets</span></td></tr>
+      <tr><td><strong>USDA Streamlined Assist</strong></td><td><span class="badge brefi">Refi</span></td><td>No appraisal — 1% rate reduction required</td><td>Licensed states</td><td><span class="badge brefi">Rural refi</span></td></tr>
+
+      <tr class="cat-row"><td colspan="5">Refi Programs</td></tr>
+      <tr><td><strong>Fannie Mae RefiNow</strong></td><td><span class="badge brefi">Refi</span></td><td>≤80% AMI income, 50 bps rate drop, appraisal waiver available — your DPA portfolio refi product</td><td>Licensed states</td><td><span class="badge bgold">Portfolio refi trigger</span></td></tr>
+      <tr><td><strong>Freddie Mac Refi Possible</strong></td><td><span class="badge brefi">Refi</span></td><td>Freddie equivalent of RefiNow — same income profile, ACE appraisal waiver</td><td>Licensed states</td><td><span class="badge bgold">Portfolio refi trigger</span></td></tr>
+
+      <tr class="cat-row"><td colspan="5">Jumbo Products</td></tr>
+      <tr><td><strong>Emerald (Radian) Jumbo</strong></td><td><span class="badge bz">Jumbo</span></td><td>Radian mortgage capital jumbo</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Gold (Chase) Jumbo — Fully Amortizing</strong></td><td><span class="badge bz">Jumbo</span></td><td>Chase jumbo fully amortizing</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Gold (Chase) Jumbo — Interest Only</strong></td><td><span class="badge bz">Jumbo</span></td><td>Chase jumbo IO option</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Onyx (Citibank) Jumbo</strong></td><td><span class="badge bz">Jumbo</span></td><td>Citibank jumbo</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Platinum (Bank of America) Jumbo</strong></td><td><span class="badge bz">Jumbo</span></td><td>BofA jumbo</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Ruby (Maxex) Jumbo</strong></td><td><span class="badge bz">Jumbo</span></td><td>JP Morgan A1 / Morgan Stanley A2</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Ruby Express (Maxex) Jumbo</strong></td><td><span class="badge bgold">Jumbo/Non-Conf</span></td><td>DU/LPA limited overlays, multiple investor options including Goldman Sachs + Citigroup</td><td>Licensed states</td><td><span class="badge bgold">Non-conf rescue</span></td></tr>
+      <tr><td><strong>Silver (US Bank) Jumbo</strong></td><td><span class="badge bz">Jumbo</span></td><td>US Bank jumbo</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+      <tr><td><strong>Titanium (Truist) Jumbo</strong></td><td><span class="badge bz">Jumbo</span></td><td>Truist jumbo</td><td>Licensed states</td><td><span class="badge bz">Situational</span></td></tr>
+
+      <tr class="cat-row"><td colspan="5">Non-QM Products</td></tr>
+      <tr><td><strong>Non-QM Income Qualifying — Expanded Prime</strong></td><td><span class="badge bnonqm">Non-QM</span></td><td>Bank statement, P&L, asset depletion, 40yr IO, LLC close, $75K–$3M, 660 score</td><td><span class="badge bnv">NV</span><span class="badge bfl">FL</span><span class="badge btx">TX</span></td><td><span class="badge bgold">Self-employed core</span></td></tr>
+      <tr><td><strong>Non-QM Income Qualifying — Non-Prime</strong></td><td><span class="badge bgold">ITIN</span></td><td>ITIN borrowers, 12–24mo bank stmt, significant derogatory OK, LLC close, $100K–$1.5M, 620 score</td><td><span class="badge bnv">NV</span><span class="badge bfl">FL</span></td><td><span class="badge bgold">ITIN moat product</span></td></tr>
+      <tr><td><strong>Non-QM DSCR</strong></td><td><span class="badge bnonqm">DSCR</span></td><td>Investment only, rental income qual, LLC, 40yr IO, Foreign National, $75K–$2.5M, 660 score</td><td>Licensed states</td><td><span class="badge bgold">Investor / TX builder</span></td></tr>
+      <tr><td><strong>Alternative AUS Solution (AFS)</strong></td><td><span class="badge bnonqm">Hybrid</span></td><td>DU overlays, DTI 49.99%, no max cash out, TX home equity, Non-warrantable condos</td><td>Licensed states</td><td><span class="badge bgold">Loan rescue tool</span></td></tr>
+
+      <tr class="cat-row"><td colspan="5">HELOC & Second Mortgage Products</td></tr>
+      <tr><td><strong>Lightning Equity Hybrid HELOC</strong></td><td><span class="badge bheloc">HELOC</span></td><td>Open-end revolving, hybrid variable + fixed-lock draw option — your flagship HELOC</td><td><span class="badge bnv">NV</span><span class="badge bfl">FL</span></td><td><span class="badge bgold">Lead HELOC product</span></td></tr>
+      <tr><td><strong>Symmetry HELOC</strong></td><td><span class="badge bheloc">HELOC</span></td><td>Standard revolving HELOC, prime-based variable rate</td><td><span class="badge bnv">NV</span><span class="badge bfl">FL</span></td><td><span class="badge bz">Backup HELOC</span></td></tr>
+      <tr><td><strong>Closed End Second Elite</strong></td><td><span class="badge bnonqm">CE Second</span></td><td>Non-QM standalone second — cleaner credit profile</td><td><span class="badge bnv">NV</span><span class="badge bfl">FL</span></td><td><span class="badge bgold">Non-QM second</span></td></tr>
+      <tr><td><strong>Closed End Second Expanded Access</strong></td><td><span class="badge bgold">ITIN Second</span></td><td>Non-QM second — bank statement income, ITIN eligible, expanded guidelines</td><td><span class="badge bnv">NV</span><span class="badge bfl">FL</span></td><td><span class="badge bgold">ITIN equity weapon</span></td></tr>
+      <tr><td><strong>Closed End Second Classic Elite</strong></td><td><span class="badge bagency">Agency Piggyback</span></td><td>Agency concurrent piggyback 80/15/5 OR standalone — eliminates PMI, dual comp</td><td>Licensed states</td><td><span class="badge bgold">Piggyback pivot</span></td></tr>
+
+      <tr class="cat-row"><td colspan="5">DPA / HFA — Core Branch Programs</td></tr>
+      <tr><td><strong>NV Home Is Possible — Conventional</strong></td><td><span class="badge bnv">NV DPA</span></td><td>4% forgivable 3yr second · 640 score · ~$105K income limit · eHP reservation</td><td><span class="badge bnv">NV</span></td><td><span class="badge bgold">Primary NV product</span></td></tr>
+      <tr><td><strong>NV Home Is Possible — FHA</strong></td><td><span class="badge bnv">NV DPA</span></td><td>4% forgivable 3yr second · FHA first · eHP reservation required</td><td><span class="badge bnv">NV</span></td><td><span class="badge bgold">Primary NV product</span></td></tr>
+      <tr><td><strong>NV Rural Housing Home at Last Access FHA</strong></td><td><span class="badge bnv">NV Rural</span></td><td>Rural NV DPA — outside Clark County metro</td><td><span class="badge bnv">NV</span></td><td><span class="badge bz">Rural NV</span></td></tr>
+      <tr><td><strong>NV Rural Housing Home at Last Access Conventional</strong></td><td><span class="badge bnv">NV Rural</span></td><td>Rural NV DPA conventional version</td><td><span class="badge bnv">NV</span></td><td><span class="badge bz">Rural NV</span></td></tr>
+      <tr><td><strong>Chenoa Fund FHA (Nationwide)</strong></td><td><span class="badge bgold">National</span></td><td>3.5%/5% DPA, 620 score, no income cap (repayable), forgivable at 115% AMI · Christopher Johnson contact</td><td>All licensed states</td><td><span class="badge bgold">Overflow — all states</span></td></tr>
+      <tr><td><strong>Multi-State NHF National FHA</strong></td><td><span class="badge bgold">National</span></td><td>5% grant — no repayment, 640 score, 160% AMI · Available all states except WA</td><td>49 states</td><td><span class="badge bgold">Grant — over-income</span></td></tr>
+      <tr><td><strong>FL Housing FHA / Conv / VA</strong></td><td><span class="badge bfl">FL DPA</span></td><td>FL Assist $10K deferred + FL Housing first · 175 bps · 640 score · FTB required</td><td><span class="badge bfl">FL</span></td><td><span class="badge bgold">Primary FL product</span></td></tr>
+      <tr><td><strong>FL Housing Hometown Heroes FHA/VA/Conv</strong></td><td><span class="badge bgold">FL FLAGSHIP</span></td><td>Up to 5% / $35K deferred · hero occupations · 175 bps · 640 score · 120% AMI</td><td><span class="badge bfl">FL</span></td><td><span class="badge bgold">FL referral magnet</span></td></tr>
+      <tr><td><strong>FL County HFAs (7 counties)</strong></td><td><span class="badge bfl">FL County</span></td><td>Hillsborough, Lee, Manatee, Miami-Dade, Orange, Pinellas, Escambia</td><td><span class="badge bfl">FL counties</span></td><td><span class="badge bgold">County-specific FL</span></td></tr>
+      <tr><td><strong>TX TSAHC FHA / Conv / VA</strong></td><td><span class="badge btx">TX DPA</span></td><td>3–5% grant option · hero occupations · no FTB req · 620 score · MCC stackable</td><td><span class="badge btx">TX</span></td><td><span class="badge bgold">Primary TX product</span></td></tr>
+      <tr><td><strong>TX TDHCA FHA / Conv</strong></td><td><span class="badge btx">TX DPA</span></td><td>5% deferred · below-market rate · FTB required · 620 score · 115% AMI · MCC stackable</td><td><span class="badge btx">TX</span></td><td><span class="badge bgold">TX first-time buyers</span></td></tr>
+      <tr><td><strong>TX SETH 5 Star Advantage FHA / Conv</strong></td><td><span class="badge bgold">TX Grant</span></td><td>5% true grant · no income cap on Conv · no FTB req · all 254 TX counties</td><td><span class="badge btx">TX</span></td><td><span class="badge bgold">TX hidden gem</span></td></tr>
+      <tr><td><strong>TX Veterans Land Board (TVLB)</strong></td><td><span class="badge btx">TX Veterans</span></td><td>State-funded TX mortgage · below-market rate · separate from VA · TX veterans only</td><td><span class="badge btx">TX</span></td><td><span class="badge bgold">TX veteran niche</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note n-gold" style="margin-top:4px">Products marked Situational (Jumbo) are available but not Branch 541-A's primary focus. They become relevant for high-net-worth referrals, luxury Realtor partners, or specific Non-conforming loan rescues. Know they exist — don't market them as primary products. HomeReady and Home Possible are worth knowing as DPA alternatives for borrowers who are slightly over program income limits but still need low down payment options.</div>
+</div>
+
+</div>
+<script>
+function show(id,btn,cls){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.className='');
+  btn.className=cls;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch 541-A · Production & Capacity Model</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f9fb;--surface:#ffffff;--surface2:#f1f4f8;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--muted:#64748b;--light:#94a3b8;
+  --blue:#1d4ed8;--blue-light:#dbeafe;--blue-mid:#3b82f6;
+  --green:#15803d;--green-light:#dcfce7;--green-mid:#22c55e;
+  --amber:#b45309;--amber-light:#fef3c7;--amber-mid:#f59e0b;
+  --red:#b91c1c;--red-light:#fee2e2;--red-mid:#ef4444;
+  --purple:#6d28d9;--purple-light:#ede9fe;--purple-mid:#8b5cf6;
+  --teal:#0f766e;--teal-light:#ccfbf1;--teal-mid:#14b8a6;
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+.header{background:var(--text);color:#fff;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.htitle{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.hsub{font-size:11px;color:#94a3b8;margin-top:2px;font-family:'IBM Plex Mono',monospace}
+.hbadges{display:flex;gap:6px;flex-wrap:wrap}
+.hb{font-size:10px;padding:3px 9px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-weight:500}
+.hb-green{background:#166534;color:#86efac}
+.hb-amber{background:#92400e;color:#fcd34d}
+.hb-blue{background:#1e3a8a;color:#93c5fd}
+
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav button{padding:12px 18px;border:none;background:transparent;font-size:13px;cursor:pointer;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;font-family:'IBM Plex Sans',sans-serif;font-weight:500;transition:all .15s}
+.nav button:hover{color:var(--text)}
+.nav button.active{color:var(--blue);border-bottom-color:var(--blue-mid)}
+
+.content{max-width:1100px;margin:0 auto;padding:24px 20px}
+.panel{display:none}
+.panel.active{display:block}
+
+.sec{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:24px 0 12px;font-family:'IBM Plex Mono',monospace;padding-bottom:6px;border-bottom:1px solid var(--border)}
+
+/* METRIC CARDS */
+.mcard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:20px}
+.mcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.mcard-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-family:'IBM Plex Mono',monospace}
+.mcard-value{font-size:22px;font-weight:600;color:var(--text);letter-spacing:-.02em}
+.mcard-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.mcard.green{border-left:3px solid var(--green-mid)}
+.mcard.amber{border-left:3px solid var(--amber-mid)}
+.mcard.red{border-left:3px solid var(--red-mid)}
+.mcard.blue{border-left:3px solid var(--blue-mid)}
+.mcard.purple{border-left:3px solid var(--purple-mid)}
+
+/* PHASE CARDS */
+.phase-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.phase-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--border)}
+.ph-left{display:flex;align-items:center;gap:10px}
+.phase-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace;flex-shrink:0}
+.pn1{background:var(--green-light);color:var(--green)}
+.pn2{background:var(--blue-light);color:var(--blue)}
+.pn3{background:var(--amber-light);color:var(--amber)}
+.pn4{background:var(--purple-light);color:var(--purple)}
+.pn5{background:var(--teal-light);color:var(--teal)}
+.phase-title{font-size:14px;font-weight:600;color:var(--text)}
+.phase-timeline{font-size:11px;color:var(--muted);margin-top:1px;font-family:'IBM Plex Mono',monospace}
+.phase-badges{display:flex;gap:5px;flex-wrap:wrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap}
+.bg{background:var(--green-light);color:var(--green)}
+.bb{background:var(--blue-light);color:var(--blue)}
+.ba{background:var(--amber-light);color:var(--amber)}
+.bp{background:var(--purple-light);color:var(--purple)}
+.bt{background:var(--teal-light);color:var(--teal)}
+.bz{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+
+.phase-body{padding:16px 18px}
+.phase-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+.phase-stat{background:var(--surface2);border-radius:8px;padding:10px 12px}
+.ps-label{font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace;margin-bottom:4px}
+.ps-value{font-size:16px;font-weight:600;color:var(--text)}
+.ps-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.ps-value.green{color:var(--green)}
+.ps-value.amber{color:var(--amber)}
+.ps-value.red{color:var(--red)}
+.ps-value.blue{color:var(--blue)}
+
+.team-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;gap:8px}
+.team-row:last-child{border-bottom:none}
+.tr-name{font-weight:500;color:var(--text);min-width:100px}
+.tr-role{color:var(--muted);flex:1}
+.tr-loans{font-weight:600;font-family:'IBM Plex Mono',monospace;text-align:right}
+.tr-loans.green{color:var(--green)}
+.tr-loans.amber{color:var(--amber)}
+.tr-loans.red{color:var(--red)}
+
+.note{font-size:12px;color:var(--muted);padding:8px 12px;border-radius:6px;background:var(--surface2);border-left:2px solid var(--border2);margin-top:10px;line-height:1.6}
+.note.warn{border-left-color:var(--amber-mid);background:var(--amber-light);color:var(--amber)}
+.note.danger{border-left-color:var(--red-mid);background:var(--red-light);color:var(--red)}
+.note.good{border-left-color:var(--green-mid);background:var(--green-light);color:var(--green)}
+.note.info{border-left-color:var(--blue-mid);background:var(--blue-light);color:var(--blue)}
+
+/* CAPACITY TABLE */
+.cap-wrap{overflow-x:auto;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;min-width:600px;font-size:12px}
+th{text-align:left;padding:8px 12px;font-size:10px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);background:var(--surface2);letter-spacing:.06em;font-family:'IBM Plex Mono',monospace;white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+
+/* COMP CALCULATOR */
+.calc-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+.calc-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.calc-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.calc-row:last-child{border-bottom:none;font-weight:600;font-size:14px;padding-top:10px;margin-top:4px}
+.calc-label{color:var(--muted)}
+.calc-value{font-weight:500;color:var(--text);font-family:'IBM Plex Mono',monospace}
+.calc-value.green{color:var(--green);font-weight:600}
+.calc-value.amber{color:var(--amber)}
+.calc-value.total{color:var(--blue);font-size:16px;font-weight:700}
+
+/* BOTTLENECK */
+.bottleneck{background:var(--red-light);border:1px solid #fca5a5;border-radius:10px;padding:16px;margin-bottom:16px}
+.bn-title{font-size:13px;font-weight:600;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.bn-body{font-size:12px;color:#991b1b;line-height:1.6}
+
+/* HIRE TABLE */
+.hire-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.hire-left{}
+.hire-role{font-size:13px;font-weight:600;color:var(--text)}
+.hire-when{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);margin-top:2px}
+.hire-reason{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5;max-width:500px}
+.hire-trigger{font-size:11px;padding:4px 10px;border-radius:4px;background:var(--amber-light);color:var(--amber);font-weight:500;white-space:nowrap;align-self:flex-start}
+
+.progress-bar{height:6px;border-radius:3px;background:var(--border);margin-top:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .3s}
+
+@media(max-width:600px){.header{flex-direction:column;align-items:flex-start}.phase-header{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="htitle">Branch 541-A · Production & Capacity Model</div>
+    <div class="hsub">5-state expansion · DPA-weighted pipeline · Jose Del Valle · PRMG</div>
+  </div>
+  <div class="hbadges">
+    <span class="hb hb-green">2 LOs Active</span>
+    <span class="hb hb-amber">5 States Planned</span>
+    <span class="hb hb-blue">DPA-complexity adjusted</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="show('capacity',this)">Capacity reality</button>
+  <button onclick="show('phases',this)">Phase goals</button>
+  <button onclick="show('comp',this)">Revenue model</button>
+  <button onclick="show('hire',this)">When to hire</button>
+</div>
+
+<div class="content">
+
+<!-- CAPACITY REALITY -->
+<div id="tab-capacity" class="panel active">
+
+  <div class="sec">DPA complexity factor — why standard benchmarks don't apply</div>
+
+  <div class="mcard-grid">
+    <div class="mcard green">
+      <div class="mcard-label">Standard FHA LO capacity</div>
+      <div class="mcard-value">10–12</div>
+      <div class="mcard-sub">loans/month active pipeline</div>
+    </div>
+    <div class="mcard amber">
+      <div class="mcard-label">DPA LO capacity (realistic)</div>
+      <div class="mcard-value">6–8</div>
+      <div class="mcard-sub">loans/month — ~40% more time per file</div>
+    </div>
+    <div class="mcard red">
+      <div class="mcard-label">BM/LO split capacity</div>
+      <div class="mcard-value">3–5</div>
+      <div class="mcard-sub">personal loans/month with BM duties</div>
+    </div>
+    <div class="mcard blue">
+      <div class="mcard-label">DPA processor pipeline limit</div>
+      <div class="mcard-value">15–18</div>
+      <div class="mcard-sub">active files at once — hard ceiling</div>
+    </div>
+    <div class="mcard purple">
+      <div class="mcard-label">DPA avg close cycle</div>
+      <div class="mcard-value">45–55</div>
+      <div class="mcard-sub">days — longer than standard FHA</div>
+    </div>
+  </div>
+
+  <div class="note info">DPA loans take roughly 40% more time per file than standard FHA. Second lien sequencing, eHP reservations, program-specific condition lists, dual lock process, and CLTV monitoring all add touchpoints. Your capacity numbers must reflect this — not the generic "12 loans/LO" benchmark that applies to vanilla origination.</div>
+
+  <div class="sec">Current team — honest capacity assessment</div>
+
+  <div class="bottleneck">
+    <div class="bn-title">Critical constraint — Gissella is your production ceiling</div>
+    <div class="bn-body">Gissella owns S11–S28 on every single file across all states. She reports to the Matrix branch, not to you directly. At 15–18 active files she hits her ceiling — regardless of how many loans you and Ana originate. Every new state you add feeds into the same processor. This is the number you need to track every week. If Gissella's pipeline exceeds 18 files, closings start slipping — not because the LOs aren't producing, but because processing is the bottleneck.</div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header">
+      <div class="ph-left">
+        <div style="font-size:13px;font-weight:600">Team capacity — current configuration</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="cap-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Team member</th>
+            <th>Role</th>
+            <th>DPA loans/mo (realistic)</th>
+            <th>Active pipeline max</th>
+            <th>What limits them</th>
+            <th>Capacity now</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Jose</strong></td>
+            <td>BM/MLO — strategy, CTC, locks, BM duties</td>
+            <td><span class="badge bg">3–5 personal loans</span></td>
+            <td>8–10 files</td>
+            <td>BM duties consume ~35% of day</td>
+            <td>
+              <div class="progress-bar"><div class="progress-fill" style="width:40%;background:#22c55e"></div></div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">~40% of LO capacity used</div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Ana</strong></td>
+            <td>LO — full file ownership S1–S10</td>
+            <td><span class="badge bb">5–7 loans</span></td>
+            <td>12–14 files</td>
+            <td>DPA complexity — second lien knowledge required</td>
+            <td>
+              <div class="progress-bar"><div class="progress-fill" style="width:55%;background:#3b82f6"></div></div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">~55% of capacity — room to grow</div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Gissella</strong></td>
+            <td>Processor — S11–S28 all files</td>
+            <td><span class="badge ba">8–10 closings/mo max</span></td>
+            <td><strong>15–18 active files HARD LIMIT</strong></td>
+            <td>DPA second lien conditions, eHP compliance, dual tracking</td>
+            <td>
+              <div class="progress-bar"><div class="progress-fill" style="width:60%;background:#f59e0b"></div></div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">~60% — watch this weekly</div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Laura</strong></td>
+            <td>Intake Bridge — Drive, Sierra, APG liaison</td>
+            <td>Supports all files at intake</td>
+            <td>No hard cap — intake is point-in-time</td>
+            <td>Dual APG + SmartBee volume at same time</td>
+            <td>
+              <div class="progress-bar"><div class="progress-fill" style="width:45%;background:#22c55e"></div></div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">Comfortable — scalable</div>
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Marelis</strong></td>
+            <td>Doc Chase + TaxDome intake + condition tracking</td>
+            <td>Supports all files post-submission</td>
+            <td>~12–15 active doc chase files</td>
+            <td>Volume of condition items — she tracks every one</td>
+            <td>
+              <div class="progress-bar"><div class="progress-fill" style="width:50%;background:#8b5cf6"></div></div>
+              <div style="font-size:10px;color:var(--muted);margin-top:2px">~50% — path to LO candidacy</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note warn">Current team maximum smooth throughput: 8–10 closings per month. That is not a ceiling to be ashamed of — it is the number where quality stays high, Gissella isn't overwhelmed, and your team runs clean. Pushing past 10 before adding processing capacity creates chaos, not revenue.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASES -->
+<div id="tab-phases" class="panel">
+
+  <div class="sec">Five-phase production model — state by state expansion</div>
+
+  <!-- PHASE 1 -->
+  <div class="phase-card">
+    <div class="phase-header">
+      <div class="ph-left">
+        <div class="phase-num pn1">1</div>
+        <div>
+          <div class="phase-title">NV + FL — baseline production</div>
+          <div class="phase-timeline">Now → Month 3 · Both licenses active</div>
+        </div>
+      </div>
+      <div class="phase-badges">
+        <span class="badge bg">NV</span><span class="badge bg">FL</span>
+        <span class="badge bz">TX pending</span>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-grid">
+        <div class="phase-stat"><div class="ps-label">Monthly closings target</div><div class="ps-value green">8–10</div><div class="ps-sub">smooth operations</div></div>
+        <div class="phase-stat"><div class="ps-label">Monthly volume target</div><div class="ps-value blue">$2.5–3M</div><div class="ps-sub">avg $280–320K/loan</div></div>
+        <div class="phase-stat"><div class="ps-label">Annual run rate</div><div class="ps-value blue">$30–36M</div><div class="ps-sub">at this pace</div></div>
+        <div class="phase-stat"><div class="ps-label">Gissella load</div><div class="ps-value green">60–70%</div><div class="ps-sub">healthy — not strained</div></div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:12px">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;font-family:'IBM Plex Mono',monospace">TEAM BREAKDOWN</div>
+        <div class="team-row"><span class="tr-name">Jose</span><span class="tr-role">BM/MLO — NV primary + FL overflow</span><span class="tr-loans green">3–4/mo</span></div>
+        <div class="team-row"><span class="tr-name">Ana</span><span class="tr-role">LO — NV HIP, Chenoa, FL Housing focus</span><span class="tr-loans green">5–6/mo</span></div>
+      </div>
+      <div class="note good">This is your quality baseline. 8–10 closings/month with a clean pipeline, no missed conditions, every Drive folder complete, every WhatsApp template fired on time. Build this first. Once this runs on autopilot for 60 days, add TX.</div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-card">
+    <div class="phase-header">
+      <div class="ph-left">
+        <div class="phase-num pn2">2</div>
+        <div>
+          <div class="phase-title">Add Texas</div>
+          <div class="phase-timeline">Month 3–6 · TX license active</div>
+        </div>
+      </div>
+      <div class="phase-badges">
+        <span class="badge bg">NV</span><span class="badge bg">FL</span><span class="badge ba">TX new</span>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-grid">
+        <div class="phase-stat"><div class="ps-label">Monthly closings target</div><div class="ps-value blue">10–12</div><div class="ps-sub">TX ramp takes 60–90 days</div></div>
+        <div class="phase-stat"><div class="ps-label">Monthly volume target</div><div class="ps-value blue">$3–3.8M</div><div class="ps-sub">TX avg loan higher ~$300K</div></div>
+        <div class="phase-stat"><div class="ps-label">Annual run rate</div><div class="ps-value blue">$36–45M</div><div class="ps-sub">at steady state</div></div>
+        <div class="phase-stat"><div class="ps-label">Gissella load</div><div class="ps-value amber">75–82%</div><div class="ps-sub">manageable — watch it</div></div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:12px">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;font-family:'IBM Plex Mono',monospace">TEAM BREAKDOWN</div>
+        <div class="team-row"><span class="tr-name">Jose</span><span class="tr-role">BM/MLO — takes first TX files personally to learn TSAHC/TDHCA</span><span class="tr-loans blue">4–5/mo</span></div>
+        <div class="team-row"><span class="tr-name">Ana</span><span class="tr-role">NV + FL focus, starts learning TX programs</span><span class="tr-loans blue">6–7/mo</span></div>
+      </div>
+      <div class="note warn">TX ramp warning: TSAHC and TDHCA have learning curves. Expect your first 3–4 TX files to take 20% longer than normal. Budget that time before pushing volume. Jose handles the first TX files personally to build the template.</div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-card">
+    <div class="phase-header">
+      <div class="ph-left">
+        <div class="phase-num pn3">3</div>
+        <div>
+          <div class="phase-title">Add Arizona + Marelis becomes LO</div>
+          <div class="phase-timeline">Month 6–12 · AZ license + Marelis licensed</div>
+        </div>
+      </div>
+      <div class="phase-badges">
+        <span class="badge bg">NV</span><span class="badge bg">FL</span><span class="badge ba">TX</span><span class="badge bp">AZ new</span><span class="badge bt">3rd LO</span>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-grid">
+        <div class="phase-stat"><div class="ps-label">Monthly closings target</div><div class="ps-value amber">13–16</div><div class="ps-sub">3 LOs producing</div></div>
+        <div class="phase-stat"><div class="ps-label">Monthly volume target</div><div class="ps-value blue">$4–5M</div><div class="ps-sub">AZ avg loan ~$320K</div></div>
+        <div class="phase-stat"><div class="ps-label">Annual run rate</div><div class="ps-value blue">$48–60M</div><div class="ps-sub">3-LO branch</div></div>
+        <div class="phase-stat"><div class="ps-label">Gissella load</div><div class="ps-value red">88–95%</div><div class="ps-sub">HIRE TRIGGER approaching</div></div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:12px">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;font-family:'IBM Plex Mono',monospace">TEAM BREAKDOWN</div>
+        <div class="team-row"><span class="tr-name">Jose</span><span class="tr-role">BM — more strategy, less personal origination. Maintains 3–4/mo</span><span class="tr-loans amber">3–4/mo</span></div>
+        <div class="team-row"><span class="tr-name">Ana</span><span class="tr-role">NV + FL + TX — DPA specialist LO at full production</span><span class="tr-loans amber">7–8/mo</span></div>
+        <div class="team-row"><span class="tr-name">Marelis</span><span class="tr-role">New LO — supervised origination, NV/FL focus, 3–4/mo ramp target</span><span class="tr-loans amber">3–4/mo</span></div>
+      </div>
+      <div class="note danger">At 13–16 closings/month Gissella is near her ceiling. This is the mandatory hire point — second processor or processing assistant. Without it, quality degrades, COE deadlines get missed, and conditions slip. Plan this hire at month 8–9, before the pressure hits.</div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-card">
+    <div class="phase-header">
+      <div class="ph-left">
+        <div class="phase-num pn4">4</div>
+        <div>
+          <div class="phase-title">4-state full operation + second processor</div>
+          <div class="phase-timeline">Month 12–18 · NV + FL + TX + AZ steady state</div>
+        </div>
+      </div>
+      <div class="phase-badges">
+        <span class="badge bg">NV</span><span class="badge bg">FL</span><span class="badge ba">TX</span><span class="badge bp">AZ</span><span class="badge bg">2nd processor</span>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-grid">
+        <div class="phase-stat"><div class="ps-label">Monthly closings target</div><div class="ps-value purple">18–22</div><div class="ps-sub">2 processors, 3 LOs</div></div>
+        <div class="phase-stat"><div class="ps-label">Monthly volume target</div><div class="ps-value blue">$5.5–7M</div><div class="ps-sub">4-state blended</div></div>
+        <div class="phase-stat"><div class="ps-label">Annual run rate</div><div class="ps-value blue">$66–84M</div><div class="ps-sub">top-10 PRMG DPA branch range</div></div>
+        <div class="phase-stat"><div class="ps-label">Processing capacity</div><div class="ps-value green">Healthy</div><div class="ps-sub">Gissella + new processor split</div></div>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:12px">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;font-family:'IBM Plex Mono',monospace">TEAM BREAKDOWN</div>
+        <div class="team-row"><span class="tr-name">Jose</span><span class="tr-role">Branch strategy + high-value files + partner relationships</span><span class="tr-loans green">3/mo</span></div>
+        <div class="team-row"><span class="tr-name">Ana</span><span class="tr-role">Senior LO — all 4 states, DPA expert, mentors Marelis</span><span class="tr-loans green">8–9/mo</span></div>
+        <div class="team-row"><span class="tr-name">Marelis</span><span class="tr-role">Full LO — NV + AZ primary, growing into TX/FL</span><span class="tr-loans green">6–7/mo</span></div>
+        <div class="team-row"><span class="tr-name">Gissella</span><span class="tr-role">Senior processor — complex DPA files, mentors new processor</span><span class="tr-loans green">10–11 closings</span></div>
+        <div class="team-row"><span class="tr-name">New processor</span><span class="tr-role">Junior processor — standard FHA + simpler DPA files under Gissella</span><span class="tr-loans green">8–9 closings</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase-card">
+    <div class="phase-header">
+      <div class="ph-left">
+        <div class="phase-num pn5">5</div>
+        <div>
+          <div class="phase-title">Add Colorado — 5-state full operation</div>
+          <div class="phase-timeline">Month 18–24 · Full branch at scale</div>
+        </div>
+      </div>
+      <div class="phase-badges">
+        <span class="badge bg">NV</span><span class="badge bg">FL</span><span class="badge ba">TX</span><span class="badge bp">AZ</span><span class="badge bt">CO new</span>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-grid">
+        <div class="phase-stat"><div class="ps-label">Monthly closings target</div><div class="ps-value" style="color:var(--teal)">22–28</div><div class="ps-sub">mature 5-state operation</div></div>
+        <div class="phase-stat"><div class="ps-label">Monthly volume target</div><div class="ps-value blue">$7–9M</div><div class="ps-sub">CO avg loan ~$380K</div></div>
+        <div class="phase-stat"><div class="ps-label">Annual volume</div><div class="ps-value blue">$84–108M</div><div class="ps-sub">established DPA branch</div></div>
+        <div class="phase-stat"><div class="ps-label">Team size</div><div class="ps-value" style="color:var(--teal)">7–8 people</div><div class="ps-sub">consider 4th LO if needed</div></div>
+      </div>
+      <div class="note info">At this point Branch 541-A is a legitimately large DPA operation by any measure. $84–108M annual with a 5-state DPA + Non-QM + bilingual brand is in the top tier of PRMG retail branches. The question at month 18 is not how to grow — it is how to maintain quality while at scale.</div>
+    </div>
+  </div>
+</div>
+
+<!-- REVENUE MODEL -->
+<div id="tab-comp" class="panel">
+
+  <div class="sec">Branch gross comp model — DPA blended rate</div>
+
+  <div class="mcard-grid">
+    <div class="mcard blue">
+      <div class="mcard-label">NV / TX / AZ / CO comp</div>
+      <div class="mcard-value">150 bps</div>
+      <div class="mcard-sub">first lien only — standard DPA rate</div>
+    </div>
+    <div class="mcard green">
+      <div class="mcard-label">FL Housing comp</div>
+      <div class="mcard-value">175 bps</div>
+      <div class="mcard-sub">best margin product in stack</div>
+    </div>
+    <div class="mcard purple">
+      <div class="mcard-label">Blended estimate</div>
+      <div class="mcard-value">~155 bps</div>
+      <div class="mcard-sub">assuming ~25% FL volume mix</div>
+    </div>
+    <div class="mcard amber">
+      <div class="mcard-label">Second lien comp</div>
+      <div class="mcard-value">Zero</div>
+      <div class="mcard-sub">DPA second generates no commission</div>
+    </div>
+  </div>
+
+  <div class="calc-section">
+    <div class="calc-title">Phase-by-phase gross comp projection</div>
+    <div class="calc-row"><span class="calc-label">Phase 1 — 8–10 loans/mo · avg $290K · 155 bps</span><span class="calc-value">$35,960–$44,950/mo</span></div>
+    <div class="calc-row"><span class="calc-label">Phase 2 — 10–12 loans/mo · avg $295K · 155 bps</span><span class="calc-value">$45,725–$54,870/mo</span></div>
+    <div class="calc-row"><span class="calc-label">Phase 3 — 13–16 loans/mo · avg $300K · 155 bps</span><span class="calc-value">$60,450–$74,400/mo</span></div>
+    <div class="calc-row"><span class="calc-label">Phase 4 — 18–22 loans/mo · avg $310K · 155 bps</span><span class="calc-value">$86,490–$105,710/mo</span></div>
+    <div class="calc-row"><span class="calc-label">Phase 5 — 22–28 loans/mo · avg $320K · 155 bps</span><span class="calc-value green">$109,120–$138,880/mo</span></div>
+    <div class="calc-row"><span class="calc-label" style="font-size:13px">Phase 5 annualized gross comp range</span><span class="calc-value total">$1.3M–$1.67M/yr</span></div>
+  </div>
+
+  <div class="calc-section">
+    <div class="calc-title">Why maximizing FL volume mix matters — comp arithmetic</div>
+    <div class="calc-row"><span class="calc-label">10 loans all at NV/TX rate (150 bps · $290K avg)</span><span class="calc-value">$43,500/mo</span></div>
+    <div class="calc-row"><span class="calc-label">10 loans all at FL rate (175 bps · $290K avg)</span><span class="calc-value green">$50,750/mo</span></div>
+    <div class="calc-row"><span class="calc-label">Difference per month at same volume</span><span class="calc-value amber">+$7,250/mo</span></div>
+    <div class="calc-row"><span class="calc-label">Difference annualized</span><span class="calc-value amber">+$87,000/yr</span></div>
+    <div class="calc-row"><span class="calc-label">Implication</span><span class="calc-value green">Prioritize FL Hometown Heroes referral activation — same loan count, more revenue</span></div>
+  </div>
+
+  <div class="note info">These are branch gross comp numbers before splits, overrides, and PRMG branch P&L. They represent total first lien comp generated by the branch. Actual net to Jose depends on the comp plan structure with PRMG and LO splits for Ana and Marelis.</div>
+</div>
+
+<!-- WHEN TO HIRE -->
+<div id="tab-hire" class="panel">
+
+  <div class="sec">Hiring triggers — based on Gissella pipeline load, not calendar</div>
+
+  <div class="note warn" style="margin-bottom:16px">Don't hire on a schedule — hire when specific triggers are hit. Hiring too early burns overhead. Hiring too late means quality degradation you can't see until files start stalling. The trigger column below is the signal to act, not the month number.</div>
+
+  <div class="hire-card">
+    <div class="hire-left">
+      <div class="hire-role">Second processor (junior / processing assistant)</div>
+      <div class="hire-when">Month 8–10 · Phase 3</div>
+      <div class="hire-reason">Gissella approaching 16+ active files consistently. This is the most critical hire in the branch. She becomes a senior processor / DPA specialist who handles complex files. The junior processor takes standard FHA + simpler DPA files under her supervision. Without this hire, pushing to 4 states causes closings to slip.</div>
+    </div>
+    <span class="hire-trigger">Trigger: Gissella at 16+ files for 3 consecutive weeks</span>
+  </div>
+
+  <div class="hire-card">
+    <div class="hire-left">
+      <div class="hire-role">Marelis — transition from Doc Chase to LO</div>
+      <div class="hire-when">Month 6–9 · Phase 3 start</div>
+      <div class="hire-reason">Marelis is already shadowing LO tasks and on the Xinnix ORIGINATOR ASSIST track. Her transition to producing LO is the lowest-cost capacity add available — she already knows the pipeline, the borrowers, and the products. Timing depends on her license and readiness, not a calendar date. Target NV and FL files first under supervision before TX or AZ.</div>
+    </div>
+    <span class="hire-trigger">Trigger: Marelis licensed + Xinnix ORIGINATOR complete</span>
+  </div>
+
+  <div class="hire-card">
+    <div class="hire-left">
+      <div class="hire-role">Laura — Originator Assist track (part-time LO support)</div>
+      <div class="hire-when">Month 9–12 · Phase 3–4</div>
+      <div class="hire-reason">Laura is earmarked for ORIGINATOR ASSIST training pending MLO license. Once licensed she can handle intake-to-pre-qual tasks, freeing Ana and Jose for complex DPA files. She stays in her intake bridge role for APG but adds LO support capacity on simpler files. This extends the team without a full new hire cost.</div>
+    </div>
+    <span class="hire-trigger">Trigger: Laura MLO licensed + ORIGINATOR ASSIST complete</span>
+  </div>
+
+  <div class="hire-card">
+    <div class="hire-left">
+      <div class="hire-role">Fourth LO (experienced DPA originator)</div>
+      <div class="hire-when">Month 15–20 · Phase 4–5</div>
+      <div class="hire-reason">By Phase 4 you have three LOs and two processors. A fourth LO makes sense only if Gissella's split team can absorb the additional pipeline without quality loss. Target someone with existing TX or CO book who understands DPA — not a rate-and-term originator you need to retrain. Wrong hire here sets you back 6 months.</div>
+    </div>
+    <span class="hire-trigger">Trigger: Processing stable at 20+ closings/mo for 60 days</span>
+  </div>
+
+  <div class="sec">The one number to watch every week</div>
+
+  <div class="phase-card">
+    <div class="phase-body">
+      <div class="cap-wrap">
+      <table>
+        <thead>
+          <tr><th>Gissella active pipeline</th><th>Branch status</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1–12 files</td><td><span class="badge bg">Healthy — room to push</span></td><td>Originate aggressively. Add new referral partners.</td></tr>
+          <tr><td>13–15 files</td><td><span class="badge ba">Managed — monitor weekly</span></td><td>Check COE deadlines. Ensure conditions are moving. No new state launches yet.</td></tr>
+          <tr><td>16–17 files</td><td><span class="badge" style="background:#fee2e2;color:#b91c1c">Warning — near ceiling</span></td><td>Slow new intakes temporarily. Prioritize condition clearing. Begin processor hire process.</td></tr>
+          <tr><td>18+ files</td><td><span class="badge" style="background:#b91c1c;color:#fff">Over capacity</span></td><td>Pause new files until pipeline clears. Second processor must be in place before this happens.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="note">This table lives on your dashboard. Gissella's number is the branch health indicator. Not loan count. Not volume. Not LO pipeline. Her active file count is the only metric that predicts whether next month closes smoothly or falls apart.</div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script>
+function show(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

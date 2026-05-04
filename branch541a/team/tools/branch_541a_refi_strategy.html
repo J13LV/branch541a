@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch 541-A · Refi Strategy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fafafa;--surface:#ffffff;--surface2:#f5f7fa;
+  --border:#e8ecf2;--border2:#d0d8e4;
+  --text:#111827;--muted:#6b7280;--light:#9ca3af;
+  --navy:#0f2347;--navy2:#1a3560;
+  --blue:#1d4ed8;--blue-l:#dbeafe;
+  --green:#166534;--green-l:#dcfce7;--green-m:#22c55e;
+  --amber:#92400e;--amber-l:#fef3c7;--amber-m:#f59e0b;
+  --red:#991b1b;--red-l:#fee2e2;
+  --purple:#5b21b6;--purple-l:#ede9fe;
+  --teal:#0f766e;--teal-l:#ccfbf1;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+
+.header{background:var(--navy);padding:22px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.htitle{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:-.01em}
+.hsub{font-size:11px;color:#7eb3e0;margin-top:3px}
+.hbadge{font-size:10px;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.1);color:#93c5fd;border:1px solid rgba(255,255,255,.15)}
+
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;display:flex;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav button{padding:12px 18px;border:none;background:transparent;font-size:13px;cursor:pointer;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;font-family:'Inter',sans-serif;font-weight:500;transition:all .15s}
+.nav button.active{color:var(--blue);border-bottom-color:var(--blue)}
+
+.content{max-width:1100px;margin:0 auto;padding:24px 20px}
+.panel{display:none}
+.panel.active{display:block}
+
+.sec{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:24px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* INSIGHT BOX */
+.insight{background:var(--navy);border-radius:12px;padding:18px 20px;margin-bottom:20px;color:#fff}
+.insight-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#93c5fd;margin-bottom:6px}
+.insight-body{font-size:13px;color:#cbd5e1;line-height:1.7}
+.insight-body strong{color:#fff}
+
+/* PRODUCT CARDS */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:20px}
+.prod-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden}
+.prod-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pc-fha::before{background:var(--blue)}
+.pc-va::before{background:var(--green-m)}
+.pc-fannie::before{background:var(--amber-m)}
+.pc-usda::before{background:var(--teal)}
+.pc-freddie::before{background:var(--purple)}
+
+.prod-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.pl-blue{color:var(--blue)}
+.pl-green{color:var(--green)}
+.pl-amber{color:var(--amber)}
+.pl-teal{color:var(--teal)}
+.pl-purple{color:var(--purple)}
+
+.prod-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+.prod-sub{font-size:11px;color:var(--muted);margin-bottom:12px}
+
+.rows{border-top:1px solid var(--border);padding-top:10px}
+.row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f9fafb;font-size:12px;gap:8px}
+.row:last-child{border-bottom:none}
+.rl{color:var(--muted);flex:1}
+.rv{font-weight:500;color:var(--text);text-align:right}
+.rv-g{color:var(--green);font-weight:500;text-align:right}
+.rv-a{color:var(--amber);font-weight:500;text-align:right}
+.rv-r{color:var(--red);font-weight:500;text-align:right}
+
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.bg{background:var(--green-l);color:var(--green)}
+.bb{background:var(--blue-l);color:var(--blue)}
+.ba{background:var(--amber-l);color:var(--amber)}
+.bp{background:var(--purple-l);color:var(--purple)}
+.bt{background:var(--teal-l);color:var(--teal)}
+.bz{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+
+.note{font-size:12px;padding:8px 12px;border-radius:8px;margin-top:10px;line-height:1.6}
+.note-gray{background:var(--surface2);color:var(--muted);border-left:2px solid var(--border2)}
+.note-green{background:var(--green-l);color:var(--green);border-left:2px solid var(--green-m)}
+.note-amber{background:var(--amber-l);color:var(--amber);border-left:2px solid var(--amber-m)}
+.note-blue{background:var(--blue-l);color:var(--blue);border-left:2px solid var(--blue)}
+
+/* MATH MODEL */
+.math-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+.math-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.calc-row{display:flex;justify-content:space-between;padding:7px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.calc-row:last-child{border-bottom:none;padding-top:12px;margin-top:4px}
+.cl{color:var(--muted)}
+.cv{font-weight:600;color:var(--text)}
+.cv-g{color:var(--green);font-weight:700}
+.cv-a{color:var(--amber);font-weight:600}
+.cv-big{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--blue)}
+
+/* SECOND LIEN TABLE */
+.warn-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:14px}
+.warn-table th{text-align:left;padding:8px 12px;font-size:10px;font-weight:700;color:var(--muted);border-bottom:1px solid var(--border);background:var(--surface2);text-transform:uppercase;letter-spacing:.06em}
+.warn-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.warn-table tr:last-child td{border-bottom:none}
+.warn-table tr:hover td{background:#f8fafc}
+
+/* PLAYBOOK */
+.play-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.play-item:last-child{border-bottom:none}
+.play-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'Syne',sans-serif}
+.pn-green{background:var(--green-l);color:var(--green)}
+.pn-blue{background:var(--blue-l);color:var(--blue)}
+.pn-amber{background:var(--amber-l);color:var(--amber)}
+.pn-purple{background:var(--purple-l);color:var(--purple)}
+.pn-teal{background:var(--teal-l);color:var(--teal)}
+.play-content{}
+.play-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.play-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* RATE TRIGGER */
+.rate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+.rate-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.rate-drop{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;margin-bottom:4px}
+.rate-label{font-size:11px;color:var(--muted);margin-bottom:8px}
+.rate-programs{font-size:11px;color:var(--muted)}
+.rd-small{color:var(--amber)}
+.rd-med{color:var(--blue)}
+.rd-big{color:var(--green)}
+
+@media(max-width:600px){.prod-grid{grid-template-columns:1fr}.rate-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="htitle">Branch 541-A · Refi as a Production Multiplier</div>
+    <div class="hsub">PRMG refi programs + DPA portfolio strategy · Jose Del Valle · PRMG</div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap">
+    <span class="hbadge">5 Refi Products</span>
+    <span class="hbadge">Built-in DPA pipeline</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="show('programs',this)">Refi programs</button>
+  <button onclick="show('cherry',this)">The DPA advantage</button>
+  <button onclick="show('secondlien',this)">Second lien refi rules</button>
+  <button onclick="show('playbook',this)">Rate drop playbook</button>
+</div>
+
+<div class="content">
+
+<!-- PROGRAMS -->
+<div id="tab-programs" class="panel active">
+
+  <div class="insight">
+    <div class="insight-title">Why refi matters more to a DPA branch than any other branch type</div>
+    <div class="insight-body">Every DPA loan you close today is a <strong>pre-qualified refi lead</strong> the moment rates drop. You already know the borrower, you own the relationship, you're in Total Expert, and Sales Boomerang will alert you the instant they become refi-eligible. Most LOs close a purchase and lose the client. Your DPA borrowers come back to you — if you stay in front of them. That's the cherry.</div>
+  </div>
+
+  <div class="sec">PRMG refi products — all 5 programs from the catalog</div>
+
+  <div class="prod-grid">
+
+    <div class="prod-card pc-fha">
+      <div class="prod-label pl-blue">FHA · Government</div>
+      <div class="prod-name">FHA Streamline</div>
+      <div class="prod-sub">Standard and High Balance · Your biggest refi opportunity</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Appraisal required</span><span class="rv-g">No — waived</span></div>
+        <div class="row"><span class="rl">Income verification</span><span class="rv-g">Minimal — no full doc required</span></div>
+        <div class="row"><span class="rl">Credit score check</span><span class="rv-g">No minimum in most cases</span></div>
+        <div class="row"><span class="rl">Rate requirement</span><span class="rv">Must lower rate OR reduce term</span></div>
+        <div class="row"><span class="rl">Equity required</span><span class="rv-g">No — even underwater loans eligible</span></div>
+        <div class="row"><span class="rl">Net tangible benefit</span><span class="rv">Must reduce PITIA or term</span></div>
+        <div class="row"><span class="rl">Who this hits</span><span class="rv-g">Every FHA+DPA borrower you've ever closed</span></div>
+      </div>
+      <div class="note note-green">This is your #1 refi product. Most of your DPA portfolio sits on FHA loans. When rates drop even 50 bps, FHA Streamline fires immediately — no appraisal drama, no income re-verification, minimal friction. These closings are fast and clean.</div>
+    </div>
+
+    <div class="prod-card pc-va">
+      <div class="prod-label pl-green">VA · Government</div>
+      <div class="prod-name">VA IRRRL</div>
+      <div class="prod-sub">Interest Rate Reduction Refi Loan · Standard and High Balance</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Appraisal required</span><span class="rv-g">No — waived</span></div>
+        <div class="row"><span class="rl">Income verification</span><span class="rv-g">None required</span></div>
+        <div class="row"><span class="rl">Certificate of Eligibility</span><span class="rv-g">Not required again</span></div>
+        <div class="row"><span class="rl">Rate requirement</span><span class="rv">Must lower rate (fixed to fixed)</span></div>
+        <div class="row"><span class="rl">Funding fee</span><span class="rv">.5% — waived for disabled vets</span></div>
+        <div class="row"><span class="rl">Who this hits</span><span class="rv-g">VA+DPA borrowers — TSAHC VA, NHF VA, TVLB</span></div>
+      </div>
+      <div class="note note-green">Once TX is active, TSAHC VA and TVLB closings feed this refi lane. VA IRRRL is the easiest refi in the industry — literally no income, no appraisal, no COE. Pure rate reduction for veterans you already served.</div>
+    </div>
+
+    <div class="prod-card pc-fannie">
+      <div class="prod-label pl-amber">Fannie Mae · Agency</div>
+      <div class="prod-name">Fannie Mae RefiNow</div>
+      <div class="prod-sub">Targeted at lower-income homeowners — your DPA borrower profile exactly</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Income limit</span><span class="rv">At or below 80% AMI</span></div>
+        <div class="row"><span class="rl">Rate reduction required</span><span class="rv">Minimum 50 bps drop</span></div>
+        <div class="row"><span class="rl">Payment reduction</span><span class="rv">Must reduce monthly payment by $50+</span></div>
+        <div class="row"><span class="rl">Appraisal</span><span class="rv-g">Waiver available — no appraisal in many cases</span></div>
+        <div class="row"><span class="rl">DTI limit</span><span class="rv">65%</span></div>
+        <div class="row"><span class="rl">Min credit score</span><span class="rv">620</span></div>
+        <div class="row"><span class="rl">Who this hits</span><span class="rv-g">Conventional+DPA borrowers — NHF, HIP Conventional</span></div>
+      </div>
+      <div class="note note-amber">RefiNow was designed for the exact income profile that DPA programs serve. 80% AMI income limit = your entire conventional DPA book. When rates drop 50+ bps these borrowers are instantly eligible and you already have the relationship.</div>
+    </div>
+
+    <div class="prod-card pc-freddie">
+      <div class="prod-label pl-purple">Freddie Mac · Agency</div>
+      <div class="prod-name">Freddie Mac Refi Possible</div>
+      <div class="prod-sub">Freddie equivalent of RefiNow — same borrower profile</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Income limit</span><span class="rv">At or below 80% AMI</span></div>
+        <div class="row"><span class="rl">Rate reduction</span><span class="rv">Minimum 50 bps required</span></div>
+        <div class="row"><span class="rl">Appraisal waiver</span><span class="rv-g">Available via Freddie ACE</span></div>
+        <div class="row"><span class="rl">MI reduction</span><span class="rv-g">If original loan had MI — can reduce or eliminate</span></div>
+        <div class="row"><span class="rl">Who this hits</span><span class="rv-g">Freddie-backed conventional DPA closings</span></div>
+      </div>
+      <div class="note note-gray">Pair with RefiNow — when a conventional DPA borrower comes up for refi, run both. Fannie vs. Freddie ownership determines which program applies. Total Expert + Sales Boomerang identifies which automatically.</div>
+    </div>
+
+    <div class="prod-card pc-usda">
+      <div class="prod-label pl-teal">USDA · Government</div>
+      <div class="prod-name">USDA Streamlined Assist</div>
+      <div class="prod-sub">Rural borrowers — NV Rural Housing, TX rural DPA closings</div>
+      <div class="rows">
+        <div class="row"><span class="rl">Appraisal required</span><span class="rv-g">No</span></div>
+        <div class="row"><span class="rl">Credit review</span><span class="rv-g">Minimal — 12-month payment history only</span></div>
+        <div class="row"><span class="rl">Income verification</span><span class="rv-g">Streamlined — no full doc</span></div>
+        <div class="row"><span class="rl">Rate requirement</span><span class="rv">Must reduce rate by at least 1%</span></div>
+        <div class="row"><span class="rl">Who this hits</span><span class="rv-g">NV Rural Housing closings + TX rural DPA files</span></div>
+      </div>
+      <div class="note note-gray">Smaller volume than FHA Streamline for your portfolio, but zero friction. NV Rural Housing at Last Access closings + any rural TX files feed this lane. Rate drop requirement is higher (1%) but the simplicity makes it worth monitoring.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- THE DPA ADVANTAGE -->
+<div id="tab-cherry" class="panel">
+
+  <div class="sec">The built-in refi pipeline — why DPA branches win when rates drop</div>
+
+  <div class="insight">
+    <div class="insight-title">The math most LOs never run</div>
+    <div class="insight-body">If Branch 541-A averages <strong>10 closings/month</strong> and operates for <strong>24 months</strong> before a rate drop — that is <strong>240 past clients</strong> in your database. At a 35% refi conversion rate when rates drop 75 bps, that is <strong>84 FHA Streamline refis</strong> waiting in your Total Expert pipeline. That volume costs zero in lead acquisition. Zero in marketing. The work was already done when you closed the purchase.</div>
+  </div>
+
+  <div class="sec">Rate drop triggers — what fires at each level</div>
+
+  <div class="rate-grid">
+    <div class="rate-card">
+      <div class="rate-drop rd-small">–0.50%</div>
+      <div class="rate-label">50 bps drop</div>
+      <div class="rate-programs">RefiNow + Refi Possible fire<br>FHA Streamline borderline<br>VA IRRRL eligible</div>
+    </div>
+    <div class="rate-card">
+      <div class="rate-drop rd-med">–0.75%</div>
+      <div class="rate-label">75 bps drop</div>
+      <div class="rate-programs">FHA Streamline mass trigger<br>VA IRRRL — all vets<br>RefiNow full pipeline fires</div>
+    </div>
+    <div class="rate-card">
+      <div class="rate-drop rd-big">–1.00%</div>
+      <div class="rate-label">100 bps drop</div>
+      <div class="rate-programs">All 5 programs firing<br>USDA Streamlined Assist<br>Full portfolio refi wave</div>
+    </div>
+    <div class="rate-card">
+      <div class="rate-drop rd-big">–1.50%</div>
+      <div class="rate-label">150 bps drop</div>
+      <div class="rate-programs">Refi boom — every loan<br>from past 3 years eligible<br>Capacity becomes the limit</div>
+    </div>
+  </div>
+
+  <div class="sec">Portfolio refi math — 24-month DPA book scenario</div>
+
+  <div class="math-card">
+    <div class="math-title">What a 75 bps rate drop does to a 24-month DPA portfolio</div>
+    <div class="calc-row"><span class="cl">Average monthly closings (Phase 1–2)</span><span class="cv">10 loans/month</span></div>
+    <div class="calc-row"><span class="cl">24-month portfolio size</span><span class="cv">240 past clients</span></div>
+    <div class="calc-row"><span class="cl">% FHA loans in DPA portfolio (estimate)</span><span class="cv">~70% = 168 FHA files</span></div>
+    <div class="calc-row"><span class="cl">% VA loans in DPA portfolio</span><span class="cv">~10% = 24 VA files</span></div>
+    <div class="calc-row"><span class="cl">% Conventional DPA (NHF, HIP Conv)</span><span class="cv">~20% = 48 Conv files</span></div>
+    <div class="calc-row"><span class="cl">Realistic refi conversion at 75 bps drop</span><span class="cv">~35% of portfolio = 84 refis</span></div>
+    <div class="calc-row"><span class="cl">Average refi loan amount</span><span class="cv">~$280,000</span></div>
+    <div class="calc-row"><span class="cl">Comp at 150 bps</span><span class="cv">$4,200/loan</span></div>
+    <div class="calc-row"><span class="cl">Total gross comp — one rate drop event</span><span class="cv-big">$352,800</span></div>
+    <div class="calc-row"><span class="cl">Timeline to execute (FHA Streamlines are fast)</span><span class="cv-g">~60–90 days at 30 refis/month pace</span></div>
+  </div>
+
+  <div class="math-card">
+    <div class="math-title">The compounding effect — portfolio grows every month</div>
+    <div class="calc-row"><span class="cl">Month 12 portfolio size (10/mo avg)</span><span class="cv">120 clients</span></div>
+    <div class="calc-row"><span class="cl">Month 18 portfolio size</span><span class="cv">180 clients</span></div>
+    <div class="calc-row"><span class="cl">Month 24 portfolio size</span><span class="cv">240 clients</span></div>
+    <div class="calc-row"><span class="cl">Month 36 at 18/mo (Phase 4)</span><span class="cv">648 clients</span></div>
+    <div class="calc-row"><span class="cl">Refi comp at 648 clients · 35% conv · $4,200</span><span class="cv-big">$952,560</span></div>
+    <div class="calc-row"><span class="cl">Key insight</span><span class="cv-g">Every purchase closed today is a deferred refi commission waiting for rates to cooperate</span></div>
+  </div>
+
+  <div class="note note-green">This is why the PRMG MarTech stack matters for your branch specifically. Total Expert + Sales Boomerang is monitoring every client in your database 24/7 for refi triggers — rate watch, listing watch, equity watch. The moment a 75 bps window opens, Sales Boomerang fires an alert and Total Expert queues the outreach automatically. You don't chase refis. You receive them.</div>
+</div>
+
+<!-- SECOND LIEN REFI RULES -->
+<div id="tab-secondlien" class="panel">
+
+  <div class="insight">
+    <div class="insight-title">The DPA second lien is the refi wrinkle most LOs miss</div>
+    <div class="insight-body">When you refinance a DPA borrower, the second lien doesn't disappear. It must either be paid off, subordinated, or forgiven. Each program handles this differently — and getting it wrong kills the refi. Know these rules cold before you quote a single DPA borrower a refi rate.</div>
+  </div>
+
+  <div class="sec">Second lien treatment by DPA program — refi scenario</div>
+
+  <div style="overflow-x:auto;margin-bottom:16px">
+  <table class="warn-table">
+    <thead>
+      <tr>
+        <th>DPA Program</th>
+        <th>Second lien type</th>
+        <th>Refi treatment</th>
+        <th>Timeline consideration</th>
+        <th>Difficulty</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>NV Home Is Possible (HIP)</strong></td>
+        <td><span class="badge bg">Forgivable 3yr</span></td>
+        <td>If 3 years passed → second is forgiven, clean refi. If under 3 years → second must subordinate or be repaid.</td>
+        <td>Wait for 3-year forgiveness mark. Most rate drop scenarios hit after 3 years anyway.</td>
+        <td><span class="badge bg">Easy after year 3</span></td>
+      </tr>
+      <tr>
+        <td><strong>Chenoa Fund</strong></td>
+        <td><span class="badge ba">Repayable 10yr 0%</span></td>
+        <td>CBC Mortgage must approve subordination. Chenoa generally allows resubordination. Second stays in place behind new first.</td>
+        <td>Need to request subordination agreement from CBC. Add 1–2 weeks to timeline.</td>
+        <td><span class="badge ba">Manageable — CBC cooperative</span></td>
+      </tr>
+      <tr>
+        <td><strong>NHF National</strong></td>
+        <td><span class="badge bg">Grant — no second</span></td>
+        <td>No second lien. Cleanest refi in the DPA portfolio. Standard FHA Streamline or conventional refi — no subordination needed.</td>
+        <td>No delay — process like any standard refi.</td>
+        <td><span class="badge bg">Zero friction</span></td>
+      </tr>
+      <tr>
+        <td><strong>FL Housing / FL Assist</strong></td>
+        <td><span class="badge ba">Deferred — due on sale/refi</span></td>
+        <td>Technically due at refi. Borrower must repay FL Assist second at closing OR program may allow subordination. Check current FL Housing policy.</td>
+        <td>Borrower needs enough equity to absorb payoff. Critical to model equity position before quoting.</td>
+        <td><span class="badge" style="background:var(--red-l);color:var(--red)">Verify with FL Housing first</span></td>
+      </tr>
+      <tr>
+        <td><strong>FL Hometown Heroes</strong></td>
+        <td><span class="badge ba">Deferred — due on sale/refi</span></td>
+        <td>Same as FL Assist — technically due at refi event. Borrower must have equity to absorb or program subordination applies.</td>
+        <td>Model equity carefully. $35K second on a $350K purchase = 10% — must be absorbed or subordinated.</td>
+        <td><span class="badge" style="background:var(--red-l);color:var(--red)">Verify with FL Housing first</span></td>
+      </tr>
+      <tr>
+        <td><strong>TSAHC (TX)</strong></td>
+        <td><span class="badge bg">Grant option</span></td>
+        <td>Grant version = no second, clean refi. Deferred second version = subordination required through TSAHC servicer.</td>
+        <td>If borrower took grant option — zero friction refi. If deferred second — allow 2 weeks for sub agreement.</td>
+        <td><span class="badge bg">Easy if grant was used</span></td>
+      </tr>
+      <tr>
+        <td><strong>TDHCA (TX)</strong></td>
+        <td><span class="badge ba">Deferred second lien</span></td>
+        <td>Must be subordinated or paid off. TDHCA has a subordination process — not instantaneous.</td>
+        <td>Allow 3–4 weeks for TDHCA subordination. Plan timeline accordingly.</td>
+        <td><span class="badge ba">Manageable with lead time</span></td>
+      </tr>
+      <tr>
+        <td><strong>AZ Home in Five</strong></td>
+        <td><span class="badge bg">Grant — no second</span></td>
+        <td>No second lien. Same as NHF — completely clean refi with zero subordination complexity.</td>
+        <td>No delay.</td>
+        <td><span class="badge bg">Zero friction</span></td>
+      </tr>
+      <tr>
+        <td><strong>CO CHFA</strong></td>
+        <td><span class="badge ba">Deferred second</span></td>
+        <td>CHFA second due on refi unless CHFA approves subordination. CHFA does allow subordination requests.</td>
+        <td>Allow 2–3 weeks for CHFA subordination approval.</td>
+        <td><span class="badge ba">Manageable</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note note-amber">The highest-risk refi scenario in your portfolio: FL Housing deferred second (FL Assist or Hometown Heroes) where the borrower has minimal equity. The $10,000–$35,000 second lien is technically due at refi. Before you quote any FL DPA borrower a refi, model their equity position first. If they're thin on equity, the refi may not be feasible until they have enough appreciation to absorb the second payoff.</div>
+
+  <div class="note note-blue" style="margin-top:10px">Best refi scenario in your portfolio: NHF grant borrowers (no second lien) and HIP forgivable borrowers past year 3 (forgiven second). These files close fast, clean, and with zero subordination drama. Sales Boomerang can tag these clients by program type in Total Expert so you know exactly which ones to call first when rates move.</div>
+</div>
+
+<!-- PLAYBOOK -->
+<div id="tab-playbook" class="panel">
+
+  <div class="sec">Rate drop playbook — what branch 541-A does the day rates move</div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px">
+    <div class="play-item">
+      <div class="play-num pn-green">1</div>
+      <div class="play-content">
+        <div class="play-title">Sales Boomerang fires the alert — you don't have to watch rates manually</div>
+        <div class="play-desc">Sales Boomerang Rate Watch is already monitoring your Total Expert database. The moment a client's existing rate becomes refinanceable by a meaningful margin, you get an alert. This is already included in your PRMG branch MarTech stack at zero additional cost. Make sure every closed DPA borrower is loaded into Total Expert at closing — not later, not eventually. Day of closing. That's the only way the automation fires correctly.</div>
+      </div>
+    </div>
+    <div class="play-item">
+      <div class="play-num pn-blue">2</div>
+      <div class="play-content">
+        <div class="play-title">Segment your portfolio by DPA program before you call anyone</div>
+        <div class="play-desc">Tag every closed file in Total Expert by DPA program. When rates drop, your first calls are NHF grant borrowers and HIP forgivable post-year-3 borrowers — zero subordination friction, fastest closings. FL Housing deferred borrowers go in a second batch pending equity review. This segmentation takes 2 hours to set up today and saves chaos when rates actually move.</div>
+      </div>
+    </div>
+    <div class="play-item">
+      <div class="play-num pn-amber">3</div>
+      <div class="play-content">
+        <div class="play-title">FHA Streamline first — 72-hour qualification, minimal docs</div>
+        <div class="play-desc">FHA Streamline closings can move in 21–30 days with a cooperative title company. No appraisal. No income verification. The bottleneck is Gissella's pipeline, not docs. When a refi wave hits, temporarily pause new purchase intakes at a safe threshold and redirect processing capacity to streamlines. FHA Streamline refis are faster to close than DPA purchase files — use that speed.</div>
+      </div>
+    </div>
+    <div class="play-item">
+      <div class="play-num pn-purple">4</div>
+      <div class="play-content">
+        <div class="play-title">Get subordination agreements started on day one for deferred second clients</div>
+        <div class="play-desc">For Chenoa, TDHCA, CHFA, and FL Housing borrowers — don't wait until mid-process to request subordination. Contact the second lien servicer the same day you lock the rate. These agreements take 2–4 weeks. Starting late means rate locks expire and borrowers get frustrated. Build a subordination request template for each program and fire it immediately upon application.</div>
+      </div>
+    </div>
+    <div class="play-item">
+      <div class="play-num pn-teal">5</div>
+      <div class="play-content">
+        <div class="play-title">Use the refi as a referral trigger — not just a transaction</div>
+        <div class="play-desc">When you call a past DPA borrower to offer a rate reduction, you are reactivating a relationship that was probably dormant. That call produces three outcomes: (1) a refi closing, (2) a referral to a family member or friend who also wants a home, and (3) a Google review request that BirdEye automatically sends post-close. One phone call, three revenue opportunities. This is how the DPA portfolio compounds beyond just rate savings.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">The Total Expert + Sales Boomerang refi automation — already in your stack</div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <div style="overflow-x:auto">
+    <table class="warn-table">
+      <thead>
+        <tr><th>Tool</th><th>What it monitors</th><th>What fires automatically</th><th>Your action</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Sales Boomerang — Rate Watch</strong></td><td>Client's existing rate vs. current market daily</td><td>Alert when refi threshold met</td><td>Call within 24 hrs of alert</td></tr>
+        <tr><td><strong>Sales Boomerang — Equity Watch</strong></td><td>Client home value vs. loan balance</td><td>Alert when equity crosses threshold</td><td>Refi + cash-out conversation</td></tr>
+        <tr><td><strong>Sales Boomerang — Credit Watch</strong></td><td>Client credit pulled by competitor</td><td>Alert when competitor pulls credit</td><td>Call immediately — they're shopping</td></tr>
+        <tr><td><strong>Total Expert — Nurture Journey</strong></td><td>Automated email/text sequence post-close</td><td>Rate drop content sent automatically</td><td>Ensure journey is activated at closing</td></tr>
+        <tr><td><strong>BirdEye</strong></td><td>Closed loans in Encompass</td><td>Auto review request post-close</td><td>Monitor and respond to reviews</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="note note-green" style="margin-top:14px">The entire refi alert system is already paid for by PRMG as part of your branch MarTech stack — Sales Boomerang at $100/month for all funded loans, Total Expert at $0 branch cost. The only thing required from you is making sure every closed borrower is in Total Expert with the correct DPA program tag and contact info. That one operational habit is worth hundreds of thousands of dollars when rates eventually move.</div>
+</div>
+
+</div>
+
+<script>
+function show(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch 541-A · DPA Three-State Strategy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f4f5f7;color:#1a1a1a;font-size:14px;line-height:1.5}
+.header{background:#0d2340;color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.header-title{font-size:17px;font-weight:600}
+.header-sub{font-size:12px;color:#7eb3e0;margin-top:2px}
+.hbadge{font-size:11px;padding:3px 10px;background:#1d3d5e;border-radius:20px;color:#7eb3e0}
+.nav{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 20px;display:flex;gap:4px;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav button{padding:11px 16px;border:none;background:transparent;font-size:13px;cursor:pointer;color:#6b7280;white-space:nowrap;border-bottom:2px solid transparent;font-family:inherit}
+.nav button.active-nv{color:#0C447C;border-bottom-color:#185FA5;font-weight:500}
+.nav button.active-fl{color:#27500A;border-bottom-color:#639922;font-weight:500}
+.nav button.active-tx{color:#633806;border-bottom-color:#BA7517;font-weight:500}
+.nav button.active-cmp{color:#3C3489;border-bottom-color:#534AB7;font-weight:500}
+.content{max-width:1100px;margin:0 auto;padding:20px 16px}
+.panel{display:none}
+.panel.active{display:block}
+.state-header{border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.sh-nv{background:#E6F1FB;border:0.5px solid #85B7EB}
+.sh-nv .shtitle{color:#0C447C;font-size:15px;font-weight:600;margin-bottom:2px}
+.sh-nv .shsub{color:#185FA5;font-size:12px}
+.sh-fl{background:#EAF3DE;border:0.5px solid #97C459}
+.sh-fl .shtitle{color:#27500A;font-size:15px;font-weight:600;margin-bottom:2px}
+.sh-fl .shsub{color:#3B6D11;font-size:12px}
+.sh-tx{background:#FAEEDA;border:0.5px solid #EF9F27}
+.sh-tx .shtitle{color:#633806;font-size:15px;font-weight:600;margin-bottom:2px}
+.sh-tx .shsub{color:#854F0B;font-size:12px}
+.sh-cmp{background:#EEEDFE;border:0.5px solid #AFA9EC}
+.sh-cmp .shtitle{color:#3C3489;font-size:15px;font-weight:600;margin-bottom:2px}
+.sh-cmp .shsub{color:#534AB7;font-size:12px}
+.sec-label{font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin:16px 0 8px}
+.prog-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.prog-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px;flex-wrap:wrap}
+.prog-name{font-size:14px;font-weight:600;color:#1a1a1a}
+.prog-agency{font-size:11px;color:#6b7280;margin-top:2px}
+.badges{display:flex;gap:4px;flex-wrap:wrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
+.bg{background:#EAF3DE;color:#3B6D11}
+.bb{background:#E6F1FB;color:#0C447C}
+.ba{background:#FAEEDA;color:#854F0B}
+.bp{background:#EEEDFE;color:#534AB7}
+.br{background:#FCEBEB;color:#A32D2D}
+.bz{background:#f3f4f6;color:#374151;border:1px solid #e5e7eb}
+.rows{border-top:1px solid #f3f4f6;padding-top:8px}
+.row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f9fafb;font-size:12px;gap:8px}
+.row:last-child{border-bottom:none}
+.rl{color:#6b7280;flex:1}
+.rv{font-weight:500;color:#1a1a1a;text-align:right}
+.rv-g{color:#3B6D11;font-weight:500;text-align:right}
+.rv-a{color:#854F0B;font-weight:500;text-align:right}
+.rv-r{color:#A32D2D;font-weight:500;text-align:right}
+.note{font-size:12px;color:#4b5563;padding:8px 12px;border-radius:8px;background:#f9fafb;border-left:2px solid #d1d5db;margin-top:8px}
+.warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 14px;font-size:12px;color:#92400e;margin-bottom:16px}
+.cmp-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
+th{text-align:left;padding:7px 10px;font-size:11px;font-weight:600;color:#6b7280;border-bottom:1px solid #e5e7eb;background:#f9fafb;letter-spacing:.03em}
+td{padding:7px 10px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafafa}
+.priority-list{margin-top:12px}
+.p-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6}
+.p-row:last-child{border-bottom:none}
+.p-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.p1{background:#639922}
+.p2{background:#BA7517}
+.p3{background:#185FA5}
+.p-text{font-size:13px;color:#4b5563;line-height:1.5}
+.p-text strong{color:#1a1a1a}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <div class="header-title">Branch 541-A · DPA Three-State Expansion</div>
+    <div class="header-sub">Jose Del Valle · MLO · PRMG · Las Vegas, NV</div>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap">
+    <span class="hbadge">NV · FL · TX</span>
+    <span class="hbadge">7 Programs</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="active-nv" onclick="show('nv',this,'active-nv')">Nevada</button>
+  <button onclick="show('fl',this,'active-fl')">Florida</button>
+  <button onclick="show('tx',this,'active-tx')">Texas</button>
+  <button onclick="show('cmp',this,'active-cmp')">Side by side</button>
+</div>
+
+<div class="content">
+
+<!-- NEVADA -->
+<div id="p-nv" class="panel active">
+  <div class="state-header sh-nv">
+    <div class="shtitle">Nevada — Home market, Branch HQ</div>
+    <div class="shsub">Licensed · DPA infrastructure live · Branch 541-A core market · Clark County is your volume engine</div>
+  </div>
+
+  <div class="sec-label">Priority programs</div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">Nevada Home Is Possible (HIP)</div><div class="prog-agency">Nevada Housing Division · State agency program</div></div>
+      <div class="badges"><span class="badge bg">Active — branch uses now</span><span class="badge bb">150 bps comp</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">DPA amount</span><span class="rv">Up to 4% of first mortgage as second lien</span></div>
+      <div class="row"><span class="rl">First mortgage</span><span class="rv">FHA, VA, USDA, Conventional</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv">~$105,000 statewide (varies by county)</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">640</span></div>
+      <div class="row"><span class="rl">Second lien terms</span><span class="rv-g">Forgivable after 3 years — no monthly payment</span></div>
+      <div class="row"><span class="rl">Comp on second lien</span><span class="rv-r">Zero — first lien only</span></div>
+      <div class="row"><span class="rl">eHP reservation</span><span class="rv">Required — Jose owns this process</span></div>
+      <div class="row"><span class="rl">Branch moat factor</span><span class="rv-g">High — few LOs in NV master the eHP portal</span></div>
+    </div>
+    <div class="note">HIP forgivable structure is your strongest pitch in NV. Borrower gets 4% — no repayment if they stay 3 years. Lead with this on every FHA buyer in Clark County.</div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">Chenoa Fund</div><div class="prog-agency">CBC Mortgage Agency · National program, NV eligible</div></div>
+      <div class="badges"><span class="badge bg">Active — branch uses now</span><span class="badge bb">150 bps comp</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">DPA amount</span><span class="rv">3.5% or 5% of first mortgage loan amount</span></div>
+      <div class="row"><span class="rl">First mortgage</span><span class="rv">FHA only</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv">None for repayable; 115% AMI for forgivable option</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">620 — lowest floor in NV stack</span></div>
+      <div class="row"><span class="rl">Second lien</span><span class="rv">Repayable 10yr @ 0% OR forgivable (income-gated)</span></div>
+      <div class="row"><span class="rl">Key math rule</span><span class="rv-a">DPA % calculated on first mortgage — NOT purchase price</span></div>
+      <div class="row"><span class="rl">Account director</span><span class="rv-g">Christopher Johnson — direct branch contact</span></div>
+    </div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">NHF National (National Homebuyers Fund)</div><div class="prog-agency">National program · eHP portal reservation</div></div>
+      <div class="badges"><span class="badge bg">Active — branch uses now</span><span class="badge bb">150 bps comp</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">DPA amount</span><span class="rv">Up to 5% of loan amount — true grant</span></div>
+      <div class="row"><span class="rl">First mortgage</span><span class="rv">FHA, VA, USDA, Conventional</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv">160% AMI</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">640</span></div>
+      <div class="row"><span class="rl">Grant vs. second lien</span><span class="rv-g">Grant — no repayment, no second lien</span></div>
+      <div class="row"><span class="rl">Best NV use case</span><span class="rv">Buyers over HIP income limit who still need assistance</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FLORIDA -->
+<div id="p-fl" class="panel">
+  <div class="state-header sh-fl">
+    <div class="shtitle">Florida — Active license, highest comp in the branch</div>
+    <div class="shsub">Licensed · Florida Housing pays 175 bps — 25 bps above NV/Chenoa rate · Miami-Dade, Broward, Orlando metros</div>
+  </div>
+
+  <div class="sec-label">Priority programs</div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">Florida Housing — FL Assist</div><div class="prog-agency">Florida Housing Finance Corporation · State agency</div></div>
+      <div class="badges"><span class="badge bg">Active — 175 bps comp</span><span class="badge bp">Highest comp in branch</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">DPA amount</span><span class="rv">Up to $10,000 deferred second mortgage</span></div>
+      <div class="row"><span class="rl">First mortgage</span><span class="rv">FHA, VA, USDA, Conventional HFA</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv">Varies by county — roughly $80K–$120K</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">640</span></div>
+      <div class="row"><span class="rl">Second lien repayment</span><span class="rv-a">0% deferred — due on sale, refi, or payoff only</span></div>
+      <div class="row"><span class="rl">Homebuyer education</span><span class="rv-a">Required — must complete before closing</span></div>
+      <div class="row"><span class="rl">Comp on first lien</span><span class="rv-g">175 bps — best margin product in the stack</span></div>
+    </div>
+    <div class="note">FL Assist is the foundational Florida Housing product. Pair it with HFA Preferred conventional for borrowers above FHA limits or with stronger credit profiles.</div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">Florida Hometown Heroes</div><div class="prog-agency">Florida Housing Finance Corporation</div></div>
+      <div class="badges"><span class="badge bg">175 bps comp</span><span class="badge ba">Referral magnet — target niche</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">DPA amount</span><span class="rv-g">Up to 5% of first mortgage — max $35,000</span></div>
+      <div class="row"><span class="rl">Who qualifies</span><span class="rv">Teachers, nurses, law enforcement, firefighters, military, govt workers</span></div>
+      <div class="row"><span class="rl">First mortgage</span><span class="rv">FHA, VA, USDA, Conventional</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv">120% AMI</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">640</span></div>
+      <div class="row"><span class="rl">Second lien</span><span class="rv-a">0% non-amortizing — due on sale or refi</span></div>
+      <div class="row"><span class="rl">Referral strategy</span><span class="rv-g">Hospital HR, school districts, police unions, fire stations</span></div>
+    </div>
+    <div class="note">Hometown Heroes is your Florida referral engine. One relationship with a hospital HR director or school district can generate 20+ leads. The $35K headline number sells itself to first responders and teachers who think they can't afford a home.</div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">Chenoa Fund</div><div class="prog-agency">CBC Mortgage Agency · National · FL eligible</div></div>
+      <div class="badges"><span class="badge bb">150 bps comp</span><span class="badge bz">Overflow — no income cap</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">Best use in FL</span><span class="rv">Borrowers over Florida Housing income limits who still need DPA</span></div>
+      <div class="row"><span class="rl">DPA amount</span><span class="rv">3.5% or 5% of first mortgage</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv-g">None for repayable option</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">620</span></div>
+      <div class="row"><span class="rl">Christopher Johnson</span><span class="rv-g">Same account director — relationship carries into FL</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEXAS -->
+<div id="p-tx" class="panel">
+  <div class="state-header sh-tx">
+    <div class="shtitle">Texas — Target market, license pending</div>
+    <div class="shsub">Not yet licensed · Two powerful state agencies · TSAHC + TDHCA MCC stack is unique to TX · Resolve license before originating</div>
+  </div>
+
+  <div class="warn-box">TX MLO license must be active before any origination. AFS coverage is a bridge only — every AFS file costs comp and delays building branch equity in the market. Prioritize the license application now so TX is operational within 90 days.</div>
+
+  <div class="sec-label">Priority programs</div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">TSAHC — Homes for Texas Heroes</div><div class="prog-agency">Texas State Affordable Housing Corporation</div></div>
+      <div class="badges"><span class="badge ba">Top TX program</span><span class="badge bg">Grant option available</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">DPA amount</span><span class="rv">3%–5% of loan amount — grant OR deferred second lien</span></div>
+      <div class="row"><span class="rl">Who qualifies</span><span class="rv">Teachers, firefighters, police, veterans, corrections, EMS, nurses</span></div>
+      <div class="row"><span class="rl">First mortgage</span><span class="rv">FHA, VA, USDA, Conventional</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv">~$97K–$140K (Houston/Brazoria County area)</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">620</span></div>
+      <div class="row"><span class="rl">Grant option</span><span class="rv-g">Yes — true grant, no repayment required</span></div>
+      <div class="row"><span class="rl">MCC stackable</span><span class="rv-g">Yes — Mortgage Credit Certificate adds up to $2,000/yr tax credit</span></div>
+      <div class="row"><span class="rl">Alvin TX fit</span><span class="rv">Brazoria County — TSAHC eligible area</span></div>
+    </div>
+    <div class="note">TSAHC is the Texas equivalent of FL Hometown Heroes. Same referral approach works — hospital HR, fire stations, school districts in the Houston metro. Strong volume market in Pearland, Alvin, Manvel, and Sugar Land.</div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">TDHCA — My First Texas Home</div><div class="prog-agency">Texas Department of Housing and Community Affairs</div></div>
+      <div class="badges"><span class="badge ba">First-time buyer focused</span><span class="badge bp">MCC stackable — unique TX advantage</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">DPA amount</span><span class="rv">Up to 5% of first mortgage — deferred second lien</span></div>
+      <div class="row"><span class="rl">First mortgage</span><span class="rv">FHA, VA, USDA, Conventional at below-market rate</span></div>
+      <div class="row"><span class="rl">Income limit</span><span class="rv">115% AMI — Houston metro ~$92K</span></div>
+      <div class="row"><span class="rl">Min credit score</span><span class="rv">620</span></div>
+      <div class="row"><span class="rl">Purchase price cap</span><span class="rv">~$450K–$510K depending on county</span></div>
+      <div class="row"><span class="rl">First-time buyer</span><span class="rv-a">Required — or 3-year non-ownership rule applies</span></div>
+      <div class="row"><span class="rl">Homebuyer education</span><span class="rv-a">Required</span></div>
+      <div class="row"><span class="rl">MCC benefit</span><span class="rv-g">Up to $2,000/yr federal tax credit — stacks with DPA</span></div>
+    </div>
+    <div class="note">The TDHCA + MCC stack is uniquely powerful and unique to Texas. A first-time buyer gets down payment assistance AND a $2,000 annual tax credit for the life of the loan. No competing LO can easily replicate this without knowing both programs cold.</div>
+  </div>
+
+  <div class="prog-card">
+    <div class="prog-hd">
+      <div><div class="prog-name">Chenoa Fund</div><div class="prog-agency">CBC Mortgage Agency · National · TX eligible</div></div>
+      <div class="badges"><span class="badge bb">150 bps comp</span><span class="badge bz">No income cap — overflow valve</span></div>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rl">Best use in TX</span><span class="rv">Buyers over TSAHC/TDHCA income limits who still need DPA</span></div>
+      <div class="row"><span class="rl">TX metro fit</span><span class="rv">Houston suburbs — Pearland, Sugar Land, Katy, Alvin area</span></div>
+      <div class="row"><span class="rl">Existing infrastructure</span><span class="rv-g">Christopher Johnson relationship carries directly into TX</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARE -->
+<div id="p-cmp" class="panel">
+  <div class="state-header sh-cmp">
+    <div class="shtitle">Three-state DPA program comparison</div>
+    <div class="shsub">Branch 541-A · Full program stack across NV, FL, TX</div>
+  </div>
+
+  <div class="cmp-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Program</th>
+        <th>State</th>
+        <th>Max DPA</th>
+        <th>Min Score</th>
+        <th>Income Cap</th>
+        <th>Repayable?</th>
+        <th>Comp</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>NV Home Is Possible (HIP)</strong></td>
+        <td><span class="badge bb">NV</span></td>
+        <td>4% of loan</td>
+        <td>640</td>
+        <td>~$105K</td>
+        <td><span class="badge bg">Forgivable 3yr</span></td>
+        <td><strong>150 bps</strong></td>
+        <td><span class="badge bg">Active</span></td>
+      </tr>
+      <tr>
+        <td><strong>NHF National</strong></td>
+        <td><span class="badge bz">NV/FL/TX</span></td>
+        <td>5% of loan</td>
+        <td>640</td>
+        <td>160% AMI</td>
+        <td><span class="badge bg">Grant</span></td>
+        <td><strong>150 bps</strong></td>
+        <td><span class="badge bg">Active</span></td>
+      </tr>
+      <tr>
+        <td><strong>Chenoa Fund</strong></td>
+        <td><span class="badge bz">NV/FL/TX</span></td>
+        <td>5% of loan</td>
+        <td>620</td>
+        <td>None (repayable)</td>
+        <td><span class="badge ba">Repayable 10yr 0%</span></td>
+        <td><strong>150 bps</strong></td>
+        <td><span class="badge bg">Active</span></td>
+      </tr>
+      <tr>
+        <td><strong>FL Housing — FL Assist</strong></td>
+        <td><span class="badge bg">FL</span></td>
+        <td>$10,000 flat</td>
+        <td>640</td>
+        <td>Varies by county</td>
+        <td><span class="badge ba">Deferred — due on sale</span></td>
+        <td><strong style="color:#3B6D11">175 bps</strong></td>
+        <td><span class="badge bg">Active</span></td>
+      </tr>
+      <tr>
+        <td><strong>FL Hometown Heroes</strong></td>
+        <td><span class="badge bg">FL</span></td>
+        <td>$35,000 / 5%</td>
+        <td>640</td>
+        <td>120% AMI</td>
+        <td><span class="badge ba">Deferred — due on sale</span></td>
+        <td><strong style="color:#3B6D11">175 bps</strong></td>
+        <td><span class="badge bg">Active</span></td>
+      </tr>
+      <tr>
+        <td><strong>TSAHC — TX Heroes</strong></td>
+        <td><span class="badge ba">TX</span></td>
+        <td>5% / grant option</td>
+        <td>620</td>
+        <td>~$97K–$140K</td>
+        <td><span class="badge bg">Grant option</span></td>
+        <td>TBD w/ PRMG</td>
+        <td><span class="badge ba">Pending TX license</span></td>
+      </tr>
+      <tr>
+        <td><strong>TDHCA — My First TX Home + MCC</strong></td>
+        <td><span class="badge ba">TX</span></td>
+        <td>5% + $2K/yr MCC</td>
+        <td>620</td>
+        <td>115% AMI</td>
+        <td><span class="badge ba">Deferred second lien</span></td>
+        <td>TBD w/ PRMG</td>
+        <td><span class="badge ba">Pending TX license</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="sec-label" style="margin-top:20px">Branch strategic priorities — sequenced</div>
+  <div class="priority-list">
+    <div class="p-row">
+      <div class="p-dot p1"></div>
+      <div class="p-text"><strong>Priority 1 — NV (now):</strong> Infrastructure is live, team is trained, comp is flowing. Double down on HIP + Chenoa. Add NHF as the overflow for over-income buyers. Volume target: 10+ DPA units/month in Clark County. This is where the branch rep is built.</div>
+    </div>
+    <div class="p-row">
+      <div class="p-dot p2"></div>
+      <div class="p-text"><strong>Priority 2 — FL (immediate):</strong> License is active and 175 bps is your best margin product in the stack. Lead with Hometown Heroes — a single hospital HR or school district relationship can generate sustained pipeline. Resolve the education verification upload, then activate FL Realtor outreach immediately. Don't wait.</div>
+    </div>
+    <div class="p-row">
+      <div class="p-dot p3"></div>
+      <div class="p-text"><strong>Priority 3 — TX (90-day runway):</strong> Get licensed first — no shortcuts, no AFS substitution as a long-term strategy. TSAHC + TDHCA MCC stack is a differentiated product that most competing LOs don't know cold. The Alvin builder is a future DSCR contact, not a DPA lead. TX DPA volume comes from Houston-area Realtors, teachers, and first responders — same referral playbook as FL.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function show(id,btn,cls){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.className='');
+  btn.className=cls;
+}
+</script>
+</body>
+</html>

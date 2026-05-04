@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch 541-A · Training Strategy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f2f5;--surface:#ffffff;--surface2:#f7f8fa;--surface3:#eef0f4;
+  --border:#e2e6ed;--border2:#cdd3de;
+  --text:#0d1526;--muted:#6b7a96;--light:#9ba8be;
+  --jose:#0f4c81;--jose-l:#ddeeff;--jose-b:#b8d4f0;
+  --ana:#1a6b3a;--ana-l:#d4f0e0;--ana-b:#9fd4b8;
+  --gissella:#6b2d8f;--gissella-l:#edd4ff;--gissella-b:#d0a8f0;
+  --laura:#b56000;--laura-l:#fff0cc;--laura-b:#f0d088;
+  --marelis:#c0303a;--marelis-l:#ffe0e2;--marelis-b:#f0a8ac;
+  --gold:#c8960c;--gold-l:#fff8e0;
+  --phase1:#0f4c81;--phase2:#1a6b3a;--phase3:#6b2d8f;--phase4:#b56000;--phase5:#0f766e;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+
+/* HEADER */
+.header{background:var(--text);color:#fff;padding:0}
+.header-top{padding:24px 32px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.header-title{font-size:22px;font-weight:800;letter-spacing:-.02em;color:#fff}
+.header-sub{font-size:12px;color:#8899bb;margin-top:4px;font-family:'JetBrains Mono',monospace}
+.header-mission{background:#162035;padding:14px 32px;font-size:12px;color:#8899bb;border-top:1px solid #1e2e48;font-style:italic}
+.header-mission strong{color:#c8d8f0;font-style:normal}
+.hbadge{font-size:10px;padding:4px 10px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-weight:500}
+.hb-blue{background:rgba(64,130,210,.2);color:#7ab0f0;border:1px solid rgba(64,130,210,.3)}
+.hb-green{background:rgba(40,140,80,.2);color:#70c890;border:1px solid rgba(40,140,80,.3)}
+.hb-amber{background:rgba(200,150,12,.2);color:#e8c040;border:1px solid rgba(200,150,12,.3)}
+.hbadges{display:flex;gap:6px;flex-wrap:wrap}
+
+/* NAV */
+.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav button{padding:13px 16px;border:none;background:transparent;font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;letter-spacing:.02em;text-transform:uppercase;transition:color .15s}
+.nav button:hover{color:var(--text)}
+.nav button.active{color:var(--jose);border-bottom-color:var(--jose)}
+
+.content{max-width:1140px;margin:0 auto;padding:28px 22px}
+.panel{display:none}
+.panel.active{display:block}
+
+/* SECTION */
+.sec{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:28px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--border);font-family:'JetBrains Mono',monospace}
+
+/* ROLE PILLS */
+.role{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
+.r-jose{background:var(--jose-l);color:var(--jose);border:1px solid var(--jose-b)}
+.r-ana{background:var(--ana-l);color:var(--ana);border:1px solid var(--ana-b)}
+.r-gissella{background:var(--gissella-l);color:var(--gissella);border:1px solid var(--gissella-b)}
+.r-laura{background:var(--laura-l);color:var(--laura);border:1px solid var(--laura-b)}
+.r-marelis{background:var(--marelis-l);color:var(--marelis);border:1px solid var(--marelis-b)}
+.r-all{background:var(--surface3);color:var(--muted);border:1px solid var(--border2)}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+.bg{background:#d4f0e0;color:#1a6b3a}
+.bb{background:#ddeeff;color:#0f4c81}
+.ba{background:#fff0cc;color:#b56000}
+.br{background:#ffe0e2;color:#c0303a}
+.bp{background:#edd4ff;color:#6b2d8f}
+.bt{background:#ccf5f0;color:#0f766e}
+.bz{background:var(--surface3);color:var(--muted);border:1px solid var(--border)}
+.bgold{background:var(--gold-l);color:var(--gold)}
+
+/* OVERVIEW CARDS */
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+.ov-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.ov-num{font-size:32px;font-weight:800;letter-spacing:-.03em;margin-bottom:4px}
+.ov-label{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.ov-sub{font-size:11px;color:var(--light);margin-top:3px}
+
+/* ROLE TRACK CARDS */
+.track-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.track-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.th-left{display:flex;align-items:center;gap:12px}
+.avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+.av-jose{background:var(--jose-l);color:var(--jose)}
+.av-ana{background:var(--ana-l);color:var(--ana)}
+.av-gissella{background:var(--gissella-l);color:var(--gissella)}
+.av-laura{background:var(--laura-l);color:var(--laura)}
+.av-marelis{background:var(--marelis-l);color:var(--marelis)}
+.track-name{font-size:15px;font-weight:800;color:var(--text)}
+.track-role{font-size:11px;color:var(--muted);margin-top:1px;font-family:'JetBrains Mono',monospace}
+.track-body{padding:16px 20px;border-top:1px solid var(--border)}
+.track-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:12px}
+.track-module{background:var(--surface2);border-radius:8px;padding:12px 14px;border:1px solid var(--border)}
+.tm-category{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;font-family:'JetBrains Mono',monospace}
+.tm-items{list-style:none}
+.tm-item{font-size:12px;color:var(--muted);padding:3px 0;display:flex;align-items:flex-start;gap:6px;line-height:1.4}
+.tm-item::before{content:'→';color:var(--border2);flex-shrink:0;margin-top:1px}
+.tm-item.priority{color:var(--text)}
+.tm-item.priority::before{color:var(--jose)}
+.milestone{background:var(--gold-l);border:1px solid #e8d080;border-radius:6px;padding:8px 12px;font-size:12px;color:var(--gold);font-weight:600;margin-top:10px;display:flex;align-items:center;gap:6px}
+.milestone::before{content:'◆';font-size:10px}
+.xinnix-tag{background:#0f4c81;color:#fff;font-size:10px;padding:2px 7px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-weight:500}
+
+/* PHASE TIMELINE */
+.timeline{position:relative;margin-bottom:24px}
+.phase-row{display:flex;gap:0;margin-bottom:6px;align-items:stretch}
+.phase-label{width:120px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--muted);text-align:right;padding-right:14px;display:flex;align-items:center;justify-content:flex-end;font-family:'JetBrains Mono',monospace}
+.phase-line{flex:1;border-radius:8px;padding:14px 16px;position:relative}
+.pl-1{background:linear-gradient(135deg,#ddeeff,#eef6ff);border:1px solid #b8d4f0}
+.pl-2{background:linear-gradient(135deg,#d4f0e0,#edfaf2);border:1px solid #9fd4b8}
+.pl-3{background:linear-gradient(135deg,#edd4ff,#f8f0ff);border:1px solid #d0a8f0}
+.pl-4{background:linear-gradient(135deg,#fff0cc,#fffaf0);border:1px solid #f0d088}
+.pl-5{background:linear-gradient(135deg,#ccf5f0,#f0fdfc);border:1px solid #80d8d0}
+.phase-title{font-size:13px;font-weight:800;margin-bottom:4px}
+.p1-t{color:var(--phase1)}
+.p2-t{color:var(--phase2)}
+.p3-t{color:var(--phase3)}
+.p4-t{color:var(--phase4)}
+.p5-t{color:var(--phase5)}
+.phase-months{font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-bottom:6px}
+.phase-items{display:flex;flex-wrap:wrap;gap:4px}
+.pi{font-size:11px;padding:3px 8px;border-radius:4px;font-weight:600}
+.pi-1{background:var(--jose-l);color:var(--jose)}
+.pi-2{background:var(--ana-l);color:var(--ana)}
+.pi-3{background:var(--gissella-l);color:var(--gissella)}
+.pi-4{background:var(--laura-l);color:var(--laura)}
+.pi-5{background:var(--marelis-l);color:var(--marelis)}
+.pi-all{background:var(--surface3);color:var(--muted);border:1px solid var(--border2)}
+.phase-connector{width:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--border2);font-size:18px;padding:4px 0}
+
+/* PRODUCT TABLE */
+.prod-wrap{overflow-x:auto;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
+th{text-align:left;padding:9px 12px;font-size:10px;font-weight:700;color:var(--muted);border-bottom:2px solid var(--border);background:var(--surface2);letter-spacing:.08em;font-family:'JetBrains Mono',monospace;text-transform:uppercase;white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+td strong{color:var(--text)}
+
+/* SCRIPT CARDS */
+.script-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.sc-header{padding:12px 18px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.sc-title{font-size:13px;font-weight:800;color:var(--text)}
+.sc-context{font-size:11px;color:var(--muted)}
+.sc-body{padding:16px 18px}
+.script-text{background:#f8f9fb;border:1px solid var(--border);border-radius:8px;padding:14px 16px;font-size:13px;color:var(--text);line-height:1.8;font-style:italic;margin-bottom:10px}
+.script-text strong{font-style:normal;color:var(--jose)}
+.sc-notes{font-size:11px;color:var(--muted);line-height:1.6;padding:8px 0;border-top:1px solid var(--border)}
+
+/* MEETING CADENCE */
+.meeting-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+.meeting-freq{width:70px;flex-shrink:0;text-align:center}
+.mf-label{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.mf-sub{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.meeting-divider{width:1px;background:var(--border);align-self:stretch}
+.meeting-content{flex:1}
+.mc-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px}
+.mc-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:6px}
+.mc-agenda{display:flex;flex-wrap:wrap;gap:4px}
+
+/* ASSESSMENT */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:20px}
+.cert-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.cert-level{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:6px}
+.cl-bronze{color:#b06030}
+.cl-silver{color:#6080a0}
+.cl-gold{color:var(--gold)}
+.cl-platinum{color:var(--gissella)}
+.cert-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:8px}
+.cert-criteria{font-size:12px;color:var(--muted);line-height:1.65}
+.cert-criteria li{padding:3px 0;padding-left:12px;position:relative}
+.cert-criteria li::before{content:'·';position:absolute;left:0;color:var(--border2)}
+.cert-reward{background:var(--gold-l);border:1px solid #e8d080;border-radius:6px;padding:7px 10px;font-size:11px;color:var(--gold);font-weight:600;margin-top:10px}
+
+/* NOTE */
+.note{font-size:12px;padding:10px 14px;border-radius:8px;margin-bottom:14px;line-height:1.65}
+.n-blue{background:var(--jose-l);color:var(--jose);border-left:3px solid var(--jose)}
+.n-green{background:var(--ana-l);color:var(--ana);border-left:3px solid var(--ana)}
+.n-gold{background:var(--gold-l);color:var(--gold);border-left:3px solid var(--gold)}
+.n-gray{background:var(--surface2);color:var(--muted);border-left:3px solid var(--border2)}
+.n-purple{background:var(--gissella-l);color:var(--gissella);border-left:3px solid var(--gissella)}
+
+@media(max-width:600px){.phase-label{display:none}.track-grid{grid-template-columns:1fr}.overview-grid{grid-template-columns:repeat(2,1fr)}.cert-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">Branch 541-A · Training & Knowledge Strategy</div>
+      <div class="header-sub">Full team · All products · 5 states · Path to top PRMG DPA producer</div>
+    </div>
+    <div class="hbadges">
+      <span class="hbadge hb-blue">5 Team Members</span>
+      <span class="hbadge hb-green">5 States</span>
+      <span class="hbadge hb-amber">12 Product Categories</span>
+    </div>
+  </div>
+  <div class="header-mission">
+    <strong>Branch mission:</strong> Build the most knowledgeable DPA + Non-QM + HELOC team in PRMG's retail network — bilingual, multi-state, and operationally superior. Every team member knows their lane, owns their products, and advances toward their next role. Knowledge compounds. Production follows.
+  </div>
+</div>
+
+<div class="nav">
+  <button class="active" onclick="show('overview',this)">Strategy overview</button>
+  <button onclick="show('tracks',this)">Role tracks</button>
+  <button onclick="show('phases',this)">Training phases</button>
+  <button onclick="show('products',this)">Product library</button>
+  <button onclick="show('scripts',this)">Scripts & pitches</button>
+  <button onclick="show('cadence',this)">Meeting cadence</button>
+  <button onclick="show('assessment',this)">Certification</button>
+</div>
+
+<div class="content">
+
+<!-- OVERVIEW -->
+<div id="tab-overview" class="panel active">
+
+  <div class="note n-blue">This is not a training calendar. It is a knowledge deployment system. Every module has a clear owner, a product it unlocks, and a production outcome it enables. Training that doesn't connect to a closed loan is overhead — every session below connects to a specific revenue stream.</div>
+
+  <div class="sec">What this strategy covers</div>
+  <div class="overview-grid">
+    <div class="ov-card">
+      <div class="ov-num" style="color:var(--jose)">5</div>
+      <div class="ov-label">Team Members</div>
+      <div class="ov-sub">Individual learning paths</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num" style="color:var(--ana)">5</div>
+      <div class="ov-label">Target States</div>
+      <div class="ov-sub">NV · FL · TX · AZ · CO</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num" style="color:var(--gissella)">12</div>
+      <div class="ov-label">Product Categories</div>
+      <div class="ov-sub">DPA · Non-QM · HELOC · Refi</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num" style="color:var(--laura)">5</div>
+      <div class="ov-label">Training Phases</div>
+      <div class="ov-sub">Sequenced over 24 months</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num" style="color:var(--marelis)">3</div>
+      <div class="ov-label">Xinnix Programs</div>
+      <div class="ov-sub">EDGE · XCO · ORIGINATOR ASSIST</div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-num" style="color:var(--gold)">4</div>
+      <div class="ov-label">Cert Levels</div>
+      <div class="ov-sub">Bronze → Silver → Gold → Platinum</div>
+    </div>
+  </div>
+
+  <div class="sec">The three training pillars</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:24px">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;border-top:4px solid var(--jose)">
+      <div style="font-size:13px;font-weight:800;color:var(--jose);margin-bottom:8px">Pillar 1 — Product Mastery</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">Every team member must understand every product the branch originates — not just their own role. A processor who doesn't understand DPA second lien sequencing creates conditions. A doc chase specialist who doesn't know HELOC equity requirements misses leads. Product knowledge is a team sport.</div>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+        <span class="badge bb">DPA by state</span><span class="badge bp">Non-QM</span><span class="badge bt">HELOC</span><span class="badge bg">Refi</span><span class="badge ba">DSCR</span>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;border-top:4px solid var(--ana)">
+      <div style="font-size:13px;font-weight:800;color:var(--ana);margin-bottom:8px">Pillar 2 — Systems Fluency</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">PRMG runs on a specific tech stack — Encompass, eHP, Total Expert, Sales Boomerang, Sierra Interactive, TaxDome, BirdEye. Every team member must operate their systems without friction. A tool that isn't used is overhead. A tool that is mastered is leverage. Systems fluency = operational velocity.</div>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+        <span class="badge bb">Encompass</span><span class="badge bb">eHP portal</span><span class="badge bg">Total Expert</span><span class="badge ba">Sierra</span><span class="badge br">TaxDome</span>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;border-top:4px solid var(--gissella)">
+      <div style="font-size:13px;font-weight:800;color:var(--gissella);margin-bottom:8px">Pillar 3 — Role Advancement</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">Every team member has a next level. Marelis → LO. Laura → Originator Assist. Ana → Multi-state DPA expert. Gissella → Senior Processor / DPA compliance lead. Jose → Branch leader + Non-QM authority. Training that doesn't build toward advancement is maintenance, not investment.</div>
+      <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+        <span class="xinnix-tag">Xinnix EDGE</span><span class="xinnix-tag">Xinnix XCO</span><span class="xinnix-tag">ORIGINATOR ASSIST</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Training velocity — how knowledge flows through the branch</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:20px">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:12px;line-height:2">
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--jose-l);border:1px solid var(--jose-b);border-radius:8px">
+        <span class="role r-jose">Jose</span>
+        <span style="color:var(--muted)">learns product first</span>
+      </div>
+      <span style="color:var(--border2);font-size:20px">→</span>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px">
+        <span style="color:var(--muted)">Friday team brief</span>
+      </div>
+      <span style="color:var(--border2);font-size:20px">→</span>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--ana-l);border:1px solid var(--ana-b);border-radius:8px">
+        <span class="role r-ana">Ana</span>
+        <span style="color:var(--muted)">trains on LO application</span>
+      </div>
+      <span style="color:var(--border2);font-size:20px">→</span>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--gissella-l);border:1px solid var(--gissella-b);border-radius:8px">
+        <span class="role r-gissella">Gissella</span>
+        <span style="color:var(--muted)">trains on processing impact</span>
+      </div>
+      <span style="color:var(--border2);font-size:20px">→</span>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--marelis-l);border:1px solid var(--marelis-b);border-radius:8px">
+        <span class="role r-marelis">Marelis</span>
+        <span style="color:var(--muted)">learns doc requirements</span>
+      </div>
+      <span style="color:var(--border2);font-size:20px">→</span>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--laura-l);border:1px solid var(--laura-b);border-radius:8px">
+        <span class="role r-laura">Laura</span>
+        <span style="color:var(--muted)">learns intake signals</span>
+      </div>
+    </div>
+    <div class="note n-gray" style="margin-top:12px;margin-bottom:0">Jose is the knowledge source. Friday briefings are the transmission mechanism. Role-specific application is how it sticks. Every product Jose learns must have a documented branch application before it is considered "deployed."</div>
+  </div>
+</div>
+
+<!-- ROLE TRACKS -->
+<div id="tab-tracks" class="panel">
+
+  <!-- JOSE -->
+  <div class="track-card" style="border-top:4px solid var(--jose)">
+    <div class="track-header">
+      <div class="th-left">
+        <div class="avatar av-jose">JD</div>
+        <div>
+          <div class="track-name">Jose Del Valle</div>
+          <div class="track-role">BM / MLO · Branch authority · Knowledge source</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="xinnix-tag">Xinnix EDGE — active</span>
+        <span class="badge bb">NV licensed</span>
+        <span class="badge bg">FL licensed</span>
+        <span class="badge ba">TX pending</span>
+      </div>
+    </div>
+    <div class="track-body">
+      <div class="track-grid">
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--jose)">DPA mastery — states</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">NV HIP — eHP reservation cold ✓</li>
+            <li class="tm-item priority">Chenoa second lien math ✓</li>
+            <li class="tm-item priority">FL Housing + Hometown Heroes ✓</li>
+            <li class="tm-item priority">TX TSAHC + TDHCA + SETH 5 Star</li>
+            <li class="tm-item priority">TX TVLB vs. VA distinction</li>
+            <li class="tm-item">AZ Home in Five + IDA Pima</li>
+            <li class="tm-item">CO CHFA + MetroDPA + FirstGen Plus</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--jose)">Non-QM fluency</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Non-QM DSCR — LLC close + IO structure</li>
+            <li class="tm-item priority">Non-QM Non-Prime — ITIN borrower pitch</li>
+            <li class="tm-item priority">Bank statement income qualification</li>
+            <li class="tm-item">Expanded Prime — asset depletion</li>
+            <li class="tm-item">AFS — DTI 49.99% + no-max cash out</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--jose)">HELOC & second mortgage</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Lightning Equity Hybrid HELOC — fixed-lock feature</li>
+            <li class="tm-item priority">CE Second Expanded Access — Non-QM second</li>
+            <li class="tm-item priority">Piggyback 80/15/5 structure + PMI math</li>
+            <li class="tm-item">Symmetry HELOC — when to use vs. Lightning</li>
+            <li class="tm-item">CE Second Classic Elite — agency piggyback</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--jose)">Branch leadership & systems</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Total Expert — nurture journey activation</li>
+            <li class="tm-item priority">Sales Boomerang — all 5 alert types</li>
+            <li class="tm-item priority">Xinnix EDGE completion</li>
+            <li class="tm-item">TX + AZ licensing — NMLS state applications</li>
+            <li class="tm-item">PRMG comp plan — HELOC + second comp rates</li>
+            <li class="tm-item">Refi programs — FHA Streamline + VA IRRRL</li>
+          </ul>
+        </div>
+      </div>
+      <div class="milestone">Milestone: Jose can explain any product in the branch stack in 90 seconds without reference material — the "elevator test"</div>
+    </div>
+  </div>
+
+  <!-- ANA -->
+  <div class="track-card" style="border-top:4px solid var(--ana)">
+    <div class="track-header">
+      <div class="th-left">
+        <div class="avatar av-ana">AL</div>
+        <div>
+          <div class="track-name">Ana</div>
+          <div class="track-role">LO · Full file ownership S1–S10 · DPA specialist</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="xinnix-tag">Xinnix XCO — active</span>
+        <span class="badge bb">NV licensed</span>
+        <span class="badge bg">FL licensed</span>
+      </div>
+    </div>
+    <div class="track-body">
+      <div class="track-grid">
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--ana)">Current state mastery</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">NV HIP eHP reservation — independent</li>
+            <li class="tm-item priority">Chenoa DPA % of first mortgage rule</li>
+            <li class="tm-item priority">FL Housing Hometown Heroes eligibility</li>
+            <li class="tm-item priority">NHF grant — no income cap positioning</li>
+            <li class="tm-item">DU subordinate financing fields — DPA</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--ana)">TX/AZ expansion prep</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">TSAHC Heroes — eligibility + reservation</li>
+            <li class="tm-item priority">TDHCA My First TX Home + MCC stack</li>
+            <li class="tm-item priority">SETH 5 Star — no income cap Conv use case</li>
+            <li class="tm-item">AZ Home in Five — grant vs. deferred</li>
+            <li class="tm-item">TX + AZ state licensing — NMLS add-on</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--ana)">HELOC + piggyback scripts</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Over-income DPA decline → piggyback pivot</li>
+            <li class="tm-item priority">Past client HELOC conversation script</li>
+            <li class="tm-item priority">Debt consolidation HELOC math pitch</li>
+            <li class="tm-item">Lightning HELOC fixed-lock explanation</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--ana)">Advanced LO skills</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Xinnix XCO completion — target date</li>
+            <li class="tm-item">FHA Streamline refi — borrower qualification</li>
+            <li class="tm-item">ITIN borrower Non-QM — awareness level</li>
+            <li class="tm-item">Mentor Marelis — LO shadowing owner</li>
+            <li class="tm-item">Total Expert — manage own client journeys</li>
+          </ul>
+        </div>
+      </div>
+      <div class="milestone">Milestone: Ana independently closes TX TSAHC file from application to CTC without Jose's direct involvement — signals TX operational readiness</div>
+    </div>
+  </div>
+
+  <!-- GISSELLA -->
+  <div class="track-card" style="border-top:4px solid var(--gissella)">
+    <div class="track-header">
+      <div class="th-left">
+        <div class="avatar av-gissella">GP</div>
+        <div>
+          <div class="track-name">Gissella</div>
+          <div class="track-role">Loan Processor · S11–S28 · Matrix branch · DPA compliance lead</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="badge bp">Matrix branch</span>
+        <span class="badge bb">Encompass primary</span>
+      </div>
+    </div>
+    <div class="track-body">
+      <div class="track-grid">
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--gissella)">DPA processing by program</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Chenoa subordination agreement process</li>
+            <li class="tm-item priority">HIP 3-year forgiveness tracking — refi readiness</li>
+            <li class="tm-item priority">NHF grant — no subordination needed on refi</li>
+            <li class="tm-item priority">FL Housing deferred second — equity-at-refi rule</li>
+            <li class="tm-item">TSAHC subordination — TX timeline (2 weeks)</li>
+            <li class="tm-item">TDHCA subordination — TX timeline (3–4 weeks)</li>
+            <li class="tm-item">AZ Home in Five grant — clean refi structure</li>
+            <li class="tm-item">CO CHFA subordination process</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--gissella)">HELOC processing workflow</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Lightning HELOC — Encompass setup vs. first lien</li>
+            <li class="tm-item priority">CE Second Classic Elite — piggyback close sequence</li>
+            <li class="tm-item">HELOC condition list — standard items</li>
+            <li class="tm-item">CLTV tracking — HELOC + first lien combined</li>
+            <li class="tm-item">CE Second Expanded Access — Non-QM doc checklist</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--gissella)">New state processing</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">TX state-specific disclosure requirements</li>
+            <li class="tm-item priority">TX property tax impact on DSCR calculations</li>
+            <li class="tm-item">AZ processing timeline differences from NV</li>
+            <li class="tm-item">CO CHFA processing — timeline + conditions</li>
+            <li class="tm-item">Multi-state pipeline tracker updates — tracker v5</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--gissella)">Senior processor advancement</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Mentor new processor — onboarding curriculum</li>
+            <li class="tm-item priority">Build standard condition checklists by program</li>
+            <li class="tm-item">eHP portal — reservation status monitoring</li>
+            <li class="tm-item">Lock transfer sequence — irreversible actions doc</li>
+          </ul>
+        </div>
+      </div>
+      <div class="milestone">Milestone: Gissella builds one-page processing cheat sheet per DPA program (8 programs). These become branch reference documents used by the entire team.</div>
+    </div>
+  </div>
+
+  <!-- LAURA -->
+  <div class="track-card" style="border-top:4px solid var(--laura)">
+    <div class="track-header">
+      <div class="th-left">
+        <div class="avatar av-laura">LR</div>
+        <div>
+          <div class="track-name">Laura</div>
+          <div class="track-role">Intake Bridge · Sierra Interactive · APG liaison → Originator Assist track</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="badge ba">MLO license — target month 9</span>
+        <span class="xinnix-tag">ORIGINATOR ASSIST — pending license</span>
+      </div>
+    </div>
+    <div class="track-body">
+      <div class="track-grid">
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--laura)">Current role excellence</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Sierra Interactive — all APG status update points</li>
+            <li class="tm-item priority">Drive folder creation — 8-subfolder standard</li>
+            <li class="tm-item priority">WhatsApp Template A — firing protocol</li>
+            <li class="tm-item">Sierra → 5-state status updates (TX/AZ added)</li>
+            <li class="tm-item">HELOC lead identification at intake</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--laura)">Product awareness (intake signals)</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">DPA program identification — which program fits</li>
+            <li class="tm-item priority">HELOC signal: "I own a home and need cash"</li>
+            <li class="tm-item priority">Non-QM signal: self-employed + ITIN</li>
+            <li class="tm-item">Piggyback signal: over-income DPA decline</li>
+            <li class="tm-item">Refi signal: existing client + rate question</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--laura)">Path to Originator Assist</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">NMLS SAFE exam prep — study schedule</li>
+            <li class="tm-item priority">20hr pre-licensing education — enroll now</li>
+            <li class="tm-item">Xinnix ORIGINATOR ASSIST enrollment post-license</li>
+            <li class="tm-item">Shadow Ana on pre-qual conversations — 2/week</li>
+            <li class="tm-item">Learn DU and income review under supervision</li>
+          </ul>
+        </div>
+      </div>
+      <div class="milestone">Milestone: Laura independently identifies the correct product category (DPA / HELOC / Non-QM / Refi) for every inbound lead before routing to LO — becomes branch triage first responder</div>
+    </div>
+  </div>
+
+  <!-- MARELIS -->
+  <div class="track-card" style="border-top:4px solid var(--marelis)">
+    <div class="track-header">
+      <div class="th-left">
+        <div class="avatar av-marelis">MC</div>
+        <div>
+          <div class="track-name">Marelis</div>
+          <div class="track-role">Doc Chase → LO candidate · TaxDome intake · Condition tracking</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="xinnix-tag">Xinnix ORIGINATOR ASSIST — active</span>
+        <span class="badge ba">LO license — target month 6–9</span>
+      </div>
+    </div>
+    <div class="track-body">
+      <div class="track-grid">
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--marelis)">Current role mastery</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Condition count format — daily Tracker notes</li>
+            <li class="tm-item priority">TaxDome intake review — SmartBee flags</li>
+            <li class="tm-item priority">WhatsApp Template B — firing protocol</li>
+            <li class="tm-item priority">ITIN homeowner flag — intake field added</li>
+            <li class="tm-item">Drive upload — correct subfolder discipline</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--marelis)">LO foundation — product knowledge</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">FHA vs. Conventional — when each fits</li>
+            <li class="tm-item priority">DPA program basics — HIP, Chenoa, NHF</li>
+            <li class="tm-item priority">Credit score impact on program eligibility</li>
+            <li class="tm-item priority">Income calculation — W-2 + bank statement</li>
+            <li class="tm-item">DU basics — AUS findings interpretation</li>
+            <li class="tm-item">1003 fields — complete under supervision</li>
+          </ul>
+        </div>
+        <div class="track-module">
+          <div class="tm-category" style="color:var(--marelis)">Path to producing LO</div>
+          <ul class="tm-items">
+            <li class="tm-item priority">Xinnix ORIGINATOR ASSIST — completion date</li>
+            <li class="tm-item priority">SAFE exam — enrollment + study plan</li>
+            <li class="tm-item priority">Shadow Jose + Ana — 2 pre-qual calls/week</li>
+            <li class="tm-item">Handle first pre-qual under Jose supervision</li>
+            <li class="tm-item">HELOC awareness — equity identification</li>
+            <li class="tm-item">Non-QM ITIN — referral identification only</li>
+          </ul>
+        </div>
+      </div>
+      <div class="milestone">Milestone: Marelis runs her first supervised pre-qual call from start to finish — product selection, income review, program fit — with Jose available but not leading. This is the LO readiness gate.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PHASES -->
+<div id="tab-phases" class="panel">
+
+  <div class="note n-gold">Training phases align exactly with the production expansion phases. You don't train for a state before you're licensing into it — you train 60 days before activation so the team is ready at launch, not scrambling after.</div>
+
+  <div class="sec">24-month training rollout — phased by state and product</div>
+
+  <div class="timeline">
+
+    <div style="margin-bottom:20px">
+      <div style="display:flex;gap:14px;align-items:stretch;margin-bottom:6px">
+        <div style="width:110px;flex-shrink:0;text-align:right;padding-right:14px;font-size:10px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;font-family:'JetBrains Mono',monospace">PHASE 1</div>
+        <div class="phase-line pl-1" style="flex:1">
+          <div class="phase-title p1-t">Consolidate NV + FL — Build the foundation</div>
+          <div class="phase-months">Now → Month 3</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Master current products cold before adding states. No new licensing until NV+FL runs clean at 8–10 closings/month for 60 days.</div>
+          <div class="phase-items">
+            <span class="pi pi-1">Jose — EDGE + HELOC mastery</span>
+            <span class="pi pi-2">Ana — XCO + piggyback script</span>
+            <span class="pi pi-3">Gissella — FL Housing subordination rules</span>
+            <span class="pi pi-4">Laura — intake triage product signals</span>
+            <span class="pi pi-5">Marelis — ORIGINATOR ASSIST + ITIN flag</span>
+          </div>
+          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+            <span class="badge bb">HIP eHP mastery</span><span class="badge bg">FL Hometown Heroes</span><span class="badge bt">Lightning HELOC launch</span><span class="badge bp">Non-QM ITIN pitch</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div style="display:flex;gap:14px;align-items:stretch;margin-bottom:6px">
+        <div style="width:110px;flex-shrink:0;text-align:right;padding-right:14px;font-size:10px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;font-family:'JetBrains Mono',monospace">PHASE 2</div>
+        <div class="phase-line pl-2" style="flex:1">
+          <div class="phase-title p2-t">Texas activation training — 60 days before license</div>
+          <div class="phase-months">Month 1–3 training → Month 3–6 production</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">TX training starts while license application is in process. Team must know TSAHC, TDHCA, SETH, and TVLB before first TX file lands. Gissella learns TX subordination timelines and property tax DSCR impact.</div>
+          <div class="phase-items">
+            <span class="pi pi-1">Jose — TSAHC + TDHCA + SETH 5 Star + TVLB</span>
+            <span class="pi pi-2">Ana — TX DPA reservation process + first file</span>
+            <span class="pi pi-3">Gissella — TX disclosure + subordination timelines</span>
+            <span class="pi pi-4">Laura — Sierra TX status updates</span>
+            <span class="pi pi-5">Marelis — TX doc checklist differences</span>
+          </div>
+          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+            <span class="badge ba">TSAHC Heroes</span><span class="badge ba">TDHCA + MCC stack</span><span class="badge ba">SETH 5 Star no-income-cap</span><span class="badge ba">TVLB vs. VA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div style="display:flex;gap:14px;align-items:stretch;margin-bottom:6px">
+        <div style="width:110px;flex-shrink:0;text-align:right;padding-right:14px;font-size:10px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;font-family:'JetBrains Mono',monospace">PHASE 3</div>
+        <div class="phase-line pl-3" style="flex:1">
+          <div class="phase-title p3-t">Marelis LO transition + Arizona activation</div>
+          <div class="phase-months">Month 5–8 training → Month 6–12 production</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Marelis completes ORIGINATOR ASSIST and runs supervised pre-quals. AZ training begins 60 days before AZ license. Jose and Ana complete TX + AZ licensing. Non-QM ITIN strategy fully activated.</div>
+          <div class="phase-items">
+            <span class="pi pi-1">Jose — AZ Home in Five + IDA Pima + AZ license</span>
+            <span class="pi pi-2">Ana — AZ DPA + TX/AZ dual-state management</span>
+            <span class="pi pi-3">Gissella — AZ processing + mentor new processor</span>
+            <span class="pi pi-5">Marelis — first supervised loans + LO license</span>
+            <span class="pi pi-4">Laura — SAFE exam + ORIGINATOR ASSIST enroll</span>
+          </div>
+          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+            <span class="badge bp">AZ Home in Five grant</span><span class="badge bp">Marelis first loans</span><span class="badge bp">ITIN Non-QM full launch</span><span class="badge bp">New processor onboard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div style="display:flex;gap:14px;align-items:stretch;margin-bottom:6px">
+        <div style="width:110px;flex-shrink:0;text-align:right;padding-right:14px;font-size:10px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;font-family:'JetBrains Mono',monospace">PHASE 4</div>
+        <div class="phase-line pl-4" style="flex:1">
+          <div class="phase-title p4-t">4-state steady state — deepen + multiply</div>
+          <div class="phase-months">Month 12–18</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Three producing LOs, two processors. Focus shifts from learning new products to deepening mastery and multiplying referral channels. Refi alert system fully active. HELOC pipeline generating consistent monthly revenue from past clients.</div>
+          <div class="phase-items">
+            <span class="pi pi-1">Jose — branch leadership + Non-QM authority</span>
+            <span class="pi pi-2">Ana — senior LO + Marelis mentor</span>
+            <span class="pi pi-3">Gissella — senior processor + new processor mentor</span>
+            <span class="pi pi-5">Marelis — full NV/FL/AZ production</span>
+            <span class="pi pi-4">Laura — Originator Assist + supervised pre-quals</span>
+          </div>
+          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+            <span class="badge ba">FHA Streamline refi wave readiness</span><span class="badge ba">HELOC contractor referrals active</span><span class="badge ba">Sales Boomerang equity alerts live</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <div style="display:flex;gap:14px;align-items:stretch;margin-bottom:6px">
+        <div style="width:110px;flex-shrink:0;text-align:right;padding-right:14px;font-size:10px;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:flex-end;font-family:'JetBrains Mono',monospace">PHASE 5</div>
+        <div class="phase-line pl-5" style="flex:1">
+          <div class="phase-title p5-t">Colorado activation — 5-state full operation</div>
+          <div class="phase-months">Month 16–18 training → Month 18–24 production</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">CO training begins at month 16. CHFA + MetroDPA + FirstGen Plus. Team is now experienced enough to absorb a new state quickly — training time drops from 60 days to 30 days per new state at this maturity level.</div>
+          <div class="phase-items">
+            <span class="pi pi-1">Jose — CO CHFA + MetroDPA + CO license</span>
+            <span class="pi pi-2">Ana — CO DPA training + CO license</span>
+            <span class="pi pi-3">Gissella — CO CHFA processing + subordination</span>
+            <span class="pi pi-5">Marelis — CO license (optional — capacity dependent)</span>
+          </div>
+          <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">
+            <span class="badge bt">CO CHFA FirstGeneration Plus</span><span class="badge bt">Denver MetroDPA 6%</span><span class="badge bt">CO CHFA SmartStep</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PRODUCT LIBRARY -->
+<div id="tab-products" class="panel">
+
+  <div class="note n-green">Every product listed here must be mastered at three levels: (1) borrower pitch — 60-second explanation a client understands, (2) technical — guidelines, limits, and doc requirements, (3) processing — what Gissella needs to condition and close it. All three levels are required before a product is considered "deployed."</div>
+
+  <div class="sec">Master product training library — 12 categories</div>
+  <div class="prod-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Product category</th>
+        <th>Programs</th>
+        <th>States</th>
+        <th>Primary trainer</th>
+        <th>LO owner</th>
+        <th>Phase</th>
+        <th>Key training resource</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>DPA — NV</strong></td>
+        <td>HIP Forgivable, NHF Grant, Chenoa</td>
+        <td><span class="badge bb">NV</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge bg">Phase 1</span></td>
+        <td>eHP portal + NV Housing Division + Christopher Johnson</td>
+      </tr>
+      <tr>
+        <td><strong>DPA — FL</strong></td>
+        <td>FL Housing, FL Assist, Hometown Heroes, County HFAs</td>
+        <td><span class="badge bg">FL</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge bg">Phase 1</span></td>
+        <td>FL Housing lender portal + PRMG FL product profile</td>
+      </tr>
+      <tr>
+        <td><strong>DPA — TX</strong></td>
+        <td>TSAHC Heroes, TDHCA + MCC, SETH 5 Star, TVLB</td>
+        <td><span class="badge ba">TX</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge ba">Phase 2</span></td>
+        <td>TSAHC lender training + TDHCA portal + PRMG TX profiles</td>
+      </tr>
+      <tr>
+        <td><strong>DPA — AZ</strong></td>
+        <td>Home in Five Advantage (Phoenix), IDA Pima/Tucson</td>
+        <td><span class="badge bp">AZ</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-ana">Ana</span> <span class="role r-marelis">Marelis</span></td>
+        <td><span class="badge bp">Phase 3</span></td>
+        <td>Maricopa IDA lender training + PRMG AZ product profile</td>
+      </tr>
+      <tr>
+        <td><strong>DPA — CO</strong></td>
+        <td>CHFA FirstGen Plus, FirstStep Plus, MetroDPA 6%</td>
+        <td><span class="badge bt">CO</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge bt">Phase 5</span></td>
+        <td>CHFA lender training + PRMG CO product profile</td>
+      </tr>
+      <tr>
+        <td><strong>Non-QM — ITIN / Non-Prime</strong></td>
+        <td>PRMG Non-QM Non-Prime · bank statement · ITIN eligible</td>
+        <td><span class="badge bb">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="badge bg">Phase 1</span></td>
+        <td>PRMG Non-QM product profile + income qualifying matrix</td>
+      </tr>
+      <tr>
+        <td><strong>Non-QM — Expanded Prime</strong></td>
+        <td>12–24mo bank stmt, P&L, asset depletion, 40yr IO</td>
+        <td><span class="badge bb">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge bg">Phase 1</span></td>
+        <td>PRMG Non-QM product profile + Encompass Non-QM setup</td>
+      </tr>
+      <tr>
+        <td><strong>Non-QM — DSCR</strong></td>
+        <td>PRMG DSCR · LLC close · IO · Foreign National · 40yr</td>
+        <td>All licensed states</td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="badge ba">Phase 2</span></td>
+        <td>PRMG DSCR product profile + DSCR Non-QM vs. DSCR Core matrix</td>
+      </tr>
+      <tr>
+        <td><strong>HELOC — Lightning Hybrid</strong></td>
+        <td>Fixed-lock draw feature · Variable revolving line</td>
+        <td><span class="badge bb">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge bg">Phase 1</span></td>
+        <td>PRMG HELOC product profile + Encompass HELOC setup</td>
+      </tr>
+      <tr>
+        <td><strong>Closed End Second</strong></td>
+        <td>Elite, Expanded Access (Non-QM), Classic Elite (piggyback)</td>
+        <td><span class="badge bb">NV</span><span class="badge bg">FL</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge bg">Phase 1</span></td>
+        <td>PRMG second mortgage product profiles + piggyback math</td>
+      </tr>
+      <tr>
+        <td><strong>Refi — Streamline programs</strong></td>
+        <td>FHA Streamline, VA IRRRL, RefiNow, Refi Possible, USDA SA</td>
+        <td>All licensed states</td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span> <span class="role r-ana">Ana</span></td>
+        <td><span class="badge ba">Phase 2</span></td>
+        <td>PRMG refi product profiles + Sales Boomerang Rate Watch</td>
+      </tr>
+      <tr>
+        <td><strong>AFS — Alternative AUS</strong></td>
+        <td>DTI 49.99% · No-max cash out · Non-warrantable condos</td>
+        <td><span class="badge bb">NV</span><span class="badge bg">FL</span><span class="badge ba">TX</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="badge ba">Phase 2</span></td>
+        <td>PRMG AFS product profile + loan rescue scenarios</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<div id="tab-scripts" class="panel">
+
+  <div class="note n-blue">Scripts are not optional reading. They are the production interface between product knowledge and revenue. Every LO on this team must be able to deliver every script below without notes — naturally and confidently. Jose sets the standard. Ana matches it. Marelis trains toward it.</div>
+
+  <div class="sec">Core pitch scripts — memorize and own</div>
+
+  <div class="script-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">The DPA opener — every first conversation</div>
+        <div class="sc-context">Used by: Jose, Ana, Marelis · Trigger: any buyer inquiry</div>
+      </div>
+      <div style="display:flex;gap:4px"><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span><span class="role r-marelis">Marelis</span></div>
+    </div>
+    <div class="sc-body">
+      <div class="script-text">"Before we talk about your rate, I want to ask you something most loan officers skip: <strong>do you know about down payment assistance programs?</strong> Depending on your income and the property, we may be able to cover your entire down payment — and in some cases a big chunk of your closing costs — at no cost to you. This isn't a gimmick. These are state-funded programs I specialize in. Let me ask you a few questions and see what you qualify for."</div>
+      <div class="sc-notes">Why this works: It reframes the entire conversation before rate comes up. The borrower is now thinking about saving $15–20K, not comparing your rate to a competitor. Use this on every single first call — even if you think they don't need DPA. Let the income question tell you, not your assumption.</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">HELOC pitch — past client outreach call</div>
+        <div class="sc-context">Used by: Jose, Ana · Trigger: Sales Boomerang equity alert</div>
+      </div>
+      <div style="display:flex;gap:4px"><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></div>
+    </div>
+    <div class="sc-body">
+      <div class="script-text">"Hi [name], it's Jose from PRMG — I helped you close your home on [street]. I was reviewing your account and wanted to reach out. Based on current market values, your home has appreciated significantly since you bought it, and I wanted to make sure you knew about an option that a lot of homeowners miss: <strong>you can access that equity without touching your mortgage rate.</strong> It's called a Home Equity Line of Credit — and the version I have available lets you lock individual draws into a fixed rate so you're not exposed to variable rate swings. No refinance, your first mortgage stays exactly as is. Do you have 10 minutes this week to hear how it works?"</div>
+      <div class="sc-notes">Key phrase: "without touching your mortgage rate" — this is the objection-killer. Homeowners who bought at 6.5–7% are still protective of that rate compared to where they think rates might go. Emphasize preservation of the first lien in every HELOC conversation.</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">Piggyback pivot — over-income DPA decline</div>
+        <div class="sc-context">Used by: Jose, Ana · Trigger: buyer exceeds DPA income limit</div>
+      </div>
+      <div style="display:flex;gap:4px"><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></div>
+    </div>
+    <div class="sc-body">
+      <div class="script-text">"I have some good news and a different option. Your income is just above the threshold for the assistance program — but I have a structure called a piggyback loan that solves the same problem a different way. <strong>Instead of one mortgage, we do two — an 80% first and a 15% second — and that eliminates your mortgage insurance entirely.</strong> Your monthly payment ends up almost identical to what DPA would have given you, and you only need 5% down. It's actually a cleaner structure for someone at your income level. Let me run the numbers side by side right now."</div>
+      <div class="sc-notes">Never let the DPA decline be the end of the call. The piggyback pivot keeps the deal alive and generates two origination transactions instead of zero. Train Ana on this script specifically — she handles the most borrower calls and will use it frequently.</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">ITIN Non-QM pitch — bilingual community</div>
+        <div class="sc-context">Used by: Jose · Trigger: ITIN borrower with equity or buying inquiry · EN/ES</div>
+      </div>
+      <div style="display:flex;gap:4px"><span class="role r-jose">Jose</span></div>
+    </div>
+    <div class="sc-body">
+      <div class="script-text">"Muchas personas piensan que necesitan un número de seguro social para comprar una casa, pero eso no es cierto. <strong>Trabajo con un programa especial que acepta el número ITIN.</strong> No necesitas W-2 — usamos tus estados de cuenta bancarios para calificar. Si has estado pagando renta puntualmente, probablemente puedes calificar para comprar. La única diferencia es el programa que usamos. ¿Cuánto tiempo llevas en tu trabajo actual?" // In English: "Many people think they need a Social Security number to buy a home — that's not true. I work with a specialized program that accepts your ITIN. No W-2 required — we use your bank statements. If you've been paying rent on time, you can probably qualify to buy."</div>
+      <div class="sc-notes">This script is your biggest competitive moat. No bank representative in your market is having this conversation in Spanish with ITIN borrowers. The referral loop from one closed ITIN purchase generates 3–5 referrals within the same community. Every SmartBee and notary relationship amplifies this exponentially.</div>
+    </div>
+  </div>
+
+  <div class="script-card">
+    <div class="sc-header">
+      <div>
+        <div class="sc-title">Contractor referral partner pitch</div>
+        <div class="sc-context">Used by: Jose · Trigger: meeting a contractor / home improvement professional</div>
+      </div>
+      <div style="display:flex;gap:4px"><span class="role r-jose">Jose</span></div>
+    </div>
+    <div class="sc-body">
+      <div class="script-text">"I work with a lot of homeowners in this area, and one thing I hear constantly is: 'I want to remodel but I don't have the cash.' The problem is most of them don't realize they're sitting on $80–100K in home equity they could tap in 3 weeks — without touching their mortgage. <strong>I have a HELOC product with a fixed-rate lock option that most banks don't offer.</strong> If you ever lose a job because a homeowner says they can't afford it, send them to me. I'll have them funded in 3 weeks, and you close the job. No referral fee needed — just the relationship."</div>
+      <div class="sc-notes">Contractors are highly motivated referral partners because the HELOC directly enables their revenue. Unlike Realtor relationships where you're competing for referrals, contractor relationships are purely additive — they benefit every time you close a HELOC for their client. Warm, transactional, and high-volume.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MEETING CADENCE -->
+<div id="tab-cadence" class="panel">
+
+  <div class="note n-gold">Meetings are the transmission layer of the training strategy. Product knowledge learned by Jose in isolation does nothing. The meeting cadence is how it gets distributed to the team, embedded in operations, and converted into closed loans.</div>
+
+  <div class="sec">Recurring team meeting structure</div>
+
+  <div class="meeting-card">
+    <div class="meeting-freq"><div class="mf-label">Daily</div><div class="mf-sub">WhatsApp</div></div>
+    <div class="meeting-divider"></div>
+    <div class="meeting-content">
+      <div class="mc-title">Branch 541-A OPS — morning pipeline check</div>
+      <div class="mc-desc">Not a meeting — a structured message. Every morning by 9am: (1) active file count by stage, (2) any COE deadlines in next 7 days, (3) any conditions stalled 48+ hours, (4) Gissella pipeline count. This replaces ad-hoc status questions and keeps everyone oriented without a call.</div>
+      <div class="mc-agenda"><span class="role r-gissella">Gissella posts</span><span class="role r-all">All read</span><span class="badge bz">Pipeline Tracker</span></div>
+    </div>
+  </div>
+
+  <div class="meeting-card">
+    <div class="meeting-freq"><div class="mf-label">Weekly</div><div class="mf-sub">Friday 30min</div></div>
+    <div class="meeting-divider"></div>
+    <div class="meeting-content">
+      <div class="mc-title">Friday Product Brief — the knowledge transmission session</div>
+      <div class="mc-desc">Jose presents one product topic (15 min) then open Q&A (15 min). Rotates through the product library. Every session recorded or summarized in WhatsApp. No exceptions — this is the single most important standing meeting in the branch. Consistency of the Friday Brief is what separates a branch that trains from one that intends to.</div>
+      <div class="mc-agenda">
+        <span class="role r-jose">Jose leads</span><span class="role r-all">All attend</span>
+        <span class="badge bg">Product of week</span><span class="badge bb">Script drill</span><span class="badge ba">One live scenario</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="meeting-card">
+    <div class="meeting-freq"><div class="mf-label">Weekly</div><div class="mf-sub">Monday 20min</div></div>
+    <div class="meeting-divider"></div>
+    <div class="meeting-content">
+      <div class="mc-title">LO pipeline review — Jose + Ana (+ Marelis when LO)</div>
+      <div class="mc-desc">Review every file in S1–S10. Identify DPA program fits, flag HELOC opportunities in past clients, review any Non-QM referrals from TaxDome. This is the revenue planning call — not a status call. Every file in the pipeline should have a next action and a product fit confirmed.</div>
+      <div class="mc-agenda"><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span><span class="badge bb">Pipeline Tracker S1–S10</span><span class="badge bt">HELOC equity alerts</span></div>
+    </div>
+  </div>
+
+  <div class="meeting-card">
+    <div class="meeting-freq"><div class="mf-label">Monthly</div><div class="mf-sub">1st of month</div></div>
+    <div class="meeting-divider"></div>
+    <div class="meeting-content">
+      <div class="mc-title">Equity outreach session — Sales Boomerang + HELOC calls</div>
+      <div class="mc-desc">Pull all Equity Watch alerts from prior 30 days. Jose and Ana each call their past clients flagged for equity threshold. Target: 10 calls each, 3–4 HELOC conversations, 1–2 applications. Log outcomes in Total Expert. This session happens same day, first of every month, no exceptions.</div>
+      <div class="mc-agenda"><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span><span class="badge bt">Sales Boomerang alerts</span><span class="badge bg">Total Expert log</span></div>
+    </div>
+  </div>
+
+  <div class="meeting-card">
+    <div class="meeting-freq"><div class="mf-label">Monthly</div><div class="mf-sub">Last Friday</div></div>
+    <div class="meeting-divider"></div>
+    <div class="meeting-content">
+      <div class="mc-title">Branch scorecard review — production vs. goals</div>
+      <div class="mc-desc">Review monthly closings, volume, Gissella pipeline load, and comp vs. targets from the production model. Flag which states and products contributed. Identify underperforming areas. Set next month's training focus. This is also the Marelis advancement review — is she on pace for LO readiness?</div>
+      <div class="mc-agenda"><span class="role r-jose">Jose leads</span><span class="role r-all">All attend</span><span class="badge ba">Production vs. goal</span><span class="badge bp">Marelis LO progress</span><span class="badge bb">Next phase readiness</span></div>
+    </div>
+  </div>
+
+  <div class="meeting-card">
+    <div class="meeting-freq"><div class="mf-label">Quarterly</div><div class="mf-sub">Q review</div></div>
+    <div class="meeting-divider"></div>
+    <div class="meeting-content">
+      <div class="mc-title">Quarterly strategy review — state expansion and hiring decisions</div>
+      <div class="mc-desc">Full team. Review production phase progress against the 24-month model. Confirm next licensing timelines. Make explicit hiring decisions — is Gissella at the processor-hire trigger? Is Marelis on pace for LO? Are TX + AZ generating enough volume to justify CO training start? These decisions are made here, not reactively.</div>
+      <div class="mc-agenda"><span class="role r-all">Full team</span><span class="badge bgold">Phase advancement decision</span><span class="badge ba">Hiring triggers</span><span class="badge bp">Certification reviews</span></div>
+    </div>
+  </div>
+
+  <div class="sec">Friday Product Brief — 52-week training calendar by topic</div>
+  <div class="prod-wrap">
+  <table>
+    <thead><tr><th>Week</th><th>Topic</th><th>Product/skill</th><th>Who must master it</th><th>Phase</th></tr></thead>
+    <tbody>
+      <tr><td>1–2</td><td>NV HIP — eHP reservation + forgivable math</td><td><span class="badge bb">NV HIP</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bg">1</span></td></tr>
+      <tr><td>3–4</td><td>Chenoa Fund — second lien % of first mortgage rule</td><td><span class="badge bb">Chenoa</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bg">1</span></td></tr>
+      <tr><td>5–6</td><td>FL Housing Hometown Heroes — eligibility + $35K pitch</td><td><span class="badge bg">FL Heroes</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bg">1</span></td></tr>
+      <tr><td>7–8</td><td>Lightning Equity Hybrid HELOC — fixed-lock feature + contractor pitch</td><td><span class="badge bt">HELOC</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bg">1</span></td></tr>
+      <tr><td>9–10</td><td>Non-QM ITIN — bank statement + bilingual pitch</td><td><span class="badge bp">Non-QM</span></td><td><span class="role r-jose">Jose</span></td><td><span class="badge bg">1</span></td></tr>
+      <tr><td>11–12</td><td>Piggyback 80/15/5 — PMI elimination math + pivot script</td><td><span class="badge bt">Piggyback</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bg">1</span></td></tr>
+      <tr><td>13</td><td>Sales Boomerang — all 5 alert types + Total Expert journey setup</td><td><span class="badge ba">MarTech</span></td><td><span class="role r-all">All team</span></td><td><span class="badge bg">1</span></td></tr>
+      <tr><td>14–15</td><td>TSAHC TX Heroes — grant vs. deferred + reservation process</td><td><span class="badge ba">TSAHC</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge ba">2</span></td></tr>
+      <tr><td>16–17</td><td>TDHCA My First TX Home + MCC stack — dual value pitch</td><td><span class="badge ba">TDHCA + MCC</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge ba">2</span></td></tr>
+      <tr><td>18</td><td>SETH 5 Star — no income cap conventional + overflow use case</td><td><span class="badge ba">SETH</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge ba">2</span></td></tr>
+      <tr><td>19–20</td><td>FHA Streamline + VA IRRRL — refi qualification + second lien handling</td><td><span class="badge bb">Refi</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge ba">2</span></td></tr>
+      <tr><td>21–22</td><td>Non-QM DSCR — LLC close + IO 40yr + Alvin TX scenario</td><td><span class="badge bp">DSCR Non-QM</span></td><td><span class="role r-jose">Jose</span></td><td><span class="badge ba">2</span></td></tr>
+      <tr><td>23–24</td><td>AZ Home in Five — grant structure + Phoenix/Tucson market</td><td><span class="badge bp">AZ HiF</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bp">3</span></td></tr>
+      <tr><td>25–26</td><td>CE Second Expanded Access Non-QM — ITIN equity scenario + doc checklist</td><td><span class="badge bp">CE Second</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bp">3</span></td></tr>
+      <tr><td>27–30</td><td>Marelis supervised loan role-play + script certification</td><td><span class="badge br">LO advancement</span></td><td><span class="role r-marelis">Marelis</span></td><td><span class="badge bp">3</span></td></tr>
+      <tr><td>31–35</td><td>4-state steady state — deepen referral partner scripts + equity outreach system</td><td><span class="badge bgold">Referral engine</span></td><td><span class="role r-all">All team</span></td><td><span class="badge ba">4</span></td></tr>
+      <tr><td>36–40</td><td>CO CHFA + MetroDPA + FirstGen Plus — Denver market positioning</td><td><span class="badge bt">CO CHFA</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span></td><td><span class="badge bt">5</span></td></tr>
+      <tr><td>41–52</td><td>Advanced: HELOC + DSCR combos · Non-QM escalation scenarios · Multi-state pipeline management</td><td><span class="badge bgold">Advanced mastery</span></td><td><span class="role r-jose">Jose</span><span class="role r-ana">Ana</span><span class="role r-marelis">Marelis</span></td><td><span class="badge bt">5</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ASSESSMENT -->
+<div id="tab-assessment" class="panel">
+
+  <div class="note n-purple">Certification is how the branch tracks readiness — not calendar time. A phase doesn't advance because months passed. It advances because specific competencies are demonstrated. The four certification levels below create a shared vocabulary of excellence across the team.</div>
+
+  <div class="sec">Branch 541-A certification framework — four levels</div>
+  <div class="cert-grid">
+
+    <div class="cert-card" style="border-top:3px solid #c08040">
+      <div class="cert-level cl-bronze">Bronze — Aware</div>
+      <div class="cert-name">Product Awareness Certification</div>
+      <div class="cert-criteria">
+        <li>Can name all 12 product categories in the branch stack</li>
+        <li>Can identify which product fits a basic client scenario</li>
+        <li>Knows which states each product is available in</li>
+        <li>Understands own role's interaction with each product</li>
+        <li>Has read all relevant PRMG product profiles</li>
+      </div>
+      <div class="cert-reward">Who: All team members · Target: Month 2</div>
+    </div>
+
+    <div class="cert-card" style="border-top:3px solid #8090a8">
+      <div class="cert-level cl-silver">Silver — Proficient</div>
+      <div class="cert-name">Role Proficiency Certification</div>
+      <div class="cert-criteria">
+        <li>Can explain core products in 60 seconds clearly (LOs)</li>
+        <li>Can process a DPA file from S11 to CTC without assistance (Gissella)</li>
+        <li>Can identify correct product and route all inbound leads (Laura, Marelis)</li>
+        <li>Xinnix program module completion on track</li>
+        <li>Can deliver DPA opener and HELOC script from memory</li>
+      </div>
+      <div class="cert-reward">Who: LOs + Gissella · Target: Month 4 · Prereq: Bronze</div>
+    </div>
+
+    <div class="cert-card" style="border-top:3px solid var(--gold)">
+      <div class="cert-level cl-gold">Gold — Expert</div>
+      <div class="cert-name">Multi-Product Expert Certification</div>
+      <div class="cert-criteria">
+        <li>Closes DPA + HELOC + Non-QM files independently in NV + FL</li>
+        <li>TX and AZ DPA programs mastered — can close without Jose leading</li>
+        <li>ITIN Non-QM bilingual pitch delivered confidently (Jose + Ana)</li>
+        <li>Piggyback pivot script executed on every applicable over-income call</li>
+        <li>Xinnix program completed and certified</li>
+        <li>Gissella: processing cheat sheets for all 8 DPA programs built</li>
+      </div>
+      <div class="cert-reward">Who: Jose, Ana, Gissella · Target: Month 8–10 · Prereq: Silver</div>
+    </div>
+
+    <div class="cert-card" style="border-top:3px solid var(--gissella)">
+      <div class="cert-level cl-platinum">Platinum — Branch Authority</div>
+      <div class="cert-name">Branch 541-A Full Arsenal Certification</div>
+      <div class="cert-criteria">
+        <li>All 5 states operational and producing independently</li>
+        <li>All 12 product categories in active pipeline use</li>
+        <li>Marelis producing as licensed LO — Bronze or Silver certified</li>
+        <li>Laura running supervised pre-quals as Originator Assist</li>
+        <li>HELOC referral partner network generating 3+ files/month</li>
+        <li>Sales Boomerang + Total Expert fully automated and firing</li>
+        <li>Monthly production at Phase 4 target (18–22 closings/month)</li>
+        <li>Branch recognized as PRMG DPA top-10 producer</li>
+      </div>
+      <div class="cert-reward">Who: Full branch · Target: Month 18–24 · The destination</div>
+    </div>
+
+  </div>
+
+  <div class="sec">Individual advancement gates — what each person must achieve</div>
+  <div class="prod-wrap">
+  <table>
+    <thead><tr><th>Team member</th><th>Current level</th><th>Next milestone</th><th>Gate criteria</th><th>Target date</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="role r-jose">Jose</span></td>
+        <td><span class="badge bgold">Gold track</span></td>
+        <td>Platinum — Full Arsenal</td>
+        <td>TX + AZ licensed, HELOC pipeline active, Non-QM ITIN files closing, Xinnix EDGE complete</td>
+        <td>Month 12–18</td>
+      </tr>
+      <tr>
+        <td><span class="role r-ana">Ana</span></td>
+        <td><span class="badge bz">Silver — building</span></td>
+        <td>Gold — Multi-State Expert</td>
+        <td>TX + AZ licensed, closes TX TSAHC independently, delivers piggyback pivot on every applicable call, Xinnix XCO complete</td>
+        <td>Month 8–10</td>
+      </tr>
+      <tr>
+        <td><span class="role r-gissella">Gissella</span></td>
+        <td><span class="badge bz">Silver — building</span></td>
+        <td>Gold — DPA Processing Authority</td>
+        <td>8 program cheat sheets built, subordination timelines mastered for all programs, piggyback close sequence in Encompass, new processor mentored</td>
+        <td>Month 8–10</td>
+      </tr>
+      <tr>
+        <td><span class="role r-marelis">Marelis</span></td>
+        <td><span class="badge br">Bronze track</span></td>
+        <td>Silver — Licensed LO</td>
+        <td>SAFE exam passed, ORIGINATOR ASSIST complete, first supervised pre-qual, ITIN flag active in TaxDome</td>
+        <td>Month 6–9</td>
+      </tr>
+      <tr>
+        <td><span class="role r-laura">Laura</span></td>
+        <td><span class="badge br">Bronze track</span></td>
+        <td>Silver — Originator Assist</td>
+        <td>SAFE exam passed, intake triage mastered for all product categories, first supervised pre-qual under Ana</td>
+        <td>Month 9–12</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+</div>
+<script>
+function show(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>

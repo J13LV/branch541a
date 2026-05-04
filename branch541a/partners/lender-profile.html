@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jose Del Valle-Figueroa · NMLS# 2686066 · DPA Specialist · PRMG Branch 541-A · 30-day DPA close">
+<title>Jose Del Valle-Figueroa · Branch 541-A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#08111f;--navy2:#0d1c30;--gold:#c8920a;--gold2:#e0aa28;--gold-l:rgba(200,146,10,.12);--teal:#0a7868;--teal2:#0d9980;--teal-l:rgba(10,120,104,.12)}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:#08111f;color:rgba(255,255,255,.9);min-height:100vh;overflow-x:hidden}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(8,17,31,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,146,10,.15);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.back-btn{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border:none;background:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:color .15s}
+.back-btn:hover{color:rgba(255,255,255,.8)}
+.back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lang-toggle{display:flex;align-items:center;gap:3px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px}
+.lang-btn{padding:3px 10px;border-radius:16px;border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;letter-spacing:.05em}
+.lang-btn.active{background:var(--gold);color:var(--navy);font-weight:600}
+.wrap{max-width:600px;margin:0 auto;padding:0 20px;background:#08111f}
+.profile-hero{background:#08111f;padding:32px 20px 0;position:relative;overflow:hidden}
+.profile-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,10,.07) 0%,transparent 70%);pointer-events:none}
+.profile-inner{max-width:600px;margin:0 auto;position:relative;z-index:1}
+.profile-top{display:flex;align-items:flex-start;gap:16px;margin-bottom:18px}
+.avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(200,146,10,.2),rgba(10,120,104,.2));border:2px solid rgba(200,146,10,.35);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--gold2);flex-shrink:0}
+.avatar-sub{font-family:'Fira Code',monospace;font-size:8px;letter-spacing:.1em;color:var(--teal2);text-align:center;margin-top:5px}
+.profile-eyebrow{font-family:'Fira Code',monospace;font-size:9px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.profile-name{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,6vw,36px);font-weight:600;color:#fff;line-height:1.05;margin-bottom:4px}
+.profile-title{font-size:13px;color:rgba(255,255,255,.5);font-weight:300;line-height:1.5}
+.profile-nmls{font-family:'Fira Code',monospace;font-size:9px;color:rgba(255,255,255,.22);letter-spacing:.1em;margin-top:4px}
+.tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,4vw,20px);font-weight:500;font-style:italic;color:var(--gold2);line-height:1.4;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.07)}
+.speed-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px}
+.sp{border-radius:12px;padding:13px 8px;text-align:center}
+.sp.conv{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.sp.dpa{background:rgba(200,146,10,.08);border:1px solid rgba(200,146,10,.25)}
+.sp.comp{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05)}
+.sp-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1}
+.sp.conv .sp-num{color:#fff}.sp.dpa .sp-num{color:var(--gold2)}.sp.comp .sp-num{color:rgba(255,255,255,.22);text-decoration:line-through;text-decoration-color:rgba(180,40,40,.55)}
+.sp-lbl{font-size:9px;font-family:'Fira Code',monospace;letter-spacing:.07em;margin-top:4px;line-height:1.4}
+.sp.conv .sp-lbl{color:rgba(255,255,255,.38)}.sp.dpa .sp-lbl{color:rgba(200,146,10,.65)}.sp.comp .sp-lbl{color:rgba(255,255,255,.18)}
+.trust-row{display:flex;align-items:center;flex-wrap:wrap;gap:7px;padding:12px 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:0}
+.ti{display:flex;align-items:center;gap:4px;font-size:11px;color:rgba(255,255,255,.48)}
+.ti svg{width:11px;height:11px;stroke:var(--teal2);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.sec-lbl{font-family:'Fira Code',monospace;font-size:9px;letter-spacing:.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-top:28px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(10,120,104,.2)}
+.sec-sub{font-size:13px;color:rgba(255,255,255,.42);line-height:1.65;font-weight:300;margin-bottom:18px}
+.uvp-list{display:flex;flex-direction:column;gap:9px;margin-bottom:8px}
+.uvp{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:15px;display:flex;gap:13px;align-items:flex-start}
+.uvp.gold{border-left:3px solid var(--gold);background:rgba(200,146,10,.03)}
+.uvp.teal{border-left:3px solid var(--teal2);background:rgba(10,120,104,.03)}
+.uvp.green{border-left:3px solid #2a9b5a;background:rgba(26,107,58,.03)}
+.uvp.purple{border-left:3px solid #8070d4;background:rgba(128,112,212,.03)}
+.uvp-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.uvp-ico svg{width:17px;height:17px;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.uvp.gold .uvp-ico{background:var(--gold-l)} .uvp.gold .uvp-ico svg{stroke:var(--gold2)}
+.uvp.teal .uvp-ico{background:var(--teal-l)} .uvp.teal .uvp-ico svg{stroke:var(--teal2)}
+.uvp.green .uvp-ico{background:rgba(26,107,58,.14)} .uvp.green .uvp-ico svg{stroke:#2a9b5a}
+.uvp.purple .uvp-ico{background:rgba(128,112,212,.1)} .uvp.purple .uvp-ico svg{stroke:#9080e4}
+.uvp-h{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
+.uvp-b{font-size:12px;color:rgba(255,255,255,.48);line-height:1.65}
+.uvp-tag{font-family:'Fira Code',monospace;font-size:9px;margin-top:6px;padding:2px 8px;border-radius:20px;display:inline-block;font-weight:500}
+.uvp.gold .uvp-tag{background:var(--gold-l);color:var(--gold2);border:1px solid rgba(200,146,10,.2)}
+.uvp.teal .uvp-tag{background:var(--teal-l);color:var(--teal2);border:1px solid rgba(10,120,104,.2)}
+.uvp.green .uvp-tag{background:rgba(26,107,58,.12);color:#2a9b5a;border:1px solid rgba(26,107,58,.2)}
+.uvp.purple .uvp-tag{background:rgba(128,112,212,.1);color:#9080e4;border:1px solid rgba(128,112,212,.2)}
+.states-strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.spill{font-family:'Fira Code',monospace;font-size:10px;letter-spacing:.08em;padding:5px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.38)}
+.spill.on{border-color:rgba(200,146,10,.3);background:rgba(200,146,10,.06);color:var(--gold2)}
+.spill.soon{border-color:rgba(255,255,255,.06);color:rgba(255,255,255,.18)}
+.prog-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.prog{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:13px}
+.prog-st{font-family:'Fira Code',monospace;font-size:9px;letter-spacing:.1em;font-weight:500;margin-bottom:5px}
+.prog-nm{font-size:12px;font-weight:500;color:#fff;margin-bottom:3px;line-height:1.3}
+.prog-dt{font-size:11px;color:rgba(255,255,255,.38);line-height:1.5}
+.prog-tag{display:inline-block;font-family:'Fira Code',monospace;font-size:8px;padding:2px 7px;border-radius:20px;margin-top:5px;font-weight:500}
+.nv{color:#4a9ad4}.nv-t{background:rgba(74,154,212,.1);color:#4a9ad4;border:1px solid rgba(74,154,212,.2)}
+.fl{color:#4ab474}.fl-t{background:rgba(74,180,116,.1);color:#4ab474;border:1px solid rgba(74,180,116,.2)}
+.tx{color:#c4a020}.tx-t{background:rgba(196,160,32,.1);color:#c4a020;border:1px solid rgba(196,160,32,.2)}
+.multi{color:#c09060}.multi-t{background:rgba(192,144,96,.1);color:#c09060;border:1px solid rgba(192,144,96,.2)}
+.nonqm{color:#c070a0}.nonqm-t{background:rgba(192,112,160,.1);color:#c070a0;border:1px solid rgba(192,112,160,.2)}
+.bi-card{background:linear-gradient(135deg,rgba(10,120,104,.12),rgba(200,146,10,.07));border:1px solid rgba(10,120,104,.28);border-radius:13px;padding:16px;display:flex;gap:12px;align-items:flex-start;margin-bottom:0}
+.bi-ico{width:40px;height:40px;border-radius:10px;background:var(--teal-l);border:1px solid rgba(10,120,104,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bi-ico svg{width:20px;height:20px;stroke:var(--teal2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.bi-h{font-size:14px;font-weight:500;color:#fff;margin-bottom:4px}
+.bi-sub{font-size:12px;color:rgba(255,255,255,.42);line-height:1.6}
+.team-list{display:flex;flex-direction:column;gap:7px}
+.tm{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:13px 15px;display:flex;align-items:center;gap:11px}
+.tm-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;flex-shrink:0}
+.tm-nm{font-size:13px;font-weight:500;color:#fff;margin-bottom:2px}
+.tm-ro{font-size:11px;color:rgba(255,255,255,.38);line-height:1.4}
+.tm-badge{font-family:'Fira Code',monospace;font-size:9px;padding:3px 8px;border-radius:20px;font-weight:500;white-space:nowrap;margin-left:auto;flex-shrink:0}
+.cta-wrap{padding:20px 20px 64px;background:#08111f;max-width:600px;margin:0 auto}
+.cc{background:linear-gradient(135deg,rgba(13,28,48,1),rgba(10,42,34,.8));border:1px solid rgba(10,120,104,.28);border-radius:16px;padding:20px}
+.cc-top{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.cc-av{width:50px;height:50px;border-radius:50%;background:var(--gold-l);border:2px solid rgba(200,146,10,.28);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--gold2);flex-shrink:0}
+.cc-nm{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:#fff;margin-bottom:2px}
+.cc-dt{font-size:11px;color:rgba(255,255,255,.38);line-height:1.6}
+.cc-nmls{font-family:'Fira Code',monospace;font-size:9px;color:var(--gold);letter-spacing:.1em;margin-top:3px}
+.cta-stack{display:flex;flex-direction:column;gap:7px}
+.cta{width:100%;padding:12px 16px;border-radius:11px;border:none;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.cta-wa{background:#25d366;color:#fff}.cta-wa:hover{background:#1fb857}
+.cta-wa svg{width:19px;height:19px;fill:#fff;flex-shrink:0}
+.cta-ps{background:var(--gold-l);color:var(--gold2);border:1px solid rgba(200,146,10,.22)}.cta-ps:hover{background:rgba(200,146,10,.18)}
+.cta-ps svg,.cta-tl svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cta-tl{background:rgba(255,255,255,.04);color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1)}.cta-tl:hover{color:rgba(255,255,255,.82)}
+.es{display:block}.en{display:none}
+span.es{display:inline}span.en{display:none}
+body.lang-en .es{display:none}body.lang-en .en{display:block}
+body.lang-en span.es{display:none}body.lang-en span.en{display:inline}
+footer{background:#08111f;border-top:1px solid rgba(255,255,255,.06);padding:20px;text-align:center}
+footer p{font-size:10px;color:rgba(255,255,255,.18);line-height:1.7}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back-btn" href="../index.html">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    <span class="es">Inicio</span><span class="en">Home</span>
+  </a>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<div class="profile-hero">
+ <div class="profile-inner">
+  <div class="profile-top">
+   <div>
+    <div class="avatar">JV</div>
+    <div class="avatar-sub">PRMG · 541-A</div>
+   </div>
+   <div style="flex:1;padding-top:4px">
+    <div class="profile-eyebrow"><span class="es">Branch Manager & Oficial de Préstamos</span><span class="en">Branch Manager & Mortgage Loan Officer</span></div>
+    <div class="profile-name">Jose Del Valle-Figueroa</div>
+    <div class="profile-title"><span class="es">Paramount Residential Mortgage Group<br>Branch 541-A · Las Vegas, NV</span><span class="en">Paramount Residential Mortgage Group<br>Branch 541-A · Las Vegas, NV</span></div>
+    <div class="profile-nmls">NMLS# 2686066 · LIC. NV · FL · TX</div>
+   </div>
+  </div>
+  <div class="tagline">
+   <span class="es">"DPA en 30 días — donde la competencia tarda 60. Tu contrato, protegido por nuestro equipo."</span>
+   <span class="en">"DPA in 30 days — where the competition takes 60. Your contract, protected by our team."</span>
+  </div>
+  <div class="speed-grid">
+   <div class="sp conv"><div class="sp-num">21–24</div><div class="sp-lbl"><span class="es">DÍAS HÁBILES<br>CONV.</span><span class="en">BUSINESS DAYS<br>CONV.</span></div></div>
+   <div class="sp dpa"><div class="sp-num">30</div><div class="sp-lbl"><span class="es">DÍAS HÁBILES DPA<br>MÁX 36</span><span class="en">BUSINESS DAYS DPA<br>MAX 36</span></div></div>
+   <div class="sp comp"><div class="sp-num">45–60</div><div class="sp-lbl"><span class="es">DÍAS HÁBILES<br>COMPETENCIA</span><span class="en">BUSINESS DAYS<br>COMPETITION</span></div></div>
+  </div>
+  <div class="trust-row">
+   <div class="ti"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="es">Bilingüe EN/ES</span><span class="en">Bilingual EN/ES</span></div>
+   <div class="ti"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>ITIN · Non-QM</span></div>
+   <div class="ti"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="es">3 estados activos</span><span class="en">3 active states</span></div>
+   <div class="ti"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>#1 PRMG Feb 2026</span></div>
+   <div class="ti"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span>DPA · VA · Hero</span></div>
+  </div>
+ </div>
+</div>
+
+<div class="wrap">
+
+<div class="sec-lbl"><span class="es">POR QUÉ TRABAJAR CONMIGO</span><span class="en">WHY WORK WITH ME</span></div>
+<div class="uvp-list">
+
+ <div class="uvp gold">
+  <div class="uvp-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+  <div>
+   <div class="uvp-h"><span class="es">Velocidad que protege tu contrato</span><span class="en">Speed that protects your contract</span></div>
+   <div class="uvp-b"><span class="es">DPA en 30 días, máximo 36. La mayoría tardan 45–60 días — si es que lo hacen. Cerramos a la velocidad de un préstamo convencional. Tu fecha de cierre nunca está en riesgo.</span><span class="en">DPA in 30 days, max 36. Most lenders take 45–60 days — if they do them at all. We close at conventional loan speed. Your closing date is never at risk.</span></div>
+   <span class="uvp-tag"><span class="es">30 días DPA · máx 36 · conv 21–24</span><span class="en">30-day DPA · max 36 · conv 21–24</span></span>
+  </div>
+ </div>
+
+ <div class="uvp teal">
+  <div class="uvp-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+  <div>
+   <div class="uvp-h"><span class="es">Maestría operacional en DPA</span><span class="en">DPA operational mastery</span></div>
+   <div class="uvp-b"><span class="es">Dominamos el proceso completo de reservación DPA, el doble lock y la secuencia del segundo lien. La complejidad que otros evitan es exactamente donde vivimos. Sin excusas, sin referencias a otros prestamistas.</span><span class="en">We master the full DPA reservation process, dual lock sequencing, and second lien structure. The complexity others avoid is exactly where we operate. No excuses, no referrals to other lenders.</span></div>
+   <span class="uvp-tag">Chenoa · NV HIP · NHF · FL · TX</span>
+  </div>
+ </div>
+
+ <div class="uvp green">
+  <div class="uvp-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+  <div>
+   <div class="uvp-h"><span class="es">Bilingüe — inglés y español</span><span class="en">Bilingual — English and Spanish</span></div>
+   <div class="uvp-b"><span class="es">Servimos compradores angloparlantes e hispanohablantes al mismo nivel. ITIN, residencia, tarjeta de autorización de empleo — ningún comprador se queda fuera por idioma o estatus migratorio.</span><span class="en">We serve English and Spanish-speaking buyers at the same level. ITIN, green cards, employment authorization cards — no buyer gets left behind for language or immigration status.</span></div>
+   <span class="uvp-tag"><span class="es">EN/ES · ITIN · Empleados independientes</span><span class="en">EN/ES · ITIN · Self-employed</span></span>
+  </div>
+ </div>
+
+ <div class="uvp purple">
+  <div class="uvp-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+  <div>
+   <div class="uvp-h"><span class="es">#1 Originador PRMG — Febrero 2026</span><span class="en">#1 Originator PRMG — February 2026</span></div>
+   <div class="uvp-b"><span class="es">Clasificados número 1 en el tablero de originadores PRMG a nivel nacional en febrero 2026. Volumen respaldado por proceso — no suerte, es sistema de equipo.</span><span class="en">Ranked #1 on PRMG's national originator leaderboard in February 2026. Volume backed by process — not luck, it's team system.</span></div>
+   <span class="uvp-tag">#1 PRMG Team · Feb 2026</span>
+  </div>
+ </div>
+
+</div>
+
+<div class="sec-lbl"><span class="es">ESTADOS LICENCIADOS</span><span class="en">LICENSED STATES</span></div>
+<div class="states-strip">
+ <span class="spill on">NV · Nevada</span>
+ <span class="spill on">FL · Florida</span>
+ <span class="spill on">TX · Texas</span>
+ <span class="spill soon">AZ · <span class="es">Próximo</span><span class="en">Coming</span></span>
+ <span class="spill soon">CO · <span class="es">Próximo</span><span class="en">Coming</span></span>
+</div>
+
+<div class="sec-lbl"><span class="es">PROGRAMAS QUE MANEJO</span><span class="en">PROGRAMS I WORK WITH</span></div>
+<p class="sec-sub"><span class="es">Manejamos estos programas directamente con dominio operacional completo. Sin excusas, sin referencias a otros.</span><span class="en">We work these programs directly with full operational mastery. No referrals elsewhere.</span></p>
+<div class="prog-grid">
+
+ <div class="prog"><div class="prog-st nv">NV · Nevada</div><div class="prog-nm">NV Home Is Possible (HIP)</div><div class="prog-dt"><span class="es">Hasta 4% de asistencia perdonable después de 3 años · FHA y Convencional · Programa estatal de Nevada</span><span class="en">Up to 4% assistance forgiven after 3 years · FHA and Conventional · Nevada state program</span></div><span class="prog-tag nv-t"><span class="es">Perdonable · 3 años</span><span class="en">Forgivable · 3 years</span></span></div>
+
+ <div class="prog"><div class="prog-st multi">Multi-Estado</div><div class="prog-nm">NHF National Grant</div><div class="prog-dt"><span class="es">Hasta 5% donación real · Sin segundo lien · 49 estados</span><span class="en">Up to 5% true grant · No 2nd lien · 49 states</span></div><span class="prog-tag multi-t"><span class="es">Sin reembolso</span><span class="en">No repayment</span></span></div>
+
+ <div class="prog"><div class="prog-st multi">Multi-Estado</div><div class="prog-nm">Chenoa Fund FHA</div><div class="prog-dt"><span class="es">3.5% o 5% · Sin límite ingresos (reembolsable) · 620+</span><span class="en">3.5% or 5% · No income limit (repayable) · 620+</span></div><span class="prog-tag multi-t">620+ · <span class="es">Sin límite</span><span class="en">No income cap</span></span></div>
+
+ <div class="prog"><div class="prog-st fl">FL · Florida</div><div class="prog-nm">FL Hometown Heroes</div><div class="prog-dt"><span class="es">Hasta $35,000 · Diferido 0% · Maestros, enfermeros, policías, bomberos, militares y empleados del gobierno</span><span class="en">Up to $35,000 · 0% deferred · Teachers, nurses, police, firefighters, military and government workers</span></div><span class="prog-tag fl-t"><span class="es">Hasta $35,000 · 0% interés</span><span class="en">Up to $35,000 · 0% interest</span></span></div>
+
+ <div class="prog"><div class="prog-st fl">FL · Florida</div><div class="prog-nm">FL Housing FHA / Conv / VA</div><div class="prog-dt"><span class="es">Hasta $10,000 diferido a 0% · FHA, Convencional y VA · Disponible en todos los condados de Florida</span><span class="en">Up to $10,000 deferred at 0% · FHA, Conventional and VA · Available in all Florida counties</span></div><span class="prog-tag fl-t"><span class="es">0% · Todos los condados FL</span><span class="en">0% · All FL counties</span></span></div>
+
+ <div class="prog"><div class="prog-st tx">TX · Texas</div><div class="prog-nm">TSAHC Heroes + SETH 5 Star</div><div class="prog-dt"><span class="es">3–5% donación · Sin req. primerizo (TSAHC) · Sin límite ingresos (SETH Conv)</span><span class="en">3–5% grant · No FTB req (TSAHC) · No income cap (SETH Conv)</span></div><span class="prog-tag tx-t"><span class="es">Donación real</span><span class="en">True grant</span></span></div>
+
+ <div class="prog"><div class="prog-st tx">TX · Texas</div><div class="prog-nm">TDHCA + MCC Stack</div><div class="prog-dt"><span class="es">Hasta 5% DPA + $2,000/año crédito de impuestos federal simultáneamente</span><span class="en">Up to 5% DPA + $2,000/yr federal tax credit simultaneously</span></div><span class="prog-tag tx-t">DPA + MCC</span></div>
+
+ <div class="prog"><div class="prog-st nonqm">Non-QM · Self-Employed</div><div class="prog-nm">Non-QM — Trabajador Independiente / ITIN</div><div class="prog-dt"><span class="es">Para trabajadores independientes, dueños de negocios e ITIN — sin W-2 requerido. Califica con estados de cuenta bancarios o P&amp;L de tu negocio</span><span class="en">For self-employed, business owners and ITIN holders — no W-2 required. Qualify using bank statements or business P&amp;L</span></div><span class="prog-tag nonqm-t"><span class="es">Independiente · ITIN · Sin W-2</span><span class="en">Self-employed · ITIN · No W-2</span></span></div>
+
+</div>
+
+<!-- ── MORE PRODUCTS ── -->
+<div class="sec-lbl"><span class="es">MÁS PRODUCTOS</span><span class="en">MORE PRODUCTS</span></div>
+<p class="sec-sub"><span class="es">Más allá del DPA — soluciones para tu cartera completa de clientes.</span><span class="en">Beyond DPA — solutions for your full client portfolio.</span></p>
+
+<div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+
+  <!-- HELOC / Equity card -->
+  <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-left:3px solid var(--teal2);border-radius:13px;padding:16px;background:rgba(10,120,104,.03)">
+    <div style="display:flex;align-items:flex-start;gap:12px">
+      <div style="width:34px;height:34px;border-radius:9px;background:var(--teal-l);border:1px solid rgba(10,120,104,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--teal2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:5px">
+          <span class="es">HELOC y Segundo Hipotecario</span>
+          <span class="en">HELOC & Second Mortgage</span>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.48);line-height:1.7;margin-bottom:10px">
+          <span class="es">Para propietarios con equidad que no quieren perder su tasa del primer lien. Acceso a liquidez sin tocar tu hipoteca original.<br>
+          · <strong style="color:rgba(255,255,255,.65)">Lightning Equity Hybrid HELOC</strong> — opción de draw con tasa fija, único en el mercado<br>
+          · <strong style="color:rgba(255,255,255,.65)">Non-QM Segundo</strong> — para trabajadores independientes e ITIN con equidad<br>
+          · <strong style="color:rgba(255,255,255,.65)">Piggyback 80/15/5</strong> — elimina el PMI en compras convencionales</span>
+          <span class="en">For homeowners with equity who don't want to lose their first mortgage rate. Access liquidity without touching your original loan.<br>
+          · <strong style="color:rgba(255,255,255,.65)">Lightning Equity Hybrid HELOC</strong> — fixed-rate draw option, unique in the market<br>
+          · <strong style="color:rgba(255,255,255,.65)">Non-QM Second</strong> — for self-employed and ITIN borrowers with equity<br>
+          · <strong style="color:rgba(255,255,255,.65)">Piggyback 80/15/5</strong> — eliminates PMI on conventional purchases</span>
+        </div>
+        <a href="../team/Branch_541A_HELOC_Second_Mortgage.html" style="display:inline-flex;align-items:center;gap:6px;font-family:'Fira Code',monospace;font-size:10px;letter-spacing:.08em;color:var(--teal2);text-decoration:none;padding:4px 10px;border:1px solid rgba(10,120,104,.3);border-radius:20px;background:var(--teal-l);transition:all .15s">
+          <span class="es">Ver productos HELOC</span><span class="en">View HELOC products</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFI card -->
+  <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-left:3px solid #8070d4;border-radius:13px;padding:16px;background:rgba(128,112,212,.03)">
+    <div style="display:flex;align-items:flex-start;gap:12px">
+      <div style="width:34px;height:34px;border-radius:9px;background:rgba(128,112,212,.1);border:1px solid rgba(128,112,212,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9080e4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:5px">
+          <span class="es">Refinanciamiento</span>
+          <span class="en">Refinance Programs</span>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.48);line-height:1.7;margin-bottom:10px">
+          <span class="es">Cuando las tasas bajen, tus clientes DPA anteriores son los primeros en calificar. Ya tenemos la relación — solo necesitamos activar el proceso.<br>
+          · <strong style="color:rgba(255,255,255,.65)">FHA Streamline</strong> — sin tasación, 21–30 días hábiles<br>
+          · <strong style="color:rgba(255,255,255,.65)">VA IRRRL</strong> — veteranos, sin verificación de ingresos, 21–30 días hábiles<br>
+          · <strong style="color:rgba(255,255,255,.65)">RefiNow / Refi Possible</strong> — clientes DPA convencionales al 80% AMI<br>
+          · <strong style="color:rgba(255,255,255,.65)">USDA Streamlined</strong> — áreas rurales NV y TX</span>
+          <span class="en">When rates drop, your previous DPA clients are first to qualify. We already have the relationship — we just need to activate the process.<br>
+          · <strong style="color:rgba(255,255,255,.65)">FHA Streamline</strong> — no appraisal, 21–30 business days<br>
+          · <strong style="color:rgba(255,255,255,.65)">VA IRRRL</strong> — veterans, no income verification, 21–30 business days<br>
+          · <strong style="color:rgba(255,255,255,.65)">RefiNow / Refi Possible</strong> — conventional DPA clients at 80% AMI<br>
+          · <strong style="color:rgba(255,255,255,.65)">USDA Streamlined</strong> — rural NV and TX areas</span>
+        </div>
+        <a href="../team/Branch_541A_Refi_Programs.html" style="display:inline-flex;align-items:center;gap:6px;font-family:'Fira Code',monospace;font-size:10px;letter-spacing:.08em;color:#9080e4;text-decoration:none;padding:4px 10px;border:1px solid rgba(128,112,212,.3);border-radius:20px;background:rgba(128,112,212,.1);transition:all .15s">
+          <span class="es">Ver programas de refi</span><span class="en">View refi programs</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="sec-lbl"><span class="es">BILINGÜE POR NATURALEZA</span><span class="en">BILINGUAL BY NATURE</span></div>
+<div class="bi-card" style="margin-bottom:0">
+ <div class="bi-ico"><svg viewBox="0 0 24 24"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg></div>
+ <div>
+  <div class="bi-h"><span class="es">Todos nuestros materiales en inglés y español</span><span class="en">All our materials in English and Spanish</span></div>
+  <div class="bi-sub"><span class="es">Formularios, conversaciones, explicaciones de programas — todo disponible en ambos idiomas. Ningún comprador hispanohablante pierde una oportunidad por falta de comunicación.</span><span class="en">Forms, conversations, program explanations — all available in both languages. No Spanish-speaking buyer misses an opportunity due to communication barriers.</span></div>
+ </div>
+</div>
+
+<div class="sec-lbl"><span class="es">EL EQUIPO — BRANCH 541-A</span><span class="en">THE TEAM — BRANCH 541-A</span></div>
+<p class="sec-sub"><span class="es">Somos un equipo dedicado. Cinco personas respaldan cada archivo desde el primer día hasta las llaves.</span><span class="en">We are a dedicated team. Five people support every file from day one to keys.</span></p>
+<div class="team-list">
+ <div class="tm"><div class="tm-av" style="background:rgba(200,146,10,.12);color:var(--gold2)">JV</div><div><div class="tm-nm">Jose Del Valle-Figueroa</div><div class="tm-ro"><span class="es">Branch Manager & MLO · Especialista DPA · NMLS# 2686066</span><span class="en">Branch Manager & MLO · DPA Specialist · NMLS# 2686066</span></div></div><span class="tm-badge" style="background:var(--gold-l);color:var(--gold2);border:1px solid rgba(200,146,10,.2)">BM · MLO</span></div>
+ <div class="tm"><div class="tm-av" style="background:var(--teal-l);color:var(--teal2)">A</div><div><div class="tm-nm">Ana Mercedes Plasencia</div><div class="tm-ro"><span class="es">Licensed MLO · Especialista DPA</span><span class="en">Licensed MLO · DPA Specialist</span></div></div><span class="tm-badge" style="background:var(--teal-l);color:var(--teal2);border:1px solid rgba(10,120,104,.2)">MLO</span></div>
+ <div class="tm"><div class="tm-av" style="background:rgba(74,26,122,.12);color:#9080e4">G</div><div><div class="tm-nm">Gisella Limo</div><div class="tm-ro"><span class="es">Loan Processor</span><span class="en">Loan Processor</span></div></div><span class="tm-badge" style="background:rgba(74,26,122,.1);color:#9080e4;border:1px solid rgba(74,26,122,.2)">LP</span></div>
+ <div class="tm"><div class="tm-av" style="background:rgba(200,146,10,.08);color:rgba(200,146,10,.55)">M</div><div><div class="tm-nm">Marelis Pinales</div><div class="tm-ro"><span class="es">Licensed MLO</span><span class="en">Licensed MLO</span></div></div><span class="tm-badge" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.1)">MLO</span></div>
+ <div class="tm"><div class="tm-av" style="background:rgba(10,120,104,.08);color:rgba(13,153,128,.55)">L</div><div><div class="tm-nm">Laura de Armas</div><div class="tm-ro"><span class="es">APG Realty · Coordinadora de Clientes</span><span class="en">APG Realty · Client Coordinator</span></div></div><span class="tm-badge" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.1)">APG</span></div>
+</div>
+
+</div>
+
+<div class="cta-wrap">
+ <div class="cc">
+  <div class="cc-top">
+   <div class="cc-av">JV</div>
+   <div>
+    <div class="cc-nm">Jose Del Valle-Figueroa</div>
+    <div class="cc-dt"><span class="es">Listos para tu cliente · Branch 541-A · PRMG Las Vegas</span><span class="en">Ready for your client · Branch 541-A · PRMG Las Vegas</span></div>
+    <div class="cc-nmls">NMLS# 2686066</div>
+   </div>
+  </div>
+  <div class="cta-stack">
+   <a class="cta cta-wa" href="https://wa.me/17024093114" target="_blank">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="es">Escríbeme por WhatsApp</span><span class="en">Message me on WhatsApp</span>
+   </a>
+   <a class="cta cta-ps" href="pre-screen.html">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    <span class="es">Pre-calificar a mi cliente</span><span class="en">Pre-screen my client</span>
+   </a>
+   <a class="cta cta-tl" href="process.html">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span class="es">Ver proceso de cierre</span><span class="en">View closing timeline</span>
+   </a>
+  </div>
+ </div>
+</div>
+
+<footer><p>Jose Del Valle-Figueroa · NMLS# 2686066 · PRMG Branch 541-A · Equal Housing Lender<br>Paramount Residential Mortgage Group, Inc. NMLS# 75243 · 3960 Howard Hughes Pkwy Suite 519, Las Vegas NV 89169 · Tel: 702-848-5626<br><span class="es">Licenciado en NV, FL y TX. Los programas están sujetos a elegibilidad y disponibilidad.</span><span class="en">Licensed in NV, FL and TX. Programs subject to eligibility and availability.</span><br><br><span class="es">* Los tiempos de cierre indicados se expresan en días hábiles (lunes a viernes, excluyendo feriados federales). 30 días hábiles equivalen aproximadamente a 6 semanas calendario. El reloj inicia el día en que se recibe el contrato de compraventa firmado. Los tiempos pueden variar según la respuesta del cliente, condiciones del título, y factores del mercado fuera de nuestro control.</span><span class="en">* Closing timelines stated are expressed in business days (Monday–Friday, excluding federal holidays). 30 business days equal approximately 6 calendar weeks. The clock starts the day the signed purchase contract is received. Timelines may vary based on client responsiveness, title conditions, and market factors outside our control.</span></p></footer>
+
+<script>
+function setLang(lang){document.body.classList.toggle('lang-en',lang==='en');document.getElementById('btn-es').classList.toggle('active',lang==='es');document.getElementById('btn-en').classList.toggle('active',lang==='en');document.documentElement.lang=lang;localStorage.setItem('541a-lang',lang);}
+(function(){var s=localStorage.getItem('541a-lang');if(s==='en')setLang('en');})();
+</script>
+</body>
+</html>
