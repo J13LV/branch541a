@@ -189,7 +189,7 @@ body::before{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:16px;
-  max-width:900px;
+  max-width:680px;
   margin:0 auto;
   padding:0 20px 48px;
   background:#08111f;
@@ -515,7 +515,7 @@ body.lang-en span.es{display:none}
 <main class="portals">
 
   <!-- TEAM PORTAL -->
-  <a class="portal-card team" href="team/index.html">
+  <a class="portal-card team" href="team/tools/agent-presentation.html" onclick="checkTeamAccess('team/tools/agent-presentation.html', event)">
     <div class="card-glow"></div>
     <div class="card-inner">
       <div class="card-icon">
@@ -543,32 +543,32 @@ body.lang-en span.es{display:none}
           <span class="en">Pipeline Tracker — Live app</span>
           <span style="margin-left:auto;font-family:'Fira Code',monospace;font-size:9px;padding:2px 8px;border-radius:20px;background:rgba(200,146,10,.15);color:var(--gold2);border:1px solid rgba(200,146,10,.25)">LIVE ↗</span>
         </a>
-        <a class="card-link" href="team/intake.html" onclick="e(event)">
+        <a class="card-link" href="team/tools/client_intake_questionnaire.html" onclick="checkTeamAccess('team/tools/client_intake_questionnaire.html', event)">
           <span class="card-link-dot"></span>
           <span class="es">Entrevista de cliente · Intake</span>
           <span class="en">Client intake questionnaire</span>
         </a>
-        <a class="card-link" href="team/construction.html" onclick="e(event)">
+        <a class="card-link" href="team/tools/new_construction_intake.html" onclick="checkTeamAccess('team/tools/new_construction_intake.html', event)">
           <span class="card-link-dot"></span>
           <span class="es">Intake — Nueva construcción</span>
           <span class="en">New construction intake</span>
         </a>
-        <a class="card-link" href="team/dpa-guide.html" onclick="e(event)">
+        <a class="card-link" href="team/tools/dpa_three_state.html" onclick="checkTeamAccess('team/tools/dpa_three_state.html', event)">
           <span class="card-link-dot"></span>
           <span class="es">Guía de programas DPA</span>
           <span class="en">DPA programs reference guide</span>
         </a>
-        <a class="card-link" href="team/chenoa.html" onclick="e(event)">
+        <a class="card-link" href="team/tools/branch_541a_product_reference.html" onclick="checkTeamAccess('team/tools/branch_541a_product_reference.html', event)">
           <span class="card-link-dot"></span>
           <span class="es">Chenoa Fund · Explainer PPE</span>
           <span class="en">Chenoa / Polly PPE explainer</span>
         </a>
-        <a class="card-link" href="team/lock-variance.html" onclick="e(event)">
+        <a class="card-link" href="team/tools/lock-variance.html" onclick="checkTeamAccess('team/tools/lock-variance.html', event)">
           <span class="card-link-dot"></span>
           <span class="es">Guía de varianza de lock</span>
           <span class="en">Lock variance reference guide</span>
         </a>
-        <a class="card-link" href="team/self-employed.html" onclick="e(event)">
+        <a class="card-link" href="team/tools/branch_541a_training_strategy.html" onclick="checkTeamAccess('team/tools/branch_541a_training_strategy.html', event)">
           <span class="card-link-dot"></span>
           <span class="es">Checklist — Trabajador independiente</span>
           <span class="en">Self-employed pre-filing checklist</span>
@@ -619,41 +619,31 @@ body.lang-en span.es{display:none}
           <span class="card-link-dot"></span>
           <span class="es">Perfil del prestamista — Jose Del Valle</span>
           <span class="en">Lender profile — Jose Del Valle</span>
-          <span class="card-link-badge soon-badge">
-            <span class="es">Próximo</span><span class="en">Soon</span>
-          </span>
+
         </a>
         <a class="card-link" href="partners/pre-screen.html" onclick="e(event)">
           <span class="card-link-dot"></span>
           <span class="es">Pre-calificación rápida para tu cliente</span>
           <span class="en">Quick client pre-screen checklist</span>
-          <span class="card-link-badge soon-badge">
-            <span class="es">Próximo</span><span class="en">Soon</span>
-          </span>
+
         </a>
         <a class="card-link" href="partners/process.html" onclick="e(event)">
           <span class="card-link-dot"></span>
           <span class="es">El proceso de cierre — paso a paso</span>
           <span class="en">Loan process timeline — end to end</span>
-          <span class="card-link-badge soon-badge">
-            <span class="es">Próximo</span><span class="en">Soon</span>
-          </span>
+
         </a>
         <a class="card-link" href="partners/dpa-101.html" onclick="e(event)">
           <span class="card-link-dot"></span>
           <span class="es">DPA 101 — Programas NV · FL · TX</span>
           <span class="en">DPA 101 — Programs NV · FL · TX</span>
-          <span class="card-link-badge soon-badge">
-            <span class="es">Próximo</span><span class="en">Soon</span>
-          </span>
+
         </a>
         <a class="card-link" href="partners/refer.html" onclick="e(event)">
           <span class="card-link-dot"></span>
           <span class="es">Referir un cliente a Branch 541-A</span>
           <span class="en">Refer a client to Branch 541-A</span>
-          <span class="card-link-badge soon-badge">
-            <span class="es">Próximo</span><span class="en">Soon</span>
-          </span>
+
         </a>
       </div>
 
@@ -712,6 +702,26 @@ body.lang-en span.es{display:none}
 </footer>
 
 <script>
+// ── TEAM PORTAL PASSWORD ────────────────────────────────
+var TEAM_PIN = '541A';  // Change this PIN anytime
+var teamUnlocked = false;
+
+function checkTeamAccess(url, event) {
+  event.preventDefault();
+  event.stopPropagation();
+  if (teamUnlocked) {
+    window.open(url, '_blank');
+    return;
+  }
+  var pin = prompt('Branch 541-A Team Portal\nEnter access PIN:');
+  if (pin && pin.toUpperCase() === TEAM_PIN) {
+    teamUnlocked = true;
+    window.open(url, '_blank');
+  } else if (pin !== null) {
+    alert('Incorrect PIN. Contact Jose Del Valle-Figueroa for access.');
+  }
+}
+
 function setLang(lang){
   document.body.classList.toggle('lang-en', lang==='en');
   document.getElementById('btn-es').classList.toggle('active', lang==='es');
