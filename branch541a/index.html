@@ -7,728 +7,262 @@
 <title>Del Valle Lending Co. · Las Vegas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Outfit:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --navy:#08111f;
-  --navy2:#0d1c30;
-  --navy3:#122240;
-  --navy4:#1a2e4a;
-  --gold:#c8920a;
-  --gold2:#e0aa28;
-  --gold3:#f5c842;
-  --gold-l:rgba(200,146,10,.12);
-  --gold-ll:rgba(200,146,10,.06);
-  --teal:#0a7868;
-  --teal2:#0d9980;
-  --teal-l:rgba(10,120,104,.12);
-  --cream:#f8f4ee;
-  --white:#ffffff;
-  --text-on-dark:rgba(255,255,255,.9);
-  --muted-on-dark:rgba(255,255,255,.45);
-  --dim-on-dark:rgba(255,255,255,.2);
+  --bg:#08111f; --panel:#0e1a2c; --panel2:#122238; --line:#1f2f47; --line2:#2a3d5a;
+  --gold:#c8920a; --gold2:#e0aa28; --gold-l:rgba(200,146,10,.12);
+  --teal:#0d9980; --teal-l:rgba(13,153,128,.12);
+  --t1:#F0F6FC; --t2:#ADBAC7; --t3:#8B98A5; --t4:#737F8C;
 }
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;font-size:14px;line-height:1.45}
+a{color:inherit;text-decoration:none}
+.mono{font-family:'Fira Code',monospace}
 
-html{scroll-behavior:smooth}
+/* language */
+.en{display:none} body.lang-en .en{display:inline} body.lang-en .es{display:none}
 
-body{
-  font-family:'Outfit',sans-serif;
-  background:#08111f;
-  background-color:#08111f;
-  color:rgba(255,255,255,.9);
-  min-height:100vh;
-  overflow-x:hidden;
-}
+/* top bar */
+.top{position:sticky;top:0;z-index:50;background:rgba(8,17,31,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1080px;margin:0 auto;padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.mark{width:30px;height:30px;border-radius:7px;background:var(--gold-l);border:1px solid rgba(200,146,10,.35);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-name{font-weight:600;font-size:14px;letter-spacing:.01em;white-space:nowrap}
+.brand-sub{font-size:11px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lang{display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:2px;flex-shrink:0}
+.lang button{border:0;background:transparent;color:var(--t3);font:500 11px 'Outfit',sans-serif;padding:5px 10px;border-radius:6px;cursor:pointer;letter-spacing:.04em}
+.lang button.on{background:var(--gold);color:#08111f;font-weight:600}
 
-/* ── BACKGROUND TEXTURE ──────────────────────────────── */
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(200,146,10,.07) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(10,120,104,.06) 0%, transparent 60%);
-  pointer-events:none;
-  z-index:0;
-}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 
-/* ── TOP BAR ─────────────────────────────────────────── */
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(8,17,31,.92);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(200,146,10,.15);
-  padding:0 24px;
-  height:52px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+/* hero */
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:28px;align-items:center;padding:32px 0 24px;border-bottom:1px solid var(--line)}
+.eyebrow{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px}
+h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(28px,4vw,40px);line-height:1.08;letter-spacing:-.01em;margin-bottom:10px}
+h1 em{color:var(--gold2);font-style:italic}
+.lead{color:var(--t2);font-size:14.5px;max-width:520px;margin-bottom:12px}
+.contact{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11.5px;color:var(--t3)}
+.contact b{color:var(--t2);font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 10px;text-align:center}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;line-height:1}
+.stat-l{font-size:10px;letter-spacing:.06em;color:var(--t3);margin-top:5px;text-transform:uppercase}
+.stat.gold{border-color:rgba(200,146,10,.4);background:linear-gradient(180deg,rgba(200,146,10,.10),rgba(200,146,10,.03))}
+.stat.gold .stat-n{color:var(--gold2)} .stat.gold .stat-l{color:#c9a54f}
+.stat.off .stat-n{color:var(--t4);text-decoration:line-through;text-decoration-color:rgba(232,93,117,.7)}
+.states{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;justify-content:center}
+.st{font-size:10.5px;letter-spacing:.06em;padding:3px 9px;border-radius:20px;border:1px solid var(--line2);color:var(--t4)}
+.st.on{border-color:rgba(200,146,10,.4);color:var(--gold2);background:var(--gold-l)}
 
-.topbar-brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-.brand-mark{
-  width:28px;height:28px;
-  border-radius:6px;
-  background:var(--gold-l);
-  border:1px solid rgba(200,146,10,.3);
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-.brand-mark svg{width:14px;height:14px}
-.brand-text{
-  font-family:'Fira Code',monospace;
-  font-size:11px;
-  letter-spacing:.1em;
-  color:var(--gold2);
-  font-weight:500;
-}
-.brand-sub{
-  font-size:10px;
-  color:var(--muted-on-dark);
-  margin-left:2px;
-}
+/* panels */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:22px 0 26px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.p-hd{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--panel2)}
+.p-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.team .p-ico{background:var(--gold-l);border:1px solid rgba(200,146,10,.3)}
+.partner .p-ico{background:var(--teal-l);border:1px solid rgba(13,153,128,.3)}
+.p-title{font-size:15px;font-weight:600}
+.p-desc{font-size:12px;color:var(--t3)}
+.p-tag{margin-left:auto;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.team .p-tag{color:var(--gold2);background:var(--gold-l)}
+.partner .p-tag{color:var(--teal);background:var(--teal-l)}
+.rows{display:flex;flex-direction:column}
+.row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--line);transition:background .12s}
+.row:last-child{border-bottom:0}
+.row:hover{background:rgba(255,255,255,.03)}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.team .dot{background:var(--gold)} .partner .dot{background:var(--teal)}
+.r-txt{flex:1;min-width:0}
+.r-t{font-size:13.5px;color:var(--t1)}
+.r-s{font-size:11.5px;color:var(--t3)}
+.chev{color:var(--t4);flex-shrink:0;transition:transform .12s,color .12s}
+.row:hover .chev{transform:translateX(2px);color:var(--t2)}
+.live{font-size:9.5px;letter-spacing:.08em;padding:2px 7px;border-radius:20px;color:var(--gold2);border:1px solid rgba(200,146,10,.4);background:var(--gold-l)}
+.lock{font-size:10px;color:var(--t4)}
 
-.lang-toggle{
-  display:flex;
-  align-items:center;
-  gap:4px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  padding:3px;
-}
-.lang-btn{
-  padding:4px 12px;
-  border-radius:16px;
-  border:none;
-  background:transparent;
-  font-family:'Outfit',sans-serif;
-  font-size:11px;
-  font-weight:500;
-  color:var(--muted-on-dark);
-  cursor:pointer;
-  transition:all .2s;
-  letter-spacing:.05em;
-}
-.lang-btn.active{
-  background:var(--gold);
-  color:var(--navy);
-  font-weight:600;
-}
+/* footer */
+footer{border-top:1px solid var(--line);padding:16px 0 22px}
+.f-l1{font-size:10.5px;letter-spacing:.06em;color:var(--t3);margin-bottom:6px}
+.f-l2{font-size:11px;color:var(--t4);line-height:1.6}
 
-/* ── HERO ─────────────────────────────────────────────── */
-.hero{
-  position:relative;
-  z-index:1;
-  padding:72px 24px 56px;
-  text-align:center;
-  max-width:700px;
-  margin:0 auto;
-  background:transparent;
+@media(max-width:820px){
+  .hero{grid-template-columns:1fr;gap:18px;padding:24px 0 18px}
+  .grid{grid-template-columns:1fr;padding:18px 0 20px}
+  .states{justify-content:flex-start}
 }
-
-.hero-eyebrow{
-  font-family:'Fira Code',monospace;
-  font-size:10px;
-  letter-spacing:.22em;
-  color:var(--gold);
-  text-transform:uppercase;
-  margin-bottom:20px;
-  opacity:0;
-  animation:fadeUp .6s .1s forwards;
-}
-
-.hero-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(36px,7vw,64px);
-  font-weight:600;
-  line-height:1.05;
-  letter-spacing:-.02em;
-  color:var(--white);
-  margin-bottom:12px;
-  opacity:0;
-  animation:fadeUp .6s .2s forwards;
-}
-.hero-title em{
-  font-style:italic;
-  color:var(--gold2);
-}
-
-.hero-subtitle{
-  font-size:clamp(14px,2.5vw,17px);
-  font-weight:300;
-  color:rgba(255,255,255,.6);
-  line-height:1.65;
-  max-width:520px;
-  margin:0 auto 16px;
-  opacity:0;
-  animation:fadeUp .6s .3s forwards;
-}
-
-.hero-nmls{
-  font-family:'Fira Code',monospace;
-  font-size:10px;
-  color:rgba(255,255,255,.3);
-  letter-spacing:.1em;
-  opacity:0;
-  animation:fadeUp .6s .4s forwards;
-}
-
-/* ── PORTAL CARDS ────────────────────────────────────── */
-.portals{
-  position:relative;
-  z-index:1;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
-  max-width:680px;
-  margin:0 auto;
-  padding:0 20px 48px;
-  background:#08111f;
-}
-
-@media(max-width:640px){
-  .portals{grid-template-columns:1fr}
-}
-
-.portal-card{
-  position:relative;
-  border-radius:20px;
-  overflow:hidden;
-  cursor:pointer;
-  text-decoration:none;
-  display:block;
-  opacity:0;
-  animation:fadeUp .7s forwards;
-  transition:transform .25s, box-shadow .25s;
-}
-.portal-card:hover{transform:translateY(-4px)}
-.portal-card:nth-child(1){animation-delay:.5s}
-.portal-card:nth-child(2){animation-delay:.65s}
-
-/* Team card */
-.portal-card.team{
-  background:var(--navy2);
-  border:1px solid rgba(200,146,10,.25);
-  box-shadow:0 0 0 1px rgba(200,146,10,.08), 0 20px 60px rgba(0,0,0,.4);
-}
-.portal-card.team:hover{
-  border-color:rgba(200,146,10,.5);
-  box-shadow:0 0 0 1px rgba(200,146,10,.2), 0 24px 70px rgba(0,0,0,.5), 0 0 40px rgba(200,146,10,.1);
-}
-
-/* Partner card */
-.portal-card.partner{
-  background:linear-gradient(145deg, #0d2418 0%, #091a24 100%);
-  border:1px solid rgba(10,120,104,.4);
-  box-shadow:0 0 0 1px rgba(10,120,104,.1), 0 20px 60px rgba(0,0,0,.4);
-}
-.portal-card.partner:hover{
-  border-color:rgba(10,120,104,.7);
-  box-shadow:0 0 0 1px rgba(10,120,104,.25), 0 24px 70px rgba(0,0,0,.5), 0 0 40px rgba(10,120,104,.12);
-}
-
-.card-glow{
-  position:absolute;
-  top:-30%;left:-20%;
-  width:70%;height:70%;
-  border-radius:50%;
-  pointer-events:none;
-}
-.team .card-glow{background:radial-gradient(circle, rgba(200,146,10,.12) 0%, transparent 70%)}
-.partner .card-glow{background:radial-gradient(circle, rgba(10,120,104,.14) 0%, transparent 70%)}
-
-.card-inner{padding:32px 28px 28px}
-
-.card-icon{
-  width:44px;height:44px;
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:20px;
-  flex-shrink:0;
-}
-.team .card-icon{background:var(--gold-l);border:1px solid rgba(200,146,10,.25)}
-.partner .card-icon{background:var(--teal-l);border:1px solid rgba(10,120,104,.25)}
-.card-icon svg{width:22px;height:22px}
-.team .card-icon svg{stroke:var(--gold2)}
-.partner .card-icon svg{stroke:var(--teal2)}
-
-.card-badge{
-  font-family:'Fira Code',monospace;
-  font-size:9px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  padding:3px 9px;
-  border-radius:20px;
-  display:inline-block;
-  margin-bottom:14px;
-  font-weight:500;
-}
-.team .card-badge{background:var(--gold-l);color:var(--gold2);border:1px solid rgba(200,146,10,.2)}
-.partner .card-badge{background:var(--teal-l);color:var(--teal2);border:1px solid rgba(10,120,104,.2)}
-
-.card-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(22px,4vw,30px);
-  font-weight:600;
-  line-height:1.1;
-  color:var(--white);
-  margin-bottom:6px;
-}
-.card-title-es{display:block}
-.card-title-en{display:none;font-style:italic;font-size:.8em;color:var(--muted-on-dark);font-weight:400}
-
-.card-desc{
-  font-size:13px;
-  font-weight:300;
-  color:var(--muted-on-dark);
-  line-height:1.6;
-  margin-bottom:24px;
-}
-
-.card-links{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  margin-bottom:24px;
-}
-.card-link{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 12px;
-  border-radius:8px;
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.1);
-  text-decoration:none;
-  transition:all .15s;
-  font-size:12px;
-  color:rgba(255,255,255,.8);
-}
-.card-link:hover{
-  background:rgba(255,255,255,.08);
-  border-color:rgba(255,255,255,.12);
-  color:var(--white);
-}
-.card-link-dot{
-  width:5px;height:5px;
-  border-radius:50%;
-  flex-shrink:0;
-}
-.team .card-link-dot{background:var(--gold)}
-.partner .card-link-dot{background:var(--teal2)}
-
-.card-link-badge{
-  margin-left:auto;
-  font-family:'Fira Code',monospace;
-  font-size:9px;
-  padding:2px 7px;
-  border-radius:20px;
-  letter-spacing:.06em;
-}
-.soon-badge{
-  background:rgba(255,255,255,.06);
-  color:var(--muted-on-dark);
-  border:1px solid rgba(255,255,255,.08);
-}
-
-.card-cta{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding-top:16px;
-  border-top:1px solid rgba(255,255,255,.06);
-}
-.card-cta-text{
-  font-size:13px;
-  font-weight:500;
-  letter-spacing:.02em;
-}
-.team .card-cta-text{color:var(--gold2)}
-.partner .card-cta-text{color:var(--teal2)}
-
-.card-cta-arrow{
-  width:32px;height:32px;
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  transition:transform .2s;
-}
-.team .card-cta-arrow{background:var(--gold-l);border:1px solid rgba(200,146,10,.25)}
-.partner .card-cta-arrow{background:var(--teal-l);border:1px solid rgba(10,120,104,.25)}
-.portal-card:hover .card-cta-arrow{transform:translateX(4px)}
-
-/* ── STATES BAR ──────────────────────────────────────── */
-.states-bar{
-  position:relative;
-  z-index:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-  flex-wrap:wrap;
-  padding:24px 20px 32px;
-  background:#08111f;
-  opacity:0;
-  animation:fadeUp .6s .85s forwards;
-}
-.state-pill{
-  font-family:'Fira Code',monospace;
-  font-size:10px;
-  letter-spacing:.1em;
-  padding:5px 14px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,.1);
-  color:var(--muted-on-dark);
-}
-.state-pill.active{
-  border-color:rgba(200,146,10,.3);
-  background:var(--gold-ll);
-  color:var(--gold2);
-}
-.state-divider{
-  color:var(--dim-on-dark);
-  font-size:10px;
-}
-
-/* ── FOOTER ──────────────────────────────────────────── */
-.footer{
-  position:relative;
-  z-index:1;
-  background:#08111f;
-  border-top:1px solid rgba(255,255,255,.06);
-  padding:28px 24px;
-  text-align:center;
-}
-.footer-nmls{
-  font-family:'Fira Code',monospace;
-  font-size:10px;
-  color:var(--dim-on-dark);
-  letter-spacing:.1em;
-  margin-bottom:8px;
-}
-.footer-disc{
-  font-size:10px;
-  color:rgba(255,255,255,.2);
-  line-height:1.7;
-  max-width:600px;
-  margin:0 auto;
-}
-
-/* ── ANIMATIONS ──────────────────────────────────────── */
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(16px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* ── LANGUAGE STATES ──────────────────────────────────── */
-.en{display:none}
-.es{display:block}
-body.lang-en .en{display:block}
-body.lang-en .es{display:none}
-body.lang-en .card-title-es{display:none}
-body.lang-en .card-title-en{display:block}
-
-/* inline spans */
-span.en{display:none}
-span.es{display:inline}
-body.lang-en span.en{display:inline}
-body.lang-en span.es{display:none}
-
-/* ── MOBILE ──────────────────────────────────────────── */
-@media(max-width:480px){
-  .hero{padding:52px 20px 40px}
-  .card-inner{padding:24px 20px 22px}
-  .topbar{padding:0 16px}
+@media(max-width:420px){
+  .brand-sub{display:none}
+  .stat-n{font-size:24px}
 }
 </style>
 </head>
-
 <body>
 
-<!-- TOP BAR -->
-<header class="topbar">
-  <div class="topbar-brand">
-    <div class="brand-mark">
-      <svg viewBox="0 0 14 14" fill="none" stroke="#c8920a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M7 1L1 4v6l6 3 6-3V4L7 1z"/>
-        <path d="M7 1v12M1 4l6 3 6-3"/>
-      </svg>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div class="mark">
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="#e0aa28" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1L1 4v6l6 3 6-3V4L7 1z"/><path d="M7 1v12M1 4l6 3 6-3"/></svg>
+      </div>
+      <div style="min-width:0">
+        <div class="brand-name">Del Valle Lending Co.</div>
+        <div class="brand-sub">Powered by Barrett Financial Group · NMLS# 181106</div>
+      </div>
     </div>
-    <div>
-      <div class="brand-text">DEL VALLE LENDING CO.</div>
-      <div class="brand-sub">Powered by Barrett · Las Vegas, NV</div>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="btn-es" class="on" onclick="setLang('es')">ES</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
     </div>
-  </div>
-  <div class="lang-toggle" role="group" aria-label="Language selector">
-    <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" style="background:#08111f">
-  <div class="hero-eyebrow">
-    <span class="es">Jose Del Valle · Oficial de Préstamos · Del Valle Lending Co.</span>
-    <span class="en">Jose Del Valle · Mortgage Loan Officer · Del Valle Lending Co.</span>
-  </div>
+<main class="wrap">
 
-  <h1 class="hero-title">
-    <span class="es">Tu <em>camino</em><br>a casa comienza aquí</span>
-    <span class="en">Your <em>path</em><br>home starts here</span>
-  </h1>
-
-  <p class="hero-subtitle">
-    <span class="es">Programas DPA en 30 días — donde otros tardan 60. Especialistas en NV · FL · TX. Cerramos más rápido y protegemos tu contrato.</span>
-    <span class="en">DPA programs in 30 days — where others take 60. Specialists in NV · FL · TX. We close faster and protect your contract.</span>
-  </p>
-
-  <div class="hero-nmls">NMLS# 2686066 · Del Valle Lending Co. · 1 Meridian Vista Dr, Ste 130, Las Vegas, NV 89135 · (702) 409-3114</div>
-</section>
-
-<!-- PORTAL CARDS -->
-<!-- SPEED STATS STRIP -->
-<div style="background:#08111f;padding:0 20px 20px">
-  <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#fff;line-height:1">21–24</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:4px;font-family:'Fira Code',monospace;letter-spacing:.06em;line-height:1.4"><span class="es">DÍAS CONVENCIONAL</span><span class="en">DAYS CONVENTIONAL</span></div>
-    </div>
-    <div style="background:rgba(200,146,10,.08);border:1px solid rgba(200,146,10,.25);border-radius:12px;padding:14px;text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--gold2);line-height:1">30</div>
-      <div style="font-size:10px;color:rgba(200,146,10,.7);margin-top:4px;font-family:'Fira Code',monospace;letter-spacing:.06em;line-height:1.4"><span class="es">DÍAS DPA · OBJ.</span><span class="en">DAYS DPA · TARGET</span></div>
-    </div>
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;text-align:center">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:rgba(255,255,255,.5);line-height:1;text-decoration:line-through;text-decoration-color:rgba(139,26,26,.7)">45–60</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:4px;font-family:'Fira Code',monospace;letter-spacing:.06em;line-height:1.4"><span class="es">DÍAS COMPETENCIA</span><span class="en">DAYS COMPETITION</span></div>
-    </div>
-  </div>
-</div>
-
-<main class="portals">
-
-  <!-- TEAM PORTAL -->
-  <a class="portal-card team" href="team/tools/agent-presentation.html" onclick="checkTeamAccess('team/tools/agent-presentation.html', event)">
-    <div class="card-glow"></div>
-    <div class="card-inner">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
-      </div>
-      <span class="card-badge">
-        <span class="es">Equipo interno</span>
-        <span class="en">Internal team</span>
-      </span>
-      <h2 class="card-title">
-        <span class="card-title-es">Portal del equipo</span>
-        <span class="card-title-en">Team portal</span>
-      </h2>
-      <p class="card-desc">
-        <span class="es">Todas las herramientas operativas de Del Valle Lending Co. en un solo lugar. Formularios, guías, referencias de productos.</span>
-        <span class="en">All Del Valle Lending Co. operational tools in one place. Forms, guides, product references.</span>
-      </p>
-
-      <div class="card-links">
-        <a class="card-link" href="https://lendingpipeline.vercel.app/" target="_blank" onclick="e(event)" style="border-color:rgba(200,146,10,.25);background:rgba(200,146,10,.06)">
-          <span class="card-link-dot" style="background:var(--gold2)"></span>
-          <span class="es">Pipeline Tracker — App en vivo</span>
-          <span class="en">Pipeline Tracker — Live app</span>
-          <span style="margin-left:auto;font-family:'Fira Code',monospace;font-size:9px;padding:2px 8px;border-radius:20px;background:rgba(200,146,10,.15);color:var(--gold2);border:1px solid rgba(200,146,10,.25)">LIVE ↗</span>
-        </a>
-        <a class="card-link" href="team/tools/client_intake_questionnaire.html" onclick="checkTeamAccess('team/tools/client_intake_questionnaire.html', event)">
-          <span class="card-link-dot"></span>
-          <span class="es">Entrevista de cliente · Intake</span>
-          <span class="en">Client intake questionnaire</span>
-        </a>
-        <a class="card-link" href="team/tools/new_construction_intake.html" onclick="checkTeamAccess('team/tools/new_construction_intake.html', event)">
-          <span class="card-link-dot"></span>
-          <span class="es">Intake — Nueva construcción</span>
-          <span class="en">New construction intake</span>
-        </a>
-        <a class="card-link" href="team/tools/dpa_three_state.html" onclick="checkTeamAccess('team/tools/dpa_three_state.html', event)">
-          <span class="card-link-dot"></span>
-          <span class="es">Guía de programas DPA</span>
-          <span class="en">DPA programs reference guide</span>
-        </a>
-        
-        
-        
-      </div>
-
-      <div class="card-cta">
-        <span class="card-cta-text">
-          <span class="es">Abrir portal del equipo</span>
-          <span class="en">Open team portal</span>
-        </span>
-        <span class="card-cta-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8920a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </span>
+  <section class="hero">
+    <div>
+      <div class="eyebrow mono"><span class="es">Jose Del Valle · Branch Manager &amp; Oficial de Préstamos</span><span class="en">Jose Del Valle · Branch Manager &amp; Mortgage Loan Officer</span></div>
+      <h1><span class="es">Tu <em>camino</em> a casa comienza aquí</span><span class="en">Your <em>path</em> home starts here</span></h1>
+      <p class="lead"><span class="es">Programas DPA en 30 días — donde otros tardan 60. Especialistas en NV · FL · TX. Cerramos más rápido y protegemos tu contrato.</span><span class="en">DPA programs in 30 days — where others take 60. Specialists in NV · FL · TX. We close faster and protect your contract.</span></p>
+      <div class="contact">
+        <span><b>NMLS# 2686066</b></span>
+        <span>1 Meridian Vista Dr, Ste 130, Las Vegas, NV 89135</span>
+        <span><b>(702) 409-3114</b></span>
       </div>
     </div>
-  </a>
-
-  <!-- PARTNER PORTAL -->
-  <a class="portal-card partner" href="partners/index.html">
-    <div class="card-glow"></div>
-    <div class="card-inner">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>
+    <div>
+      <div class="stats">
+        <div class="stat"><div class="stat-n">21–24</div><div class="stat-l mono"><span class="es">Días conv.</span><span class="en">Days conv.</span></div></div>
+        <div class="stat gold"><div class="stat-n">30</div><div class="stat-l mono"><span class="es">Días DPA</span><span class="en">Days DPA</span></div></div>
+        <div class="stat off"><div class="stat-n">45–60</div><div class="stat-l mono"><span class="es">Competencia</span><span class="en">Competition</span></div></div>
       </div>
-      <span class="card-badge">
-        <span class="es">Para agentes inmobiliarios</span>
-        <span class="en">Realtor partners</span>
-      </span>
-      <h2 class="card-title">
-        <span class="card-title-es">Portal del socio</span>
-        <span class="card-title-en">Partner portal</span>
-      </h2>
-      <p class="card-desc">
-        <span class="es">Recursos para agentes de bienes raíces. Conoce nuestros programas, pre-califica a tus clientes y refiere directamente.</span>
-        <span class="en">Resources for real estate agents. Learn our programs, pre-screen your clients, and refer directly into our workflow.</span>
-      </p>
-
-      <div class="card-links">
-        <a class="card-link" href="partners/lender-profile.html" onclick="e(event)">
-          <span class="card-link-dot"></span>
-          <span class="es">Perfil del prestamista — Jose Del Valle</span>
-          <span class="en">Lender profile — Jose Del Valle</span>
-
-        </a>
-        <a class="card-link" href="partners/pre-screen.html" onclick="e(event)">
-          <span class="card-link-dot"></span>
-          <span class="es">Pre-calificación rápida para tu cliente</span>
-          <span class="en">Quick client pre-screen checklist</span>
-
-        </a>
-        <a class="card-link" href="partners/process.html" onclick="e(event)">
-          <span class="card-link-dot"></span>
-          <span class="es">El proceso de cierre — paso a paso</span>
-          <span class="en">Loan process timeline — end to end</span>
-
-        </a>
-        <a class="card-link" href="partners/dpa-101.html" onclick="e(event)">
-          <span class="card-link-dot"></span>
-          <span class="es">DPA 101 — Programas NV · FL · TX</span>
-          <span class="en">DPA 101 — Programs NV · FL · TX</span>
-
-        </a>
-        <a class="card-link" href="partners/refer.html" onclick="e(event)">
-          <span class="card-link-dot"></span>
-          <span class="es">Referir un cliente a Del Valle Lending Co.</span>
-          <span class="en">Refer a client to Del Valle Lending Co.</span>
-
-        </a>
-      </div>
-
-      <div class="card-cta">
-        <span class="card-cta-text">
-          <span class="es">Abrir portal de socios</span>
-          <span class="en">Open partner portal</span>
-        </span>
-        <span class="card-cta-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0d9980" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </span>
+      <div class="states mono">
+        <span class="st on">NV</span><span class="st on">FL</span><span class="st on">TX</span>
+        <span class="st">AZ · <span class="es">próximo</span><span class="en">soon</span></span>
+        <span class="st">CO · <span class="es">próximo</span><span class="en">soon</span></span>
       </div>
     </div>
-  </a>
+  </section>
 
+  <section class="grid">
+
+    <!-- TEAM -->
+    <div class="panel team">
+      <div class="p-hd">
+        <div class="p-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#e0aa28" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div>
+          <div class="p-title"><span class="es">Portal del equipo</span><span class="en">Team portal</span></div>
+          <div class="p-desc"><span class="es">Herramientas operativas internas</span><span class="en">Internal operating tools</span></div>
+        </div>
+        <span class="p-tag mono"><span class="es">Interno</span><span class="en">Internal</span></span>
+      </div>
+      <nav class="rows">
+        <a class="row" href="https://lendingpipeline.vercel.app/" target="_blank" rel="noopener">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t">Pipeline Tracker</span><br><span class="r-s"><span class="es">App en vivo del pipeline</span><span class="en">Live pipeline app</span></span></span>
+          <span class="live mono">LIVE ↗</span>
+        </a>
+        <a class="row" href="team/tools/client_intake_questionnaire.html" onclick="return team(this,event)">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">Entrevista de cliente · Intake</span><span class="en">Client intake questionnaire</span></span><br><span class="r-s"><span class="es">Compra · DPA · FHA · Conv · VA · Non-QM</span><span class="en">Purchase · DPA · FHA · Conv · VA · Non-QM</span></span></span>
+          <span class="lock">🔒</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+        <a class="row" href="team/tools/new_construction_intake.html" onclick="return team(this,event)">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">Intake — Nueva construcción</span><span class="en">New construction intake</span></span><br><span class="r-s"><span class="es">Builders y casas nuevas</span><span class="en">Builders and new homes</span></span></span>
+          <span class="lock">🔒</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+        <a class="row" href="team/tools/dpa_three_state.html" onclick="return team(this,event)">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">Guía de programas DPA</span><span class="en">DPA programs reference</span></span><br><span class="r-s">NV · FL · TX</span></span>
+          <span class="lock">🔒</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+        <a class="row" href="team/tools/agent-presentation.html" onclick="return team(this,event)">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">Presentación para agentes</span><span class="en">Agent partnership presentation</span></span><br><span class="r-s"><span class="es">14 diapositivas bilingües</span><span class="en">14 bilingual slides</span></span></span>
+          <span class="lock">🔒</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+      </nav>
+    </div>
+
+    <!-- PARTNERS -->
+    <div class="panel partner">
+      <div class="p-hd">
+        <div class="p-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0d9980" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div>
+          <div class="p-title"><span class="es">Portal del socio</span><span class="en">Partner portal</span></div>
+          <div class="p-desc"><span class="es">Para agentes de bienes raíces</span><span class="en">For real estate agents</span></div>
+        </div>
+        <span class="p-tag mono"><span class="es">Agentes</span><span class="en">Realtors</span></span>
+      </div>
+      <nav class="rows">
+        <a class="row" href="partners/lender-profile.html">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">Perfil del prestamista</span><span class="en">Lender profile</span></span><br><span class="r-s"><span class="es">Jose Del Valle · equipo y programas</span><span class="en">Jose Del Valle · team and programs</span></span></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+        <a class="row" href="partners/pre-screen.html">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">Pre-calificación rápida</span><span class="en">Quick client pre-screen</span></span><br><span class="r-s"><span class="es">2 minutos · resultado por WhatsApp</span><span class="en">2 minutes · result via WhatsApp</span></span></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+        <a class="row" href="partners/process.html">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">El proceso de cierre</span><span class="en">Loan process timeline</span></span><br><span class="r-s"><span class="es">Paso a paso, de contrato a llaves</span><span class="en">Step by step, contract to keys</span></span></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+        <a class="row" href="partners/dpa-101.html">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t">DPA 101</span><br><span class="r-s"><span class="es">Programas NV · FL · TX</span><span class="en">Programs NV · FL · TX</span></span></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+        <a class="row" href="partners/refer.html">
+          <span class="dot"></span>
+          <span class="r-txt"><span class="r-t"><span class="es">Referir un cliente</span><span class="en">Refer a client</span></span><br><span class="r-s"><span class="es">30 segundos · contacto en 2 horas</span><span class="en">30 seconds · contact within 2 hours</span></span></span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+      </nav>
+    </div>
+
+  </section>
 </main>
 
-<!-- STATES BAR -->
-<div class="states-bar">
-  <span class="state-pill active">
-    <span class="es">NV · Nevada</span>
-    <span class="en">NV · Nevada</span>
-  </span>
-  <span class="state-divider">·</span>
-  <span class="state-pill active">
-    <span class="es">FL · Florida</span>
-    <span class="en">FL · Florida</span>
-  </span>
-  <span class="state-divider">·</span>
-  <span class="state-pill active">
-    <span class="es">TX · Texas</span>
-    <span class="en">TX · Texas</span>
-  </span>
-  <span class="state-divider">·</span>
-  <span class="state-pill">
-    <span class="es">AZ · Arizona · Próximo</span>
-    <span class="en">AZ · Arizona · Coming</span>
-  </span>
-  <span class="state-divider">·</span>
-  <span class="state-pill">
-    <span class="es">CO · Colorado · Próximo</span>
-    <span class="en">CO · Colorado · Coming</span>
-  </span>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-nmls">JOSE DEL VALLE · NMLS# 2686066 · DEL VALLE LENDING CO. · BARRETT NMLS# 181106 · LICENSED IN NV · FL · TX</div>
-  <p class="footer-disc">
-    Del Valle Lending Co. is powered by Barrett Financial Group, L.L.C. NMLS# 181106. Equal Housing Opportunity.
-    <span class="es"> Este sitio es de uso interno y para socios autorizados de Del Valle Lending Co. Los programas de asistencia para el pago inicial están sujetos a disponibilidad, límites de ingresos y otros requisitos de elegibilidad.</span>
-    <span class="en"> This site is for internal use and authorized Del Valle Lending Co. partners. Down payment assistance programs are subject to availability, income limits, and other eligibility requirements.</span>
-  </p>
+<footer>
+  <div class="wrap">
+    <div class="f-l1 mono">JOSE DEL VALLE · NMLS# 2686066 · DEL VALLE LENDING CO. · BARRETT NMLS# 181106 · LICENSED IN NV · FL · TX</div>
+    <p class="f-l2">Del Valle Lending Co. is powered by Barrett Financial Group, L.L.C. NMLS# 181106. Equal Housing Opportunity.
+      <span class="es">Este sitio es de uso interno y para socios autorizados de Del Valle Lending Co. Los programas de asistencia para el pago inicial están sujetos a disponibilidad, límites de ingresos y otros requisitos de elegibilidad.</span>
+      <span class="en">This site is for internal use and authorized Del Valle Lending Co. partners. Down payment assistance programs are subject to availability, income limits, and other eligibility requirements.</span>
+    </p>
+  </div>
 </footer>
 
 <script>
-// ── TEAM PORTAL PASSWORD ────────────────────────────────
+// ── TEAM PORTAL PIN ─────────────────────────────────────
 var TEAM_PIN = '541A';  // Change this PIN anytime
 var teamUnlocked = false;
-
-function checkTeamAccess(url, event) {
-  event.preventDefault();
-  event.stopPropagation();
-  if (teamUnlocked) {
-    window.open(url, '_blank');
-    return;
-  }
-  var pin = prompt('Del Valle Lending Co. · Team Portal\nEnter access PIN:');
-  if (pin && pin.toUpperCase() === TEAM_PIN) {
+function team(a, ev){
+  ev.preventDefault();
+  if(!teamUnlocked){
+    var pin = prompt('Del Valle Lending Co. · Team Portal\nEnter access PIN:');
+    if(pin === null) return false;
+    if(pin.toUpperCase() !== TEAM_PIN){ alert('Incorrect PIN. Contact Jose Del Valle-Figueroa for access.'); return false; }
     teamUnlocked = true;
-    window.open(url, '_blank');
-  } else if (pin !== null) {
-    alert('Incorrect PIN. Contact Jose Del Valle-Figueroa for access.');
   }
+  window.open(a.getAttribute('href'), '_blank');
+  return false;
 }
 
+// ── LANGUAGE ────────────────────────────────────────────
 function setLang(lang){
   document.body.classList.toggle('lang-en', lang==='en');
-  document.getElementById('btn-es').classList.toggle('active', lang==='es');
-  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.getElementById('btn-es').classList.toggle('on', lang==='es');
+  document.getElementById('btn-en').classList.toggle('on', lang==='en');
   document.documentElement.lang = lang;
-  localStorage.setItem('541a-lang', lang);
+  try{ localStorage.setItem('541a-lang', lang); }catch(e){}
 }
-
-// Restore saved language preference
-(function(){
-  var saved = localStorage.getItem('541a-lang');
-  if(saved === 'en') setLang('en');
-})();
-
-// Stop card link clicks from navigating the whole card
-function e(ev){
-  ev.stopPropagation();
-}
+(function(){ try{ if(localStorage.getItem('541a-lang')==='en') setLang('en'); }catch(e){} })();
 </script>
-
 </body>
 </html>
