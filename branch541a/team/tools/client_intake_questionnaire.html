@@ -42,7 +42,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 .agent-nmls{font-family:'Fira Code',monospace;font-size:10px;color:var(--gold);margin-top:3px;letter-spacing:.08em}
 
 /* ── CLIENT INFO BAR ── */
-.client-bar{background:var(--navy2);padding:16px 48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;border-bottom:1px solid rgba(200,146,10,.15)}
+.client-bar{background:var(--navy2);padding:16px 48px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;border-bottom:1px solid rgba(200,146,10,.15)}
 .cf label{font-family:'Fira Code',monospace;font-size:9px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:4px}
 .cf input{background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.18);color:var(--white);font-family:'Jost',sans-serif;font-size:13px;padding:4px 0;width:100%;outline:none}
 .cf input:focus{border-bottom-color:var(--gold)}
@@ -204,6 +204,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
   .gates-grid{grid-template-columns:1fr 1fr}
   .score-ring{flex-direction:column;align-items:flex-start}
 }
+@media(max-width:700px){.client-bar{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -235,9 +236,11 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 <!-- CLIENT INFO BAR -->
 <div class="client-bar">
   <div class="cf"><label id="lbl-name">Client name</label><input type="text" id="client-name" placeholder="Last, First" oninput="updateTD()"></div>
-  <div class="cf"><label id="lbl-coname">Co-borrower name</label><input type="text" id="coborrower-name" placeholder="Last, First — spouse / if applies" oninput="updateTD()"></div>
   <div class="cf"><label id="lbl-phone">Phone</label><input type="text" id="client-phone" placeholder="(702) ___-____" oninput="updateTD()"></div>
   <div class="cf"><label id="lbl-email">Email</label><input type="text" id="client-email" placeholder="email@domain.com" oninput="updateTD()"></div>
+  <div class="cf"><label id="lbl-coname">Co-borrower name</label><input type="text" id="coborrower-name" placeholder="Last, First — spouse / if applies" oninput="updateTD()"></div>
+  <div class="cf"><label id="lbl-cophone">Co-borrower phone</label><input type="text" id="coborrower-phone" placeholder="(702) ___-____" oninput="updateTD()"></div>
+  <div class="cf"><label id="lbl-coemail">Co-borrower email</label><input type="text" id="coborrower-email" placeholder="email@domain.com" oninput="updateTD()"></div>
   <div class="cf"><label id="lbl-date">Interview date</label><input type="text" id="client-date" placeholder="April 2026" oninput="updateTD()"></div>
   <div class="cf"><label id="lbl-lo">LO assigned</label>
     <select id="client-lo" style="background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.18);color:var(--white);font-family:'Jost',sans-serif;font-size:13px;padding:4px 0;width:100%;outline:none;-webkit-appearance:none;cursor:pointer" onchange="updateTD()">
@@ -929,9 +932,11 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
   <div class="td-note">The fields below update automatically as you complete the interview. Use <strong>Copy TaxDome Fields</strong> button above to copy a formatted summary you can paste directly into TaxDome or your pipeline tracker row.</div>
   <div class="td-fields" id="td-fields">
     <div class="td-field"><div class="td-field-label">CLIENT NAME</div><div class="td-field-val" id="td-name">—</div></div>
-    <div class="td-field"><div class="td-field-label">CO-BORROWER</div><div class="td-field-val" id="td-cobor">—</div></div>
     <div class="td-field"><div class="td-field-label">PHONE</div><div class="td-field-val" id="td-phone">—</div></div>
     <div class="td-field"><div class="td-field-label">EMAIL</div><div class="td-field-val" id="td-email">—</div></div>
+    <div class="td-field"><div class="td-field-label">CO-BORROWER</div><div class="td-field-val" id="td-cobor">—</div></div>
+    <div class="td-field"><div class="td-field-label">CO-BORROWER PHONE</div><div class="td-field-val" id="td-cophone">—</div></div>
+    <div class="td-field"><div class="td-field-label">CO-BORROWER EMAIL</div><div class="td-field-val" id="td-coemail">—</div></div>
     <div class="td-field"><div class="td-field-label">LO ASSIGNED</div><div class="td-field-val" id="td-lo">—</div></div>
     <div class="td-field"><div class="td-field-label">LEAD SOURCE</div><div class="td-field-val" id="td-source">—</div></div>
     <div class="td-field"><div class="td-field-label">INTERVIEW DATE</div><div class="td-field-val" id="td-date">—</div></div>
@@ -1210,6 +1215,8 @@ function updateTD(){
 
   sv('td-name',  gv('client-name'));
   sv('td-phone', gv('client-phone'));
+  sv('td-cophone', gv('coborrower-phone'));
+  sv('td-coemail', gv('coborrower-email'));
   (function(){ var n=gv('coborrower-name'), r=getSel('coborrow'); var p=[]; if(n!=='—') p.push(n); if(r) p.push('('+r+')'); sv('td-cobor', p.join(' ')||'—'); })();
   sv('td-email', gv('client-email'));
   sv('td-lo',    gv('client-lo'));
