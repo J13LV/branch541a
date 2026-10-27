@@ -970,12 +970,12 @@ function showResult(){
   var creditLabel = answers.credit || '—';
   if(answers.credit === '720+' || answers.credit === '700-719' || answers.credit === '680-699'){ score+=25; signals.push({t:'Conv DPA elegible',e:'Conventional DPA eligible',c:'sig-conv'}); }
   else if(answers.credit === '640-679'){ score+=20; signals.push({t:'FHA + DPA elegible',e:'FHA + DPA eligible',c:'sig-dpa'}); }
-  else if(answers.credit === '620-639'){ score+=12; signals.push({t:'Chenoa (620)',c:'sig-fha',e:'Chenoa eligible (620)'}); signals.push({t:'HIP requiere 640',e:'HIP needs 640',c:'sig-warn'}); }
+  else if(answers.credit === '620-639'){ score+=12; signals.push({t:'Chenoa (620)',c:'sig-fha',e:'Chenoa eligible (620)'}); signals.push({t:'FHA DPA 3.5% del lender (620)',e:'Lender FHA DPA 3.5% (620)',c:'sig-dpa'}); signals.push({t:'HIP requiere 640',e:'HIP needs 640',c:'sig-warn'}); }
   else if(answers.credit === '580-619' || answers.credit === 'below580'){ score+=3; signals.push({t:'Trabajo de crédito necesario',e:'Credit work needed',c:'sig-warn'}); }
   else if(answers.credit === 'unknown'){ signals.push({t:'Revisar crédito',e:'Pull credit — unknown',c:'sig-warn'}); }
 
   // Income
-  if(answers.income === 'over160') signals.push({t:'Sobre límite HIP — NHF/Chenoa',e:'Over HIP limit — NHF/Chenoa',c:'sig-warn'});
+  if(answers.income === 'over160') signals.push({t:'Sobre límite HIP — Chenoa / FHA DPA del lender (sin límite)',e:'Over HIP limit — Chenoa / lender FHA DPA (no income cap)',c:'sig-warn'});
   else if(answers.income === '105-130' || answers.income === '130-160') signals.push({t:'Verificar límites DPA',e:'Verify DPA income limits',c:'sig-warn'});
   if(answers.income) score += 10;
 
