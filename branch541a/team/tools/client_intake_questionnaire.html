@@ -186,6 +186,9 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 .btn-gold:hover{background:var(--gold2)}
 .btn-outline{background:transparent;color:var(--navy);border:1px solid var(--border2)}
 .btn-outline:hover{background:var(--cream)}
+.btn-wa{background:#25d366;color:#fff}
+.btn-wa:hover{background:#1fb857}
+@media print{.btn-row{display:none}}
 
 @media print{
   .btn-row,.lang-bar,.progress-bar{display:none}
@@ -287,6 +290,8 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 <div class="btn-row">
   <button class="btn btn-navy" onclick="window.print()">🖨 Print / Save PDF</button>
   <button class="btn btn-gold" onclick="exportTaxDome()">📋 Copy TaxDome Fields</button>
+  <button class="btn btn-wa" onclick="sendWhatsApp()">💬 Send via WhatsApp</button>
+  <button class="btn btn-outline" onclick="emailTeam()">✉️ Email team</button>
   <button class="btn btn-outline" onclick="clearAll()">↺ Clear form</button>
 </div>
 
@@ -552,6 +557,19 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
     </div></div>
 
     <div class="q-item"><div class="qn">4.4</div><div class="qc">
+      <div class="qt">Employment history — last 2 years. Any other employer, business, or gap in work?</div>
+      <div class="qt-es">Historial de empleo — últimos 2 años. ¿Otro empleador, negocio o tiempo sin trabajar?</div>
+      <div class="opts">
+        <label class="opt" onclick="tog(this,'sel-g','emp_hist',event)"><input type="radio" name="emp_hist"><div class="opt-dot"></div>No — same job 2+ years</label>
+        <label class="opt" onclick="tog(this,'sel','emp_hist',event)"><input type="radio" name="emp_hist"><div class="opt-dot"></div>Yes — 1 previous employer</label>
+        <label class="opt" onclick="tog(this,'sel','emp_hist',event)"><input type="radio" name="emp_hist"><div class="opt-dot"></div>Yes — 2 or more employers</label>
+        <label class="opt" onclick="tog(this,'sel-r','emp_hist',event)"><input type="radio" name="emp_hist"><div class="opt-dot"></div>Yes — gap of 30+ days</label>
+      </div>
+      <textarea class="qa" rows="2" style="margin-top:8px" id="work_hist" placeholder="Employer · position · from (mm/yy) – to (mm/yy) — one per line, current first" oninput="updateTD()"></textarea>
+      <div class="note n-gold">Cover a full 24 months with no unexplained gaps. A gap of 30+ days needs a letter of explanation.</div>
+    </div></div>
+
+    <div class="q-item"><div class="qn">4.5</div><div class="qc">
       <div class="qt">Do you have any additional income sources?</div>
       <div class="qt-es">¿Tiene otros ingresos adicionales?</div>
       <div class="opts">
@@ -565,7 +583,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
       </div>
     </div></div>
 
-    <div class="q-item"><div class="qn">4.5</div><div class="qc">
+    <div class="q-item"><div class="qn">4.6</div><div class="qc">
       <div class="qt">Are you currently on an IRS payment plan (Form 9465)?</div>
       <div class="qt-es">¿Tiene actualmente un plan de pago con el IRS?</div>
       <div class="opts">
@@ -732,6 +750,18 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
     </div></div>
 
     <div class="q-item"><div class="qn">7.3</div><div class="qc">
+      <div class="qt">Housing history — how long at your current address?</div>
+      <div class="qt-es">Historial de vivienda — ¿cuánto tiempo lleva en su dirección actual?</div>
+      <div class="opts">
+        <label class="opt" onclick="tog(this,'sel-r','res_length',event)"><input type="radio" name="res_length"><div class="opt-dot"></div>Less than 1 year</label>
+        <label class="opt" onclick="tog(this,'sel','res_length',event)"><input type="radio" name="res_length"><div class="opt-dot"></div>1–2 years</label>
+        <label class="opt" onclick="tog(this,'sel-g','res_length',event)"><input type="radio" name="res_length"><div class="opt-dot"></div>2+ years</label>
+      </div>
+      <textarea class="qa" rows="2" style="margin-top:8px" id="housing_hist" placeholder="Current address · since (mm/yy) · rent/own — if under 2 years, add previous address(es) with dates" oninput="updateTD()"></textarea>
+      <div class="note n-gold">Collect 2 full years of addresses. Under 2 years at the current address → list the previous one(s).</div>
+    </div></div>
+
+    <div class="q-item"><div class="qn">7.4</div><div class="qc">
       <div class="qt">Have you started working with a real estate agent?</div>
       <div class="qt-es">¿Ha comenzado a trabajar con un agente de bienes raíces?</div>
       <div class="opts">
@@ -743,7 +773,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
       <textarea class="qa" rows="1" id="agent_name" placeholder="Agent name / company (if known)..." oninput="updateTD()"></textarea>
     </div></div>
 
-    <div class="q-item"><div class="qn">7.4</div><div class="qc">
+    <div class="q-item"><div class="qn">7.5</div><div class="qc">
       <div class="qt">Is there any urgency to your situation? (lease ending, life event, relocation)</div>
       <div class="qt-es">¿Hay alguna urgencia en su situación actual?</div>
       <textarea class="qa" rows="2" placeholder="Lease end date / job relocation / family situation / other urgency..."></textarea>
@@ -915,6 +945,8 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
     <div class="td-field"><div class="td-field-label">PRODUCT SIGNALS</div><div class="td-field-val" id="td-prods">—</div></div>
     <div class="td-field"><div class="td-field-label">READINESS SCORE</div><div class="td-field-val" id="td-score">—</div></div>
     <div class="td-field"><div class="td-field-label">OCCUPATION</div><div class="td-field-val" id="td-occ">—</div></div>
+    <div class="td-field"><div class="td-field-label">WORK HISTORY (2 YRS)</div><div class="td-field-val" id="td-work" style="font-size:11px">—</div></div>
+    <div class="td-field"><div class="td-field-label">HOUSING HISTORY (2 YRS)</div><div class="td-field-val" id="td-housing" style="font-size:11px">—</div></div>
     <div class="td-field"><div class="td-field-label">LO NOTES</div><div class="td-field-val" id="td-notes" style="font-size:11px">—</div></div>
   </div>
 </div>
@@ -1198,6 +1230,9 @@ function updateTD(){
   sv('td-price', getSel('price_range')||'—');
   var stEl=document.getElementById('state'); sv('td-state',stEl?stEl.value:'—');
   sv('td-occ',   gv('occupation'));
+  function hist(sel, txt){ var a=getSel(sel), b=gv(txt); var p=[]; if(a) p.push(a); if(b!=='—') p.push(b); return p.join(' · ')||'—'; }
+  sv('td-work',    hist('emp_hist','work_hist'));
+  sv('td-housing', hist('res_length','housing_hist'));
   sv('td-notes', gv('lo_notes'));
 
   var chipsEl=document.getElementById('prod-chips');
@@ -1209,14 +1244,39 @@ function updateTD(){
   sv('td-score',sn?sn.textContent:'—');
 }
 
-function exportTaxDome(){
-  var fields=document.querySelectorAll('.td-field');
+// ── TEAM EMAIL — who receives "Email team" ───────────────
+// Add LO / processor / loan assistant addresses here.
+var TEAM_EMAILS = ['josed@barrettfinancial.com'];
+
+function buildSummary(){
+  updateTD();
   var text='DEL VALLE LENDING CO. — CLIENT INTAKE SUMMARY\n======================================\n';
-  fields.forEach(function(f){
+  document.querySelectorAll('.td-field').forEach(function(f){
     var lbl=f.querySelector('.td-field-label');
     var val=f.querySelector('.td-field-val');
     if(lbl&&val) text+=lbl.textContent+': '+val.textContent+'\n';
   });
+  return text;
+}
+
+function clientLabel(){
+  var n=document.getElementById('client-name');
+  return (n&&n.value.trim())?n.value.trim():'New client';
+}
+
+function sendWhatsApp(){
+  var text='*NEW INTAKE — '+clientLabel()+'*\n'+buildSummary();
+  window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');
+}
+
+function emailTeam(){
+  var subject='Client Intake — '+clientLabel();
+  var url='mailto:'+TEAM_EMAILS.join(',')+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(buildSummary());
+  window.location.href=url;
+}
+
+function exportTaxDome(){
+  var text=buildSummary();
   if(navigator.clipboard){
     navigator.clipboard.writeText(text).then(function(){ alert('Copied! Paste into TaxDome or Tracker row.'); });
   } else {
