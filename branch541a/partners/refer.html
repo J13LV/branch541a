@@ -18,12 +18,12 @@ body{font-family:'Outfit',sans-serif;background:#08111f;color:rgba(255,255,255,.
 
 /* TOPBAR */
 .topbar{position:sticky;top:0;z-index:100;background:rgba(8,17,31,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,146,10,.15);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between}
-.back-btn{display:flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;border:none;background:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:color .15s}
+.back-btn{display:flex;align-items:center;gap:6px;font-size:12px;color:#ADBAC7;text-decoration:none;border:none;background:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:color .15s}
 .back-btn:hover{color:rgba(255,255,255,.8)}
 .back-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .topbar-title{font-family:'Fira Code',monospace;font-size:10px;letter-spacing:.12em;color:var(--teal2);font-weight:500}
 .lang-toggle{display:flex;align-items:center;gap:3px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:3px}
-.lang-btn{padding:3px 10px;border-radius:16px;border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;transition:all .2s;letter-spacing:.05em}
+.lang-btn{padding:3px 10px;border-radius:16px;border:none;background:transparent;font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;color:#ADBAC7;cursor:pointer;transition:all .2s;letter-spacing:.05em}
 .lang-btn.active{background:var(--gold);color:var(--navy);font-weight:600}
 
 /* HERO */
@@ -31,7 +31,7 @@ body{font-family:'Outfit',sans-serif;background:#08111f;color:rgba(255,255,255,.
 .hero-eyebrow{font-family:'Fira Code',monospace;font-size:9px;letter-spacing:.2em;color:var(--teal2);text-transform:uppercase;margin-bottom:10px}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,6vw,34px);font-weight:600;color:#fff;line-height:1.1;margin-bottom:8px}
 .hero-title em{font-style:italic;color:var(--gold2)}
-.hero-sub{font-size:13px;font-weight:300;color:rgba(255,255,255,.48);line-height:1.6;max-width:440px;margin:0 auto}
+.hero-sub{font-size:13px;font-weight:300;color:#ADBAC7;line-height:1.6;max-width:440px;margin:0 auto}
 
 /* HOW IT WORKS */
 .how{max-width:560px;margin:0 auto;padding:20px 20px 0;background:#08111f}
@@ -42,7 +42,7 @@ body{font-family:'Outfit',sans-serif;background:#08111f;color:rgba(255,255,255,.
 .how-dot.s2{background:var(--teal-l);color:var(--teal2);border:1px solid rgba(10,120,104,.3)}
 .how-dot.s3{background:rgba(26,107,58,.15);color:#2a9b5a;border:1px solid rgba(26,107,58,.3)}
 .how-line{flex:1;height:1px;background:rgba(255,255,255,.08);max-width:32px}
-.how-label{font-size:10px;color:rgba(255,255,255,.35);text-align:center;line-height:1.4;max-width:72px}
+.how-label{font-size:10px;color:#8B98A5;text-align:center;line-height:1.4;max-width:72px}
 
 /* FORM */
 .form-wrap{max-width:560px;margin:0 auto;padding:0 20px 80px;background:#08111f}
@@ -50,10 +50,10 @@ body{font-family:'Outfit',sans-serif;background:#08111f;color:rgba(255,255,255,.
 .sec-lbl::after{content:'';flex:1;height:1px;background:rgba(10,120,104,.2)}
 .inp-group{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .inp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.inp-label{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.06em;font-family:'Fira Code',monospace}
+.inp-label{font-size:10px;color:#8B98A5;letter-spacing:.06em;font-family:'Fira Code',monospace}
 .inp{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 14px;font-family:'Outfit',sans-serif;font-size:14px;color:#fff;outline:none;width:100%;transition:border-color .15s}
 .inp:focus{border-color:rgba(10,120,104,.5);background:rgba(255,255,255,.07)}
-.inp::placeholder{color:rgba(255,255,255,.2)}
+.inp::placeholder{color:#8B98A5}
 select.inp{cursor:pointer}
 
 /* PROGRAM PILLS */
@@ -70,7 +70,7 @@ select.inp{cursor:pointer}
 .lo-card.sel{border-color:var(--gold2);background:var(--gold-l)}
 .lo-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;flex-shrink:0}
 .lo-nm{font-size:13px;font-weight:500;color:#fff;margin-bottom:2px}
-.lo-tl{font-size:11px;color:rgba(255,255,255,.38)}
+.lo-tl{font-size:11px;color:#ADBAC7}
 .lo-badge{margin-left:auto;font-family:'Fira Code',monospace;font-size:9px;padding:3px 8px;border-radius:20px;font-weight:500;white-space:nowrap;flex-shrink:0}
 
 /* NOTES */
@@ -80,12 +80,12 @@ textarea.inp{resize:none;line-height:1.6}
 .submit-wrap{margin-top:24px}
 .btn-submit{width:100%;padding:15px 20px;border-radius:12px;border:none;background:#25d366;color:#fff;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:10px}
 .btn-submit:hover{background:#1fb857}
-.btn-submit:disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:not-allowed}
+.btn-submit:disabled{background:rgba(255,255,255,.1);color:#8B98A5;cursor:not-allowed}
 .btn-submit svg{width:20px;height:20px;fill:currentColor;flex-shrink:0}
-.btn-copy{width:100%;padding:12px 20px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5);font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer;transition:all .15s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-copy{width:100%;padding:12px 20px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#ADBAC7;font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer;transition:all .15s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-copy:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.2)}
 .btn-copy svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.submit-note{font-size:11px;color:rgba(255,255,255,.28);text-align:center;margin-top:10px;line-height:1.6}
+.submit-note{font-size:11px;color:#8B98A5;text-align:center;margin-top:10px;line-height:1.6}
 
 /* SUCCESS */
 .success{display:none;text-align:center;padding:32px 0}
@@ -93,14 +93,14 @@ textarea.inp{resize:none;line-height:1.6}
 .success-icon{width:56px;height:56px;border-radius:50%;background:rgba(26,107,58,.2);border:2px solid rgba(42,155,90,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .success-icon svg{width:26px;height:26px;stroke:#2a9b5a;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .success-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:#fff;margin-bottom:8px}
-.success-sub{font-size:13px;color:rgba(255,255,255,.45);line-height:1.65;margin-bottom:24px}
+.success-sub{font-size:13px;color:#ADBAC7;line-height:1.65;margin-bottom:24px}
 .success-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px;text-align:left;margin-bottom:16px}
 .sc-row{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px}
 .sc-row:last-child{border-bottom:none}
-.sc-key{color:rgba(255,255,255,.32)}
+.sc-key{color:#8B98A5}
 .sc-val{color:rgba(255,255,255,.75);font-weight:500;text-align:right}
 .speed-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold-l);border:1px solid rgba(200,146,10,.25);border-radius:20px;padding:6px 14px;font-size:12px;color:var(--gold2);font-weight:500;margin-bottom:16px}
-.btn-new{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5);font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;transition:all .15s}
+.btn-new{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:transparent;color:#ADBAC7;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;transition:all .15s}
 .btn-new:hover{color:rgba(255,255,255,.75)}
 
 /* LANGUAGE */
@@ -110,7 +110,7 @@ body.lang-en .es{display:none}body.lang-en .en{display:block}
 body.lang-en span.es{display:none}body.lang-en span.en{display:inline}
 
 footer{background:#08111f;border-top:1px solid rgba(255,255,255,.06);padding:20px;text-align:center}
-footer p{font-size:10px;color:rgba(255,255,255,.18);line-height:1.7}
+footer p{font-size:10px;color:#8B98A5;line-height:1.7}
 
 @media(max-width:400px){.inp-row{grid-template-columns:1fr}.how-label{font-size:9px}}
 </style>
@@ -223,11 +223,14 @@ footer p{font-size:10px;color:rgba(255,255,255,.18);line-height:1.7}
       <div class="prog-pill" onclick="togProg(this)">Chenoa Fund</div>
       <div class="prog-pill" onclick="togProg(this)">NHF National</div>
       <div class="prog-pill" onclick="togProg(this)">FL Hometown Heroes</div>
-      <div class="prog-pill" onclick="togProg(this)">FL Housing</div>
-      <div class="prog-pill" onclick="togProg(this)">TSAHC / SETH TX</div>
+      <div class="prog-pill" onclick="togProg(this)">FHA DPA 3.5% (lender)</div>
+      <div class="prog-pill" onclick="togProg(this)">TX DPA</div>
       <div class="prog-pill" onclick="togProg(this)">VA Loan</div>
       <div class="prog-pill" onclick="togProg(this)">FHA / Conv</div>
       <div class="prog-pill" onclick="togProg(this,'sel-gold')">Non-QM / ITIN</div>
+      <div class="prog-pill" onclick="togProg(this,'sel-gold')">DSCR</div>
+      <div class="prog-pill" onclick="togProg(this,'sel-gold')">Jumbo</div>
+      <div class="prog-pill" onclick="togProg(this,'sel-gold')">HomeStyle Reno</div>
       <div class="prog-pill" onclick="togProg(this,'sel-gold')">HELOC / Equity</div>
       <div class="prog-pill" onclick="togProg(this,'sel-gold')"><span class="es">Refinanciamiento</span><span class="en">Refinance</span></div>
       <div class="prog-pill" onclick="togProg(this)">
@@ -270,7 +273,7 @@ footer p{font-size:10px;color:rgba(255,255,255,.18);line-height:1.7}
           <div class="lo-nm">Marelis Pinales</div>
           <div class="lo-tl"><span class="es">Licensed MLO</span><span class="en">Licensed MLO</span></div>
         </div>
-        <span class="lo-badge" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.38);border:1px solid rgba(255,255,255,.1)">MLO</span>
+        <span class="lo-badge" style="background:rgba(255,255,255,.06);color:#ADBAC7;border:1px solid rgba(255,255,255,.1)">MLO</span>
       </div>
     </div>
 
