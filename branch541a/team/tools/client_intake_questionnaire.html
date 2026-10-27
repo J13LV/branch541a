@@ -235,6 +235,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 <!-- CLIENT INFO BAR -->
 <div class="client-bar">
   <div class="cf"><label id="lbl-name">Client name</label><input type="text" id="client-name" placeholder="Last, First" oninput="updateTD()"></div>
+  <div class="cf"><label id="lbl-coname">Co-borrower name</label><input type="text" id="coborrower-name" placeholder="Last, First — spouse / if applies" oninput="updateTD()"></div>
   <div class="cf"><label id="lbl-phone">Phone</label><input type="text" id="client-phone" placeholder="(702) ___-____" oninput="updateTD()"></div>
   <div class="cf"><label id="lbl-email">Email</label><input type="text" id="client-email" placeholder="email@domain.com" oninput="updateTD()"></div>
   <div class="cf"><label id="lbl-date">Interview date</label><input type="text" id="client-date" placeholder="April 2026" oninput="updateTD()"></div>
@@ -495,6 +496,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
         <label class="opt" onclick="tog(this,'sel','coborrow',event)"><input type="radio" name="coborrow"><div class="opt-dot"></div>Yes — family member</label>
         <label class="opt" onclick="tog(this,'sel','coborrow',event)"><input type="radio" name="coborrow"><div class="opt-dot"></div>No — solo borrower</label>
       </div>
+      <div class="note n-gold">If yes, write the co-borrower's full name in the <strong>Co-borrower name</strong> field at the top. Married applying together → both go on the 1003.</div>
     </div></div>
 
     <div class="q-item"><div class="qn">3.6</div><div class="qc">
@@ -927,6 +929,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
   <div class="td-note">The fields below update automatically as you complete the interview. Use <strong>Copy TaxDome Fields</strong> button above to copy a formatted summary you can paste directly into TaxDome or your pipeline tracker row.</div>
   <div class="td-fields" id="td-fields">
     <div class="td-field"><div class="td-field-label">CLIENT NAME</div><div class="td-field-val" id="td-name">—</div></div>
+    <div class="td-field"><div class="td-field-label">CO-BORROWER</div><div class="td-field-val" id="td-cobor">—</div></div>
     <div class="td-field"><div class="td-field-label">PHONE</div><div class="td-field-val" id="td-phone">—</div></div>
     <div class="td-field"><div class="td-field-label">EMAIL</div><div class="td-field-val" id="td-email">—</div></div>
     <div class="td-field"><div class="td-field-label">LO ASSIGNED</div><div class="td-field-val" id="td-lo">—</div></div>
@@ -1207,6 +1210,7 @@ function updateTD(){
 
   sv('td-name',  gv('client-name'));
   sv('td-phone', gv('client-phone'));
+  (function(){ var n=gv('coborrower-name'), r=getSel('coborrow'); var p=[]; if(n!=='—') p.push(n); if(r) p.push('('+r+')'); sv('td-cobor', p.join(' ')||'—'); })();
   sv('td-email', gv('client-email'));
   sv('td-lo',    gv('client-lo'));
   sv('td-source',src);
@@ -1261,7 +1265,10 @@ function buildSummary(){
 
 function clientLabel(){
   var n=document.getElementById('client-name');
-  return (n&&n.value.trim())?n.value.trim():'New client';
+  var c=document.getElementById('coborrower-name');
+  var name=(n&&n.value.trim())?n.value.trim():'New client';
+  if(c&&c.value.trim()) name+=' & '+c.value.trim();
+  return name;
 }
 
 function sendWhatsApp(){
