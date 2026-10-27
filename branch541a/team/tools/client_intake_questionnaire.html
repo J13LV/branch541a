@@ -12,7 +12,7 @@
   --gold:#c8920a;--gold2:#e8b030;--gold-l:#fffaee;--gold-dim:#8a6000;
   --cream:#f7f4ef;--white:#ffffff;
   --border:#e4ddd4;--border2:#c8bfb0;
-  --text:#1a1624;--muted:#6b6070;--light:#a89aaа;
+  --text:#1a1624;--muted:#6b6070;--light:#a89aaa;
   --green:#1a6b3a;--green-l:#eaf5ee;--green2:#0f5028;
   --red:#8b1a1a;--red-l:#fdeaea;
   --blue:#0f3c78;--blue-l:#e8f0fb;
@@ -24,7 +24,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 
 /* ── LANGUAGE TOGGLE ── */
 .lang-bar{background:var(--navy2);padding:8px 48px;display:flex;align-items:center;justify-content:flex-end;gap:8px}
-.lang-btn{padding:4px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.5);font-family:'Jost',sans-serif;font-size:11px;cursor:pointer;transition:all .15s}
+.lang-btn{padding:4px 14px;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#ADBAC7;font-family:'Jost',sans-serif;font-size:11px;cursor:pointer;transition:all .15s}
 .lang-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:600}
 
 /* ── COVER ── */
@@ -34,11 +34,11 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 .cover-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;position:relative;z-index:1}
 .cover-eyebrow{font-family:'Fira Code',monospace;font-size:10px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
 .cover-title{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:var(--white);line-height:1.1;letter-spacing:-.01em;margin-bottom:6px}
-.cover-sub{font-size:12px;color:rgba(255,255,255,.45);font-weight:300;letter-spacing:.04em}
+.cover-sub{font-size:12px;color:#ADBAC7;font-weight:300;letter-spacing:.04em}
 .cover-sub span{color:var(--gold);font-weight:500}
 .agent-block{text-align:right}
 .agent-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--white);margin-bottom:2px}
-.agent-detail{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em}
+.agent-detail{font-size:11px;color:#ADBAC7;letter-spacing:.04em}
 .agent-nmls{font-family:'Fira Code',monospace;font-size:10px;color:var(--gold);margin-top:3px;letter-spacing:.08em}
 
 /* ── CLIENT INFO BAR ── */
@@ -46,15 +46,15 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 .cf label{font-family:'Fira Code',monospace;font-size:9px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:4px}
 .cf input{background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.18);color:var(--white);font-family:'Jost',sans-serif;font-size:13px;padding:4px 0;width:100%;outline:none}
 .cf input:focus{border-bottom-color:var(--gold)}
-.cf input::placeholder{color:rgba(255,255,255,.18)}
+.cf input::placeholder{color:#8B98A5}
 
 /* ── PROGRESS BAR ── */
 .progress-bar{background:var(--navy3);padding:10px 48px;display:flex;align-items:center;gap:6px;overflow-x:auto}
 .prog-step{display:flex;align-items:center;gap:4px;white-space:nowrap;cursor:pointer;padding:4px 8px;border-radius:4px;transition:background .15s}
 .prog-step:hover{background:rgba(255,255,255,.06)}
-.ps-num{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Fira Code',monospace}
+.ps-num{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.1);color:#ADBAC7;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Fira Code',monospace}
 .ps-num.done{background:var(--gold);color:var(--navy)}
-.ps-label{font-size:10px;color:rgba(255,255,255,.35);font-family:'Fira Code',monospace;letter-spacing:.04em}
+.ps-label{font-size:10px;color:#ADBAC7;font-family:'Fira Code',monospace;letter-spacing:.04em}
 .prog-div{width:16px;height:1px;background:rgba(255,255,255,.12);flex-shrink:0}
 
 /* ── MAIN CONTENT ── */
@@ -63,9 +63,9 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 /* ── SECTION ── */
 .section{margin-bottom:24px;border-radius:14px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.08)}
 .sec-hd{padding:14px 22px;display:flex;align-items:center;gap:12px}
-.sn{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:rgba(255,255,255,.18);line-height:1;min-width:26px}
+.sn{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#8B98A5;line-height:1;min-width:26px}
 .st{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--white);letter-spacing:.01em}
-.ss{font-size:11px;color:rgba(255,255,255,.38);margin-top:1px;font-weight:300}
+.ss{font-size:11px;color:#ADBAC7;margin-top:1px;font-weight:300}
 .s1 .sec-hd{background:#0a1628}
 .s2 .sec-hd{background:#0f2a50}
 .s3 .sec-hd{background:#0a2a18}
@@ -139,20 +139,20 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 .badge-ready{background:rgba(26,128,64,.25);color:#50e890;border:1px solid rgba(26,128,64,.4)}
 .badge-almost{background:rgba(200,146,10,.2);color:var(--gold2);border:1px solid rgba(200,146,10,.3)}
 .badge-needs-work{background:rgba(139,26,26,.25);color:#f08080;border:1px solid rgba(139,26,26,.4)}
-.badge-exploring{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.15)}
+.badge-exploring{background:rgba(255,255,255,.08);color:#ADBAC7;border:1px solid rgba(255,255,255,.15)}
 
 .score-ring{display:flex;align-items:center;gap:20px;margin-bottom:18px}
 .ring{width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;border:3px solid rgba(255,255,255,.1);flex-shrink:0}
 .ring-score{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--white);line-height:1}
-.ring-label{font-size:9px;color:rgba(255,255,255,.4);font-family:'Fira Code',monospace;letter-spacing:.06em}
-.ring-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;flex:1}
+.ring-label{font-size:9px;color:#ADBAC7;font-family:'Fira Code',monospace;letter-spacing:.06em}
+.ring-desc{font-size:12px;color:#ADBAC7;line-height:1.6;flex:1}
 
 .gates-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:16px}
 .gate{background:rgba(255,255,255,.05);border-radius:8px;padding:10px 12px;border-left:2px solid rgba(255,255,255,.1)}
 .gate.open{border-left-color:var(--green)}
 .gate.partial{border-left-color:var(--gold)}
 .gate.closed{border-left-color:var(--red)}
-.gate-label{font-size:10px;color:rgba(255,255,255,.4);font-family:'Fira Code',monospace;letter-spacing:.06em;margin-bottom:4px}
+.gate-label{font-size:10px;color:#ADBAC7;font-family:'Fira Code',monospace;letter-spacing:.06em;margin-bottom:4px}
 .gate-val{font-size:12px;color:var(--white);font-weight:400}
 .gate-icon{font-size:10px;margin-right:3px}
 
@@ -207,7 +207,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
 
 <!-- LANGUAGE TOGGLE -->
 <div class="lang-bar">
-  <span style="font-size:10px;color:rgba(255,255,255,.3);font-family:'Fira Code',monospace;letter-spacing:.08em">LANGUAGE:</span>
+  <span style="font-size:10px;color:#8B98A5;font-family:'Fira Code',monospace;letter-spacing:.08em">LANGUAGE:</span>
   <button class="lang-btn active" onclick="setLang('en',this)">English</button>
   <button class="lang-btn" onclick="setLang('es',this)">Español</button>
 </div>
@@ -224,7 +224,7 @@ body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);fon
       <div class="agent-name">Jose Del Valle</div>
       <div class="agent-detail">Branch Manager & Mortgage Loan Officer</div>
       <div class="agent-nmls">NMLS# 2686066 · Del Valle Lending Co.</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.25);margin-top:6px;font-family:'Fira Code',monospace">Las Vegas, NV · (702) 848-LOAN</div>
+      <div style="font-size:10px;color:#8B98A5;margin-top:6px;font-family:'Fira Code',monospace">Las Vegas, NV · (702) 848-LOAN</div>
     </div>
   </div>
 </div>
