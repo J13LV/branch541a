@@ -264,14 +264,6 @@ footer p{font-size:10px;color:rgba(255,255,255,.18);line-height:1.7}
         </div>
         <span class="lo-badge" style="background:var(--gold-l);color:var(--gold2);border:1px solid rgba(200,146,10,.2)">BM · MLO</span>
       </div>
-      <div class="lo-card" id="lo-ana" onclick="pickLO('ana',this)">
-        <div class="lo-av" style="background:var(--teal-l);color:var(--teal2)">A</div>
-        <div style="flex:1">
-          <div class="lo-nm">Ana Mercedes Plasencia</div>
-          <div class="lo-tl"><span class="es">Licensed MLO · Especialista DPA</span><span class="en">Licensed MLO · DPA Specialist</span></div>
-        </div>
-        <span class="lo-badge" style="background:var(--teal-l);color:var(--teal2);border:1px solid rgba(10,120,104,.2)">MLO</span>
-      </div>
       <div class="lo-card" id="lo-marelis" onclick="pickLO('marelis',this)">
         <div class="lo-av" style="background:rgba(200,146,10,.08);color:rgba(200,146,10,.55)">M</div>
         <div style="flex:1">
@@ -339,7 +331,7 @@ Special situation, preferred language, urgency, low credit..."></textarea>
 
 <footer>
   <p>Jose Del Valle-Figueroa · NMLS# 2686066 · Del Valle Lending Co. · Equal Housing Opportunity<br>
-  Del Valle Lending Co. · Powered by Barrett Financial Group, L.L.C. NMLS# 181106 · Las Vegas, NV · Tel: 702-848-5626<br>
+  Del Valle Lending Co. · Powered by Barrett Financial Group, L.L.C. NMLS# 181106 · 1 Meridian Vista Dr, Ste 130, Las Vegas, NV 89135 · Tel: (702) 409-3114<br>
   <span class="es">* Tiempos en días hábiles (lunes a viernes, excluyendo feriados). El reloj inicia al recibir el contrato firmado.</span>
   <span class="en">* Timelines in business days (Mon–Fri, excluding holidays). Clock starts upon receipt of signed contract.</span></p>
 </footer>
@@ -348,7 +340,6 @@ Special situation, preferred language, urgency, low credit..."></textarea>
 // ── LO CONFIG — update phone numbers before going live ──────────────────
 var LO = {
   jose:    { name:'Jose Del Valle-Figueroa', phone:'17024093114' },
-  ana:     { name:'Ana Mercedes Plasencia',  phone:'17027826393' },
   marelis: { name:'Marelis Pinales',         phone:'17027619474' }
 };
 var activeLO = 'jose';
@@ -422,7 +413,7 @@ function buildMsg(){
     v2('notes') ? 'Notas: ' + v2('notes') : '',
     '───────────────────',
     'LO asignado: ' + lo.name,
-    '@' + (activeLO==='jose'?'Jose':activeLO==='ana'?'Ana':'Marelis') + ' → abrir fila en Tracker + confirmar contacto en 2 hrs',
+    '@' + (activeLO==='jose'?'Jose':'Marelis') + ' → abrir fila en Tracker + confirmar contacto en 2 hrs',
     '@Laura → crear carpeta Drive + actualizar Sierra'
   ].filter(Boolean).join('\n');
 
