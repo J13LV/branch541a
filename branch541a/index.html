@@ -101,9 +101,15 @@ h1 br{display:block}
 .btn.ghost{border-color:var(--line2);color:var(--t1);background:rgba(255,255,255,.03)}
 .btn.wa{background:#25d366;color:#fff}
 .hero-r{display:flex;flex-direction:column;gap:10px}
+.id{display:flex;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
+.id img{width:120px;height:149px;object-fit:cover;border-radius:10px;border:1px solid rgba(200,146,10,.45);flex-shrink:0;background:#1a2638}
+.id-n{font-size:16px;font-weight:600}
+.id-r{font-size:12px;color:var(--t2)}
+.id-m{font-size:10.5px;color:var(--gold2);margin-top:4px;letter-spacing:.04em}
+.id-q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--t2);margin-top:6px;line-height:1.2}
 .big{position:relative;overflow:hidden;border-radius:14px;padding:18px 18px 16px;border:1px solid rgba(200,146,10,.45);background:linear-gradient(135deg,rgba(200,146,10,.18),rgba(14,26,44,.9) 60%)}
 .big::after{content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(224,170,40,.25),transparent 70%)}
-.big-n{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:600;line-height:.95;color:var(--gold2);letter-spacing:-.02em}
+.big-n{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:600;line-height:.95;color:var(--gold2);letter-spacing:-.02em}
 .big-n span{font-size:40px;vertical-align:top;margin-left:2px}
 .big-t{font-size:16px;font-weight:600;margin-top:2px}
 .big-s{font-size:12px;color:var(--t2)}
@@ -117,7 +123,7 @@ h1 br{display:block}
 .loans>span.hl{border-color:rgba(200,146,10,.45);color:var(--gold2);background:var(--gold-l)}
 .tagline{margin-top:14px;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--t2)}
 .tagline em{color:var(--gold2)}
-@media(max-width:820px){.power{grid-template-columns:repeat(2,1fr)}.pw:last-child{grid-column:1/-1}.big-n{font-size:54px}}
+@media(max-width:820px){.id img{width:96px;height:119px}.power{grid-template-columns:repeat(2,1fr)}.pw:last-child{grid-column:1/-1}.big-n{font-size:54px}}
 @media(max-width:820px){
   .hero{grid-template-columns:1fr;gap:18px;padding:24px 0 18px}
   .grid{grid-template-columns:1fr;padding:18px 0 20px}
@@ -168,6 +174,15 @@ h1 br{display:block}
       </div>
     </div>
     <div class="hero-r">
+      <div class="id">
+        <img src="assets/jose-del-valle-portrait.jpg" alt="Jose Del Valle-Figueroa" width="120" height="149">
+        <div>
+          <div class="id-n">Jose Del Valle-Figueroa</div>
+          <div class="id-r"><span class="es">Branch Manager &amp; Loan Officer · 15+ años</span><span class="en">Branch Manager &amp; Loan Officer · 15+ years</span></div>
+          <div class="id-m mono">NMLS# 2686066 · NV · FL · TX</div>
+          <div class="id-q"><span class="es">"El oficial de préstamos que sí contesta."</span><span class="en">"The loan officer who actually answers."</span></div>
+        </div>
+      </div>
       <div class="big">
         <div class="big-n">170<span>+</span></div>
         <div class="big-t"><span class="es">lenders aprobados</span><span class="en">approved lenders</span></div>
