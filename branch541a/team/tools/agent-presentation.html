@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agent Partnership Presentation — Branch 541-A · PRMG</title>
+<title>Agent Partnership Presentation — Del Valle Lending Co. · Barrett</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -81,12 +81,12 @@ function SlideRenderer({slide,lang}){
       </div>
       <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:"clamp(14px,3vw,22px)",color:DIM,marginBottom:32}}>A Partner Who Never Disappears</div>
       <div style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap",marginBottom:40}}>
-        {["DPA Specialist — NV · FL · TX","ITIN Non-QM","Lightning HELOC","21–30 Day FHA Close"].map(p=>(
+        {["DPA Specialist — NV · FL · TX","ITIN Non-QM","Fixed-Rate HELOC","21–30 Day FHA Close"].map(p=>(
           <div key={p} style={{background:CARD,border:`1px solid ${BORDER}`,borderRadius:8,padding:"8px 16px",fontSize:12,color:DIM}}>{p}</div>
         ))}
       </div>
       <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:18,color:WHITE}}>Jose Del Valle-Figueroa · NMLS #2686066</div>
-      <div style={{fontSize:13,color:DIM,marginTop:4}}>PRMG Branch 541-A · Las Vegas, NV · 702-848-5626</div>
+      <div style={{fontSize:13,color:DIM,marginTop:4}}>Del Valle Lending Co. · Las Vegas, NV · 702-848-5626</div>
       <div style={{fontSize:12,color:GOLD,marginTop:16,fontStyle:"italic"}}>"El Oficial de Préstamos que Sí Contesta" · "The Loan Officer Who Actually Answers"</div>
     </div>
   );
@@ -159,7 +159,7 @@ function SlideRenderer({slide,lang}){
         {lang==="es"?<><span style={{color:GOLD}}>Cada uno de esos problemas</span><br/>tiene una solución en esta oficina.</>:<><span style={{color:GOLD}}>Every one of those problems</span><br/>has a solution in this branch.</>}
       </div>
       <div style={{fontSize:15,color:DIM,marginBottom:40,lineHeight:1.7}}>
-        {bi("No son promesas. Es el estándar de operación de PRMG Branch 541-A.","Not promises. This is the operating standard of PRMG Branch 541-A.")}
+        {bi("No son promesas. Es el estándar de operación de Del Valle Lending Co.","Not promises. This is the operating standard of Del Valle Lending Co.")}
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:12,maxWidth:700,margin:"0 auto"}}>
         {[
@@ -197,7 +197,7 @@ function SlideRenderer({slide,lang}){
           {phase:"DÍA 1–2",title:"Pre-Calificación Completa",title_en:"Full Pre-Qualification",detail_es:"Crédito jalado, ingresos verificados, programa DPA confirmado. Carta de pre-aprobación lista el mismo día.",detail_en:"Credit pulled, income verified, DPA program confirmed. Pre-approval letter ready same day.",color:GOLD},
           {phase:"DÍA 3–5",title:"Aplicación Completa + Disclosures",title_en:"Full Application + Disclosures",detail_es:"1003 completa, todos los documentos recolectados, disclosures firmados.",detail_en:"Complete 1003, all documents collected, disclosures signed.",color:BLUE},
           {phase:"DÍA 5–12",title:"Procesamiento — Gissella Limo",title_en:"Processing — Gissella Limo",detail_es:"Procesadora trabaja el archivo diariamente. Título, appraisal y seguro ordenados. Condiciones identificadas antes de UW.",detail_en:"Processor works the file daily. Title, appraisal, insurance ordered. Conditions identified before UW.",color:TEAL},
-          {phase:"DÍA 12–19",title:"Underwriting en PRMG",title_en:"PRMG Underwriting",detail_es:"Aprobación condicional en 5–7 días. Condiciones preparadas con anticipación. Sin sorpresas.",detail_en:"Conditional approval in 5–7 days. Conditions anticipated and ready. No surprises.",color:BLUE},
+          {phase:"DÍA 12–19",title:"Underwriting",title_en:"Underwriting",detail_es:"Aprobación condicional en 5–7 días. Condiciones preparadas con anticipación. Sin sorpresas.",detail_en:"Conditional approval in 5–7 days. Conditions anticipated and ready. No surprises.",color:BLUE},
           {phase:"DÍA 19–30",title:"Clear to Close → Cierre",title_en:"Clear to Close → Closing",detail_es:"CTC confirmado. CD emitido. Cierre coordinado con el agente y la compañía de título.",detail_en:"CTC confirmed. CD issued. Closing coordinated with agent and title company.",color:GREEN},
         ].map((step,i)=>(
           <div key={i} style={{display:"flex",gap:0}}>
@@ -317,7 +317,7 @@ function SlideRenderer({slide,lang}){
           {icon:"🛡️",color:TEAL,prog:"CHENOA FUND",es:"Piso de crédito desde 580. Para los compradores que el banco rechazó.",en:"Credit floor from 580. For buyers the bank declined."},
           {icon:"🌴",color:"#1A7A5A",prog:"FL HOMETOWN HEROES",es:"Hasta $35,000 diferido — maestros, enfermeros, policías, bomberos.",en:"Up to $35,000 deferred — teachers, nurses, police, firefighters."},
           {icon:"⭐",color:"#C4A020",prog:"TSAHC / SETH TX",es:"3–5% donación real sin requisito de comprador primerizo. Todos los condados TX.",en:"3–5% true grant, no FTB requirement. All TX counties."},
-          {icon:"⚡",color:BLUE,prog:"LIGHTNING HELOC",es:"Línea de crédito con opción de tasa fija por extracción. Ningún banco en NV ofrece esto.",en:"Credit line with fixed-rate lock on draws. No bank in NV offers this."},
+          {icon:"⚡",color:BLUE,prog:"HELOC TASA FIJA · FIXED-RATE HELOC",es:"Línea de crédito con opción de tasa fija por extracción. Ningún banco en NV ofrece esto.",en:"Credit line with fixed-rate lock on draws. No bank in NV offers this."},
           {icon:"📋",color:"#8B4FE8",prog:"CE SECOND ITIN",es:"Segunda hipoteca con estados de cuenta — sin W-2. Para homeowners con ITIN.",en:"Second mortgage with bank statements — no W-2. For ITIN homeowners."},
           {icon:"🔄",color:"#CC4400",prog:"FHA STREAMLINE",es:"Refi sin tasación — para todos sus clientes FHA + DPA. 21–30 días hábiles.",en:"Refi with no appraisal — for all past FHA + DPA clients. 21–30 business days."},
         ].map(p=>(
@@ -344,7 +344,7 @@ function SlideRenderer({slide,lang}){
             <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:"clamp(16px,3.5vw,22px)",color:"#A87EFF",lineHeight:1.2,marginBottom:6}}>
               {bi("El producto que ningún banco en Las Vegas ofrece","The product no bank in Las Vegas offers")}
             </div>
-            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,color:WHITE}}>CE Second Expanded Access — ITIN Non-QM</div>
+            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,color:WHITE}}>Segunda hipoteca ITIN Non-QM · ITIN Non-QM Second</div>
           </div>
         </div>
       </div>
@@ -408,7 +408,7 @@ function SlideRenderer({slide,lang}){
       </div>
       <div style={{fontSize:13,color:DIM}}>
         <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,color:WHITE,marginBottom:4}}>Jose Del Valle-Figueroa · NMLS #2686066</div>
-        <div>JDelValle@prmg.net · PRMG Branch 541-A · 702-848-5626</div>
+        <div>Del Valle Lending Co. · Powered by Barrett Financial Group, L.L.C. NMLS# 181106 · 702-848-5626</div>
         <div style={{color:GOLD,marginTop:6,fontStyle:"italic"}}>"El Oficial de Préstamos que Sí Contesta" · "The Loan Officer Who Actually Answers"</div>
       </div>
     </div>
@@ -430,7 +430,7 @@ function Presentation(){
 
       <div style={{background:CARD,borderBottom:`1px solid ${BORDER}`,padding:"10px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8}}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:13,color:GOLD}}>BRANCH 541-A · PRMG</div>
+          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:800,fontSize:13,color:GOLD}}>DEL VALLE LENDING CO. · BARRETT</div>
           <div style={{fontSize:10,color:DIM}}>AGENT PARTNERSHIP PRESENTATION</div>
         </div>
         <div style={{display:"flex",gap:6,alignItems:"center"}}>
